@@ -14,17 +14,21 @@ const MainNav = () => {
                 <img alt="Image"  src={Logo} />
             </Link >
             <div className="search-fields">
-            <select className='input' >
+              <div className="search-btn">
+              <IoIosSearch />
+              </div>
+            
+  <div className="search-wrapper">
+    <IoIosSearch />
+    <input type="text" className='input' placeholder='Search for items' />
+  </div>
+  <select className='input' >
             <option value="Toronto (GTA)" >Toronto (GTA)</option>
             <option value="Niagara" >Niagara</option>
             <option value="Hamilton" >Hamilton</option>
             <option value="Kitchener/Cambridge" >Kitchener/Cambridge</option>
             <option value="Durham" >Durham</option>
   </select>
-  <div className="search-wrapper">
-    <IoIosSearch />
-    <input type="text" className='input' placeholder='Search for items' />
-  </div>
             </div>
             <div className="cart-icon">
                 <div className="count">3</div>

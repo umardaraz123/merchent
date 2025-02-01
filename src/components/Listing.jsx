@@ -100,7 +100,7 @@ const Listing = () => {
                
             </div>
             <div className="d-flex justify-content-center mb-3">
-            <Link to={`/trendings`} className="button">See All Tickets </Link>
+            <Link to={`/trendings`} className="button fix">See All Tickets </Link>
             </div>
            </div>
             
@@ -140,7 +140,7 @@ const Listing = () => {
                 </div>)}
                 </div>
                 <div className="d-flex justify-content-center mb-3">
-            <Link to={`/new-deals`} className="button">See All Tickets </Link>
+            <Link to={`/new-deals`} className="button fix">See All Tickets </Link>
             </div>
         </div>}
             {selected =='newly' && 
@@ -178,7 +178,7 @@ const Listing = () => {
                     </Link>
                 </div>)}
                 </div> <div className="d-flex justify-content-center mb-3">
-            <Link to={`/new-deals`} className="button">See All Tickets </Link>
+            <Link to={`/new-deals`} className="button fix">See All Tickets </Link>
             </div>
         </div>
             }

@@ -8,6 +8,7 @@
   --background: #fff;
   --text-color: #111;
   --btn-bg:rgb(0 138 34);
+  --bg-light:#edeff1;
 
 }
 
@@ -108,16 +109,19 @@ a {
   color: white;
 }
  .user-auth {
-  padding:8px 12px;
-  border-radius: 40px;
-  border: 1px solid var(--btn-bg);
+  padding:12px 16px;
+ 
+  border-radius: 60px;
+  border: 2px solid #ddd;
   display: flex;
+  font-size: 14px;
+  font-weight: 400;
   justify-content: center;
   align-items: center;
   color: #333;
   gap: 10px;
  
-  background-color: var(--btn-bg);
+  background-color: transparent;
 }
 .user-auth img {
   width: 18px;
@@ -135,7 +139,7 @@ a {
   color: #333 !important;
 }
 .main-search-wrapper {
-  margin-bottom: 14px;
+  margin-bottom: 0px;
   padding: 10px 0px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -155,34 +159,7 @@ a {
   height: auto;
   object-fit: cover;
 }
-.main-search-wrapper .search-fields {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.main-search-wrapper .cart-icon {
-  position: relative;
-}
-.main-search-wrapper .cart-icon svg {
-  font-size: 30px;
-  color: var(--btn-bg);
-}
-.main-search-wrapper .cart-icon .count {
-  position: absolute;
-  top: -12px;
-  right: -12px;
-  height: 20px;
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 300;
-  border-radius: 50%;
-  padding: 0px;
-  background-color: #333;
-  font-size: 10px;
-  color: white;
-}
+
 .main-search-wrapper .search-fields .select2-container--default .select2-selection--single {
   background-color: #1d1d1d;
   border: 1px solid #212121;
@@ -225,14 +202,65 @@ a {
 .select2-container--default .select2-search--dropdown .select2-search__field:focus {
   outline: none !important;
 }
-.main-search-wrapper select {
+
+.main-search-wrapper .cart-icon {
+  position: relative;
+}
+.main-search-wrapper .cart-icon svg {
+  font-size: 30px;
+  color: var(--btn-bg);
+}
+.main-search-wrapper .cart-icon .count {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+  border-radius: 50%;
+  padding: 0px;
+  background-color: #333;
+  font-size: 10px;
+  color: white;
+}
+.main-search-wrapper .search-fields {
+  display: flex;
+  align-items: center;
+  border:2px solid var(--btn-bg);
+  gap: 8px;
+  border-radius: 70px;
   height: 48px;
-  background-color: #fff;
-  border-radius: 5px;
+  position: relative;
+  padding-right: 50px;
+}
+.main-search-wrapper .search-fields .search-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+  height: 36px;
+  width: 36px;
+  background-color: var(--btn-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.main-search-wrapper select {
+
+  background-color: #edeff1;
+  border-radius: 50px;
+  
   padding: 10px 20px;
-  padding-left: 40px;
+  font-size: 13px;
   color: var(--text-color);
-  border: 1px solid var(--btn-bg);
+
+  border: none;
   
 }
 .main-search-wrapper select:focus {
@@ -240,19 +268,17 @@ a {
 }
 .main-search-wrapper .search-wrapper {
   position: relative;
-  max-width: 300px;
+  max-width: 200px;
   width: 100%;
 }
 .main-search-wrapper .search-wrapper .input {
-  width: 350px;
-  
-  height: 48px;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: 5px;
   padding: 10px 20px;
   padding-left: 40px;
-  color: white;
-  border: 1px solid var(--btn-bg);
+  color: #333;
+  border: none;
+  font-size: 12px;
 }
 .main-search-wrapper .search-wrapper svg {
   position: absolute;
@@ -268,16 +294,7 @@ input:focus{
 .discounted-deals {
   margin-bottom: 60px;
 }
-.discounted-deals .deals .item {
-  padding: 20px;
-  border-radius: 20px !important;
-  max-width: 100%;
-  border-radius: 8px;
-  transition: all 0.3s ease-in-out;
-  background-color: var(--btn-bg);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-}
 .title-main {
   font-size: 24px;
   font-weight: 600;
@@ -290,6 +307,20 @@ input:focus{
   font-size: 16px;
   font-weight: bold;
   color: var(--btn-bg) !important;
+}
+.slick-list {
+  background-color: transparent !important;
+  padding: 5px 10px;
+}
+.discounted-deals .deals .item {
+  padding: 20px;
+  border-radius: 12px !important;
+  max-width: 100%;
+ 
+  transition: all 0.3s ease-in-out;
+  background-color: var(--bg-light);
+  
+
 }
 .discounted-deals .deals .item .image {
   width: 100%;
@@ -304,11 +335,11 @@ input:focus{
   object-fit: cover;
 }
 .discounted-deals .deals .item .title {
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
   margin-bottom: 12px;
   font-weight: 600;
-  color: whitesmoke;
+  color: #333;
 }
 
 .offer-banner {
@@ -373,13 +404,13 @@ input:focus{
   color: var(--text-color);
 }
 .main-categories {
-  margin: 24px auto;
+  margin: 4px auto;
 }
 .main-categories .categories .item {
   display: flex !important;
  align-items: center;
   gap: 8px;
-  padding: 4px;
+  padding: 8px 0px;
   max-width: 100%;
   border-radius: 8px;
   transition: all 0.3s ease-in-out;
@@ -555,7 +586,7 @@ input:focus{
 .footer {
   padding: 30px 0px;
   background-color: #edeff1;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .footer .inner {
   
@@ -858,17 +889,21 @@ color: #333;
 
 .ticket-detail-page .cart-wrapper  .button,.button {
   background-color: var(--btn-bg);
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
-  color: wheat;
+  color: #111 !important;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 10px 24px;
+  border-radius: 60px;
   border: none;
   box-shadow: rgba(255, 255, 255, 0.25) 0px 50px 100px -20px, rgba(255, 255, 255, 0.3) 0px 30px 60px -30px;
+}
+.button.fix {
+  width: max-content;
+  padding: 10px 50px;
 }
 .header-cart {
   display: flex;
@@ -1210,7 +1245,7 @@ border: none;
   border-radius: 20px;
   min-height: 80vh;
   display: flex;
-  background: var(--btn-bg);
+  background: var(--bg-light);
 
   backdrop-filter: blur(5px);
 
@@ -1271,7 +1306,7 @@ right: 30px;
 }
 .login-wrapper .inner .right .title {
   font-size: 20px;
-  color: whitesmoke;
+  color: #111;
   text-align: center;
   font-weight: bold;
 }
@@ -1281,7 +1316,7 @@ right: 30px;
 }
 .login-wrapper .inner .right label {
   font-size: 15px;
-  color: white;
+  color: #333;
   font-weight: bold;
   display: block;
   margin-bottom: 8px;
@@ -1292,9 +1327,9 @@ right: 30px;
   border-radius: 10px;
   display: block;
  
-  border: 2px solid #fff;
-  color: var(--btn-bg);
-  background-color: #fff;
+  border: 2px solid #444;
+  color: #333;
+  background-color: transparent;
   padding: 10px;
 }
 .login-wrapper .inner .right .button {
@@ -1303,7 +1338,7 @@ right: 30px;
   height: 60px;
   flex-shrink: 0;
   width: 100%;
-  background-color:#fff;
+  background-color:var(--btn-bg);
   border: none;
   color: var(--btn-bg);
   text-align: center;
@@ -1627,39 +1662,67 @@ a {
   color: var(--text-color) !important;
 }
 @media(max-width:768px){
+  .main-categories {
+    padding: 0px 0px;
+  }
   .ticket-listing-wrapper .filters-button .button {
     padding: 8px 12px;
     font-size: 12px;
+  }
+  .main-search-wrapper .search-fields .search-btn {
+    height: 33px;
+    width: 33px;
+    right: 6px;
+  }
+  .main-search-wrapper {
+    padding: 6px 0px;
   }
   .main-categories .categories .item .image {
     width: 20px;
     height: auto;
   }
   .main-search-wrapper .inner {
-   margin-bottom: 20px;
+   margin-bottom: 8px;
    flex-wrap: wrap;
-   gap: 16px;
+   gap: 8px;
   }
   .main-search-wrapper .inner .logo {
-    max-width: 8rem;
+    max-width: 6rem;
+    order: 0;
   } 
   
+  .main-search-wrapper .cart-icon {
+    order: 1;
+  }
+  
+  .user-auth {
+    order: 2;
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+  }
+  .user-auth svg {
+    font-size: 28px;
+    width: 28px;
+  }
+  .user-auth .name {
+    display: none;
+  }
   .main-search-wrapper .search-fields {
     width: 100%;
+    order: 3;
 
   }
   .main-search-wrapper select {
     padding: 10px;
-    font-size: 13px;
-    flex: 0 0 48%;
+    font-size: 12px;
+    
   }
-  .main-search-wrapper .search-wrapper {
-    flex: 0 0 48%;
-  }
+  
   .main-search-wrapper .search-wrapper .input {
     width: 100%;
-    
-    min-width: 150px;
+    font-size: 12px;
+    min-width: 100px;
   }
   .ticket-listing-wrapper .listing-item .content .title {
     font-size: 14px;
