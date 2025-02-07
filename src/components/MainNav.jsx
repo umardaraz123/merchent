@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../src/images/logo.png';
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
+import { CiHeart } from "react-icons/ci";
 const MainNav = () => {
   return (
     <div className='main-search-wrapper'>
@@ -30,6 +31,11 @@ const MainNav = () => {
             <option value="Durham" >Durham</option>
   </select>
             </div>
+            <div className='right_side'>
+            <div className="cart-icon">
+                <div className="count">1</div>
+            <CiHeart />
+            </div>
             <div className="cart-icon">
                 <div className="count">3</div>
             <IoCartOutline />
@@ -38,6 +44,8 @@ const MainNav = () => {
       <AiOutlineUser  />
       <Link to='/login' className="name">Login/Signup</Link>
         </button>
+            </div>
+           
         </div>
     </div>
 </div>

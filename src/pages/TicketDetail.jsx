@@ -3,15 +3,16 @@ import React,{useState,useEffect} from 'react'
 import Slider from 'react-slick';
 
 import { MdShoppingCartCheckout } from "react-icons/md";
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { TicketsApi } from '../services/Tickets';
-
+import { FaFireAlt } from "react-icons/fa";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-
+import { TbCategory } from "react-icons/tb";
+import { CiLocationOn } from "react-icons/ci";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
@@ -132,6 +133,25 @@ const TicketDetail = () => {
       <div className="container">
         <div className="row">
           <div className="col-12 col-md-7">
+             <h2 className="title">
+            
+                {ticketDetail?.title}
+              
+             </h2>
+             <div className="location">
+              <CiLocationOn />  {ticketDetail?.location}
+
+              </div>
+              <div className="categories">
+                <div className="cat">
+                <TbCategory />  {ticketDetail?.category}
+                </div>
+                <div className="cat">
+                <FaFireAlt />  300+ Bought
+                </div>
+              </div>
+           
+
             <div className="image-slider">
               <Slider {...settings}>
                 {ticketDetail?.images?.map((img, id) =>
@@ -144,12 +164,36 @@ const TicketDetail = () => {
               </Slider>
 
             </div>
-            <div className="included">
-              <p className="title">Category</p>
-              <p className="text category">
-                {ticketDetail?.category}
-              </p>
+           
+          </div>
+          <div className="col-12 col-md-5">
+            <div className="cart-wrapper">
+             
+             
+              {ticketDetail?.prices?.map((price,index)=> <div className="custom-radio" key={index}>
+                <input type="radio" name="ticket" value="31"  />
+                <div className="inner">
+                  <div className="title">
+                 {price?.title}
+                  </div>
+                  <div className="flex">
+                    <span className="original">${price?.price}</span>
+                    <span className="price">${price?.discounted_price}</span>
+                    <span className="off">- {((1 - (price?.discounted_price / price?.price)) * 100).toFixed(2)}% </span>
+                  </div>
+                </div>
+              </div>)}
+              
+         
+              <button className="button">
+                BUY NOW
+              </button>
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12 col-md-7">
+          
             <div className="title-med">
               Ticket Description
             </div>
@@ -188,38 +232,6 @@ const TicketDetail = () => {
               </div>
               <hr className="hr" />
             
-            </div>
-          </div>
-          <div className="col-12 col-md-5">
-            <div className="cart-wrapper">
-              <p className="title">
-                {ticketDetail?.title}
-              </p>
-              <p className="location">
-                {ticketDetail?.location}
-
-              </p>
-              <p className="location">
-                <span> 186</span> Bought
-              </p>
-              {ticketDetail?.prices?.map((price,index)=> <div className="custom-radio" key={index}>
-                <input type="radio" name="ticket" value="31"  />
-                <div className="inner">
-                  <div className="title">
-                 {price?.title}
-                  </div>
-                  <div className="flex">
-                    <span className="original">${price?.price}</span>
-                    <span className="price">${price?.discounted_price}</span>
-                    <span className="off">{((1 - (price?.discounted_price / price?.price)) * 100).toFixed(2)}% Off</span>
-                  </div>
-                </div>
-              </div>)}
-              
-         
-              <button className="button">
-                BUY NOW
-              </button>
             </div>
           </div>
         </div>

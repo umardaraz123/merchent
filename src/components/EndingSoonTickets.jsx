@@ -6,7 +6,7 @@ import { TicketsApi } from '../services/Tickets';
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart,CiLocationOn } from "react-icons/ci";
 const EndingSoonTickets = () => {
     const [tickets,setTickets]=useState([])
     const[loading,setLoading]=useState(false)
@@ -54,11 +54,9 @@ const EndingSoonTickets = () => {
                         <div className="image-wrapper">
                         <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
                            <div className="icons">
+                            
                             <div className="icon">
-                            <FaEye />
-                            </div>
-                            <div className="icon">
-                            <FaHeart />
+                            <CiHeart />
                             </div>
                            </div>
                         </div>
@@ -75,7 +73,9 @@ const EndingSoonTickets = () => {
                                 <MdShoppingCartCheckout />
                             </div>
                             </div>
-                          
+                          <div className="label">
+                                                                                 <CiLocationOn />  {ticket?.location}
+                                                                                </div>
                         </div>
                     </Link>
                 </div>)}

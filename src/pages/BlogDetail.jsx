@@ -3,7 +3,7 @@ import React from 'react'
 import Slider from 'react-slick';
 
 import { MdShoppingCartCheckout } from "react-icons/md";
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { SiTildapublishing } from "react-icons/si";

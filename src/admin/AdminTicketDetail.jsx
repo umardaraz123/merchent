@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import Slider from 'react-slick';
 // import Image from 'next/image';
 import { MdShoppingCartCheckout } from "react-icons/md";
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { TicketsApi } from '../services/Tickets';

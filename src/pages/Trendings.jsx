@@ -5,7 +5,7 @@ import { TicketsApi } from '../services/Tickets';
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 const Trendings = () => {
     const [deals,setDeals]=useState([])
     const[loading,setLoading]=useState(false)
@@ -51,11 +51,9 @@ const Trendings = () => {
                         <div className="image-wrapper">
                         <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
                            <div className="icons">
+                            
                             <div className="icon">
-                            <FaEye />
-                            </div>
-                            <div className="icon">
-                            <FaHeart />
+                            <CiHeart />
                             </div>
                            </div>
                         </div>

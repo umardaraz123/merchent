@@ -6,8 +6,11 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import {TicketsApi} from '../services/Tickets'
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { TbCategory } from "react-icons/tb";
+import { CiLocationOn } from "react-icons/ci";
+
 import 'react-toastify/dist/ReactToastify.css';
-import { FaHeart,FaEye } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 const Listing = () => {
     const [selected,setSelected]=useState('trending')
     const[loading,setLoading]=useState(false)
@@ -51,7 +54,7 @@ const Listing = () => {
             </div>}
        
         <div className="container">
-        <div className="filters-button">
+        {/* <div className="filters-button">
             <button className={`button ${selected == 'trending' ? 'active':''}`} onClick={()=>setSelected('trending')}>
                 Trending
             </button>
@@ -61,26 +64,23 @@ const Listing = () => {
              <button className={`button ${selected == 'newly' ? 'active':''}`} onClick={()=>setSelected('newly')}>
                 Newly Added
             </button>
-        </div>
-            {selected =='trending' && 
-           <div>
+        </div> */}
+           <div class="mb-4 d-flex align-items-center justify-content-between"><span class="title-main"> Trending </span>  <Link to={`/trendings`} className="see-all">See All   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"></path></svg> </Link> </div>
              <div className="row">
                 {trendings?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
                 <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
                         <div className="image-wrapper">
                         <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
                            <div className="icons">
+                            
                             <div className="icon">
-                            <FaEye />
-                            </div>
-                            <div className="icon">
-                            <FaHeart />
+                            <CiHeart />
                             </div>
                            </div>
                         </div>
                         <div className="content">
                             <div className="label">
-                               {ticket?.category}
+                             <TbCategory />  {ticket?.category}
                             </div>
                             <div className="title">
                             {ticket?.title}
@@ -91,7 +91,9 @@ const Listing = () => {
                                 <MdShoppingCartCheckout />
                             </div>
                             </div>
-                          
+                            <div className="label">
+                             <CiLocationOn />  {ticket?.location}
+                            </div>
                         </div>
                     </Link>
                 </div>)}
@@ -100,30 +102,25 @@ const Listing = () => {
                
             </div>
             <div className="d-flex justify-content-center mb-3">
-            <Link to={`/trendings`} className="button fix">See All Tickets </Link>
+           
             </div>
-           </div>
-            
-            }
-            {selected =='popular' && 
-            <div>
+           
+           <div class="mb-4 d-flex align-items-center justify-content-between"><span class="title-main"> Popular </span>  <Link to={`/new-deals`} className="see-all">See All   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"></path></svg> </Link> </div>
             <div className="row">
             {deals?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
                 <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
                         <div className="image-wrapper">
                         <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
                            <div className="icons">
+                            
                             <div className="icon">
-                            <FaEye />
-                            </div>
-                            <div className="icon">
-                            <FaHeart />
+                            <CiHeart />
                             </div>
                            </div>
                         </div>
                         <div className="content">
                             <div className="label">
-                            {ticket?.category}
+                            <TbCategory />  {ticket?.category}
                             </div>
                             <div className="title">
                             {ticket?.title}
@@ -139,12 +136,9 @@ const Listing = () => {
                     </Link>
                 </div>)}
                 </div>
-                <div className="d-flex justify-content-center mb-3">
-            <Link to={`/new-deals`} className="button fix">See All Tickets </Link>
-            </div>
-        </div>}
-            {selected =='newly' && 
-            <div>
+              
+       <div class="mb-4 d-flex align-items-center justify-content-between"><span class="title-main"> Newly Added </span>  <Link to={`/new-deals`} className="see-all">See All   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"></path></svg> </Link> </div>
+          
             <div className="row">
              
              {newlyAddedTickets?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
@@ -152,17 +146,15 @@ const Listing = () => {
                         <div className="image-wrapper">
                         <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
                            <div className="icons">
+                            
                             <div className="icon">
-                            <FaEye />
-                            </div>
-                            <div className="icon">
-                            <FaHeart />
+                            <CiHeart />
                             </div>
                            </div>
                         </div>
                         <div className="content">
                             <div className="label">
-                            {ticket?.category}
+                            <TbCategory />   {ticket?.category}
                             </div>
                             <div className="title">
                             {ticket?.title}
@@ -177,11 +169,8 @@ const Listing = () => {
                         </div>
                     </Link>
                 </div>)}
-                </div> <div className="d-flex justify-content-center mb-3">
-            <Link to={`/new-deals`} className="button fix">See All Tickets </Link>
-            </div>
-        </div>
-            }
+                </div> 
+       
         </div>
     </div>
   )

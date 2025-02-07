@@ -87,8 +87,8 @@ const settings = {
     infinite: true,
     slidesToShow: 8,
     slidesToScroll: 1,
-    autoplay: true,  // Auto-scroll
-    autoplaySpeed: 2000,  // Time in milliseconds for auto-scroll
+    // autoplay: true,  // Auto-scroll
+    // autoplaySpeed: 2000,  // Time in milliseconds for auto-scroll
     arrows: false,  // Hides arrows
     responsive: [
       {
@@ -103,7 +103,7 @@ const settings = {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
           initialSlide: 1
         }
@@ -112,7 +112,7 @@ const settings = {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToScroll: 1
         }
       }
     ]
