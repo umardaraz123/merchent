@@ -40,7 +40,7 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #222; 
+  background: #ddd; 
   height: 5px;
   width: 5px;
 }
@@ -140,7 +140,7 @@ a {
 }
 .main-search-wrapper {
   margin-bottom: 0px;
-  padding: 10px 0px;
+  padding: 12px 0px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
@@ -151,7 +151,7 @@ a {
   justify-content: space-between;
 }
 .main-search-wrapper .inner .logo {
-  max-width: 10rem;
+  max-width: 4rem;
   width: 100%;
 }
 .main-search-wrapper .inner .logo img {
@@ -217,8 +217,8 @@ a {
 }
 .main-search-wrapper .cart-icon .count {
   position: absolute;
-  top: -12px;
-  right: -12px;
+  top: -8px;
+  right: -7px;
   height: 20px;
   width: 20px;
   display: flex;
@@ -612,7 +612,7 @@ input:focus{
   padding: 30px 0px;
 }
 .footer .logo {
-  width: 200px;
+  width: 120px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -846,14 +846,19 @@ input:focus{
   font-weight: 600;
   color: #222;
 }
-.ticket-detail-page  .location {
+.ticket-detail-page .location {
   font-size: 14px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
   font-weight: 600;
   color: #777;
   margin-bottom: 12px;
+}
+.ticket-detail-page .location svg {
+  font-size: 15px;
+  margin-top: 3px;
+  flex-shrink: 0;
 }
 .ticket-detail-page .location span {
   color: var(--btn-bg);
@@ -1692,12 +1697,60 @@ a {
 .ticket-description p ,.ticket-description  ul,.ticket-description ul li,.ticket-description span,.ticket-description h2,.ticket-description h1,.ticket-description h3,.ticket-description h4,.ticket-description h5,.ticket-description h6,.ticket-description strong{
   color: var(--text-color) !important;
 }
+.add-container .add-wrapper {
+  margin-bottom: 24px;
+  padding: 24px;
+  border-radius: 16px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 350px;
+  position: relative;
+}
+.add-container .add-wrapper::before {
+  content: '';
+  left: 0px;
+  top: 0px;
+  backdrop-filter: blur(2);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  background-color:rgba(255, 105, 180, 0.35);
+}
+.add-container .add-wrapper .data {
+  position: absolute;
+  width: 100%;
+  padding: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  bottom: 20px;
+}
+.add-container .add-wrapper .data .title {
+  font-size: 24px;
+  color: #fff;
+  text-shadow: 1px 1px #ddd;
+  font-weight: 500;
+  line-height: 1.5;
+}
 @media(max-width:768px){
+  .add-container .add-wrapper {
+    height: 300px;
+    
+  }
+  .add-container .add-wrapper .data {
+    bottom:8px;
+    padding: 16px;
+    
+  }
+  .add-container .add-wrapper .data .title {
+    font-size: 20px;
+  }
   .ticket-detail-page .cart-wrapper .custom-radio .inner .title {
-    font-size: 18px;
+    font-size: 16px;
   }
   .ticket-detail-page .title {
-    font-size: 16px;
+    font-size: 15px;
   }
   .main-categories {
     padding: 0px 0px;
@@ -1718,7 +1771,7 @@ a {
     right: 6px;
   }
   .main-search-wrapper {
-    padding: 6px 0px;
+    padding: 10px 0px;
   }
   .main-categories .categories .item .image {
     width: 20px;
@@ -1730,7 +1783,7 @@ a {
    gap: 8px;
   }
   .main-search-wrapper .inner .logo {
-    max-width: 6rem;
+    max-width: 3rem;
     order: 0;
   } 
   
@@ -1808,7 +1861,7 @@ a {
     height: 120px;
   }
   .footer .logo {
-    width: 130px;
+    width: 100px;
   }
   .discounted-deals .deals .item .title {
     font-size: 16px;
@@ -1841,7 +1894,7 @@ a {
     gap: 8px;
   }
   .ticket-detail-page .cart-wrapper .custom-radio .inner .flex .original,.ticket-detail-page .cart-wrapper .custom-radio .inner .flex .price {
-    font-size: 18px;
+    font-size: 15px;
   }
   .ticket-detail-page .cart-wrapper .custom-radio .inner .flex .off {
     font-size: 10px;

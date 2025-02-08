@@ -5,6 +5,7 @@ import DiscountedDeals from '../components/DiscountedDeals'
 import EndingSoon from '../components/EndingSoon'
 import Offers from '../components/Offers'
 import DealsNear from '../components/DealsNear'
+import Adds from '../components/Adds'
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <MainCategories />
       <Listing />
       <DiscountedDeals />
+      <Adds />
       {/* <Offers /> */}
       <EndingSoon />
       <DealsNear />
