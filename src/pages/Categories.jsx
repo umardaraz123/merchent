@@ -9,7 +9,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CiHeart } from "react-icons/ci";
 import { useParams } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { FaEye, FaHeart } from 'react-icons/fa';
+import { IoCartOutline } from 'react-icons/io5';
 const Categories = () => {
+
+  const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist } = useCart();
+
  const {catid}=useParams()
  
 
@@ -58,32 +64,39 @@ const Categories = () => {
               <h2 className="title-main mb-4">Find best from MMDEALS</h2>
             <div className="row">
             {tickets?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
-                <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                <div className="listing-item">
                         <div className="image-wrapper">
-                        <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                          <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                            <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                          </Link>
                            <div className="icons">
                             
                             <div className="icon">
+                            <FaEye />
+                            </div>
+                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
                             <CiHeart />
                             </div>
                            </div>
                         </div>
                         <div className="content">
-                            <div className="label">
-                                {ticket?.category}
-                            </div>
-                            <div className="title">
-                            {ticket?.title}
-                            </div>
+                            <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                              <div className="label">
+                                  {ticket?.category}
+                              </div>
+                              <div className="title">
+                                {ticket?.title}
+                              </div>
+                            </Link>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon">
-                                <MdShoppingCartCheckout />
+                                <div className="cart-icon" onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                <IoCartOutline />
                             </div>
                             </div>
                           
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
            {(tickets?.length == 0 && !loading) && <h2 className="title-main my-4 text-center">No Record found <br></br>
             <br></br>

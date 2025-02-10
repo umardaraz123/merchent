@@ -7,7 +7,13 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CiHeart,CiLocationOn } from "react-icons/ci";
+import { FaHeart,FaEye } from "react-icons/fa";
+import { useCart } from '../context/CartContext';
+import { IoCartOutline } from 'react-icons/io5';
 const NewDeals = () => {
+
+  const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist } = useCart();
+
     const [deals,setDeals]=useState([])
     const[loading,setLoading]=useState(false)
       //getTickets
@@ -48,34 +54,41 @@ const NewDeals = () => {
               <h2 className="title-main mb-4">New Deals</h2>
             <div className="row">
             {deals?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
-                <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                <div className="listing-item">
                         <div className="image-wrapper">
-                        <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                          <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                            <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                          </Link>
                            <div className="icons">
                            
                             <div className="icon">
+                            <FaEye />
+                            </div>
+                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
                             <CiHeart />
                             </div>
                            </div>
                         </div>
                         <div className="content">
-                            <div className="label">
-                                Health
-                            </div>
-                            <div className="title">
-                            {ticket?.title}
-                            </div>
+                            <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                              <div className="label">
+                                  Health
+                              </div>
+                              <div className="title">
+                                {ticket?.title}
+                              </div>
+                            </Link>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon">
-                                <MdShoppingCartCheckout />
+                                <div className="cart-icon" onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                <IoCartOutline />
                             </div>
                             </div>
                           <div className="label">
                                                                                  <CiLocationOn />  {ticket?.location}
                                                                                 </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
            
         </div>

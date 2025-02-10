@@ -1,7 +1,5 @@
 
 import React, { useState,useEffect } from 'react'
-
-
 import { MdShoppingCartCheckout } from "react-icons/md";
 import {TicketsApi} from '../services/Tickets'
 import { Link } from 'react-router-dom';
@@ -11,13 +9,22 @@ import { CiLocationOn } from "react-icons/ci";
 
 import 'react-toastify/dist/ReactToastify.css';
 import { CiHeart } from "react-icons/ci";
+import { FaHeart,FaEye } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
+import { IoCartOutline } from 'react-icons/io5';
+
+
+
 const Listing = () => {
     const [selected,setSelected]=useState('trending')
     const[loading,setLoading]=useState(false)
-  const [trendings,setTrendings]=useState([])
-  const [newlyAddedTickets,setNewlyAddedTickets]=useState([])
-  const [deals,setDeals]=useState([])
+    const [trendings,setTrendings]=useState([])
+    const [newlyAddedTickets,setNewlyAddedTickets]=useState([])
+    const [deals,setDeals]=useState([])
 
+    const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist } = useCart();
+
+    
   //getTickets
   async function getTicketsList() {
     setLoading(true);
@@ -68,13 +75,18 @@ const Listing = () => {
            <div class="mb-4 d-flex align-items-center justify-content-between"><span class="title-main"> Trending </span>  <Link to={`/trendings`} className="see-all">See All   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"></path></svg> </Link> </div>
              <div className="row">
                 {trendings?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
-                <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                <div className="listing-item">
                         <div className="image-wrapper">
-                        <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                        <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                            <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                        </Link>
                            <div className="icons">
                             
                             <div className="icon">
-                            <CiHeart />
+                            <FaEye />
+                            </div>
+                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
+                                <CiHeart />
                             </div>
                            </div>
                         </div>
@@ -87,15 +99,15 @@ const Listing = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon">
-                                <MdShoppingCartCheckout />
+                                <div className={(async() => (await itemExistsInCart(ticket.id))) ? "cart-icon" : "cart-icon"} onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                    <IoCartOutline  />
                             </div>
                             </div>
                             <div className="label">
                              <CiLocationOn />  {ticket?.location}
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
                
              
@@ -108,12 +120,17 @@ const Listing = () => {
            <div class="mb-4 d-flex align-items-center justify-content-between"><span class="title-main"> Popular </span>  <Link to={`/new-deals`} className="see-all">See All   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216z"></path></svg> </Link> </div>
             <div className="row">
             {deals?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
-                <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                <div className="listing-item">
                         <div className="image-wrapper">
-                        <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                        <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                            <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                        </Link>
                            <div className="icons">
                             
                             <div className="icon">
+                            <FaEye />
+                            </div>
+                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
                             <CiHeart />
                             </div>
                            </div>
@@ -127,13 +144,13 @@ const Listing = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon">
-                                <MdShoppingCartCheckout />
+                                <div className="cart-icon" onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                <IoCartOutline />
                             </div>
                             </div>
                           
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
                 </div>
               
@@ -142,12 +159,17 @@ const Listing = () => {
             <div className="row">
              
              {newlyAddedTickets?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
-                <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                <div className="listing-item">
                         <div className="image-wrapper">
-                        <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                            <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
+                                <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                            </Link>
                            <div className="icons">
                             
                             <div className="icon">
+                            <FaEye />
+                            </div>
+                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
                             <CiHeart />
                             </div>
                            </div>
@@ -161,13 +183,13 @@ const Listing = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon">
-                                <MdShoppingCartCheckout />
+                                <div className="cart-icon" onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                <IoCartOutline />
                             </div>
                             </div>
                           
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
                 </div> 
        

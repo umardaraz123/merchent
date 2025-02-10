@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import { CiHeart } from 'react-icons/ci';
+import { IoCartOutline } from 'react-icons/io5';
 const Cart = () => {
   const navigate = useNavigate()
   const moveCheckout = ()=> {
@@ -197,7 +199,7 @@ const Cart = () => {
                         <FaEye />
                         </div>
                         <div className="icon">
-                        <FaHeart />
+                        <CiHeart />
                         </div>
                        </div>
                     </div>
@@ -211,7 +213,7 @@ const Cart = () => {
                         <div className="price-section">
                             <div className="price">$30<span>$50</span></div>
                             <div className="cart-icon">
-                            <MdShoppingCartCheckout />
+                            <IoCartOutline />
                         </div>
                         </div>
                       
@@ -227,7 +229,7 @@ const Cart = () => {
                         <FaEye />
                         </div>
                         <div className="icon">
-                        <FaHeart />
+                        <CiHeart />
                         </div>
                        </div>
                     </div>
@@ -241,7 +243,7 @@ const Cart = () => {
                         <div className="price-section">
                             <div className="price">$230<span>$440</span></div>
                             <div className="cart-icon">
-                            <MdShoppingCartCheckout />
+                            <IoCartOutline />
                         </div>
                         </div>
                       
@@ -257,7 +259,7 @@ const Cart = () => {
                         <FaEye />
                         </div>
                         <div className="icon">
-                        <FaHeart />
+                        <CiHeart />
                         </div>
                        </div>
                     </div>
@@ -272,7 +274,7 @@ const Cart = () => {
                         <div className="price-section">
                             <div className="price">$110 <span>$300</span></div>
                             <div className="cart-icon">
-                            <MdShoppingCartCheckout />
+                            <IoCartOutline />
                         </div>
                         </div>
                       
@@ -288,7 +290,7 @@ const Cart = () => {
                         <FaEye />
                         </div>
                         <div className="icon">
-                        <FaHeart />
+                        <CiHeart />
                         </div>
                        </div>
                     </div>
@@ -304,7 +306,7 @@ const Cart = () => {
                         <div className="price-section">
                             <div className="price">$160 <span>$190</span></div>
                             <div className="cart-icon">
-                            <MdShoppingCartCheckout />
+                            <IoCartOutline />
                         </div>
                         </div>
                       
@@ -320,7 +322,7 @@ const Cart = () => {
                         <FaEye />
                         </div>
                         <div className="icon">
-                        <FaHeart />
+                        <CiHeart />
                         </div>
                        </div>
                     </div>
@@ -335,7 +337,7 @@ const Cart = () => {
                         <div className="price-section">
                             <div className="price">$90 <span>$130</span></div>
                             <div className="cart-icon">
-                            <MdShoppingCartCheckout />
+                            <IoCartOutline />
                         </div>
                         </div>
                       

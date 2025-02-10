@@ -5,7 +5,16 @@ import Logo from '../../src/images/logo.png';
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
+import { useCart } from "../context/CartContext";
+import { FaHeart,FaEye } from "react-icons/fa";
+
+
+
 const MainNav = () => {
+
+  const { wishlist, cart } = useCart();
+
+
   return (
     <div className='main-search-wrapper'>
       
@@ -19,25 +28,29 @@ const MainNav = () => {
               <IoIosSearch />
               </div>
             
-  <div className="search-wrapper">
-    <IoIosSearch />
-    <input type="text" className='input' placeholder='Search for items' />
-  </div>
-  <select className='input' >
-            <option value="Toronto (GTA)" >Toronto (GTA)</option>
-            <option value="Niagara" >Niagara</option>
-            <option value="Hamilton" >Hamilton</option>
-            <option value="Kitchener/Cambridge" >Kitchener/Cambridge</option>
-            <option value="Durham" >Durham</option>
-  </select>
+            <div className="search-wrapper">
+              <IoIosSearch />
+              <input type="text" className='input' placeholder='Search for items' />
+            </div>
+            <select className='input' >
+              <option value="Toronto (GTA)" >Toronto (GTA)</option>
+              <option value="Niagara" >Niagara</option>
+              <option value="Hamilton" >Hamilton</option>
+              <option value="Kitchener/Cambridge" >Kitchener/Cambridge</option>
+              <option value="Durham" >Durham</option>
+            </select>
             </div>
             <div className='right_side'>
             <div className="cart-icon">
-                <div className="count">1</div>
+                <div className="count">
+                  { (wishlist && wishlist.length) ? wishlist.length : 0 }
+                </div>
             <CiHeart />
             </div>
             <div className="cart-icon">
-                <div className="count">3</div>
+                <div className="count">
+                  { (cart && cart.length) ? cart.length : 0 }
+                </div>
             <IoCartOutline />
             </div>
             <button className="user-auth">

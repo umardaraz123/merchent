@@ -20,6 +20,7 @@ import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import { useCart } from "../context/CartContext";
 
 
 
@@ -82,6 +83,9 @@ const CheckoutForm = () => {
 
 
 const Checkout = () => {
+
+  const { wishlist, cart } = useCart();
+
 
   return (
     <div className="cart-wrapper-container">
@@ -183,6 +187,7 @@ const Checkout = () => {
               <p className="title">Order Summary</p>
               <hr className="hr my-2" />
               <div className="custom-table small table-responsive">
+                { console.log('cart =======  ', cart) }
                 <table className="table">
                   <tbody>
                     <tr>

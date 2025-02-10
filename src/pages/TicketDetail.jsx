@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { TicketsApi } from '../services/Tickets';
 import { FaFireAlt } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -17,6 +19,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 const TicketDetail = () => {
+
+  const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist, updateCartQty, wishlist, cart, cartDetail, getCartDetail } = useCart();
+
     const { tid } = useParams();
   const[loading,setLoading]=useState(false)
   const [ticketDetail,setTicketDetail]=useState({})
@@ -50,6 +55,8 @@ const TicketDetail = () => {
 
   useEffect(()=>{
     getTicketDetailApi(tid)
+
+    console.log('getCartDetail ========== ',cartDetail);
   },[])
  
   const settings = {
@@ -86,6 +93,14 @@ const TicketDetail = () => {
         }
       }
     ]
+  };
+
+  const updateQuantity = async (id, quantity) => {
+    console.log('quantity ======== 22222222222', quantity);
+    await updateCartQty(id, quantity);
+    const updatedCart = cart;
+    console.log('updatedCart ======= ', updatedCart);
+    // addToCart(updatedCart);
   };
 
 
@@ -232,6 +247,45 @@ const TicketDetail = () => {
               </div>
               <hr className="hr" />
             
+            </div>
+          </div>
+          <div className="col-12 col-md-5">
+            <div className="cart-wrapper">
+              <p className="title">
+                {ticketDetail?.title}
+              </p>
+              <p className="location">
+                {ticketDetail?.location}
+
+              </p>
+              <p className="location">
+                <span> 186</span> Bought
+              </p>
+              {ticketDetail?.prices?.map((price,index)=> <div className="custom-radio" key={index}>
+                <input type="radio" name="ticket" value="31"  />
+                <div className="inner">
+                  <div className="title">
+                 {price?.title}
+                  </div>
+                  <div className="flex">
+                    <span className="original">${price?.price}</span>
+                    <span className="price">${price?.discounted_price}</span>
+                    <span className="off">{((1 - (price?.discounted_price / price?.price)) * 100).toFixed(2)}% Off</span>
+                  </div>
+                </div>
+              </div>)}
+
+              {/* <p>Price: ${ticketDetail.prices[0].discounted_price || ticketDetail.prices[0].price}</p> */}
+              { console.log('ticketDetail.quantity ======== ', ticketDetail, ticketDetail.quantity) }
+              <p>Quantity: {getCartDetail(ticketDetail.id).quantity}</p>
+              <button className="btn btn-danger" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity - 1) : 0))}>-</button>
+              <button className="btn btn-success" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity + 1) : 1))}>+</button>
+              {/* <button onClick={() => removeFromCart(ticketDetail.id)}>Remove</button> */}
+              
+         
+              <button type="button" className="button" onClick={async() => (await itemExistsInCart(ticketDetail.id)) ? removeFromCart(ticketDetail.id) : addToCart(ticketDetail)}>
+                BUY NOW
+              </button>
             </div>
           </div>
         </div>

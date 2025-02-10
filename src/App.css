@@ -2016,3 +2016,6 @@ a {
     font-size: 15px;
   }
 }
+.gb-danger{
+  background-color: red !important;
+}
