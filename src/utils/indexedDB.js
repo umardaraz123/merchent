@@ -19,7 +19,7 @@ export const setItem = async (storeName, item) => {
     const db = await initDB();
     // const existingItem = await db.get(storeName, item.id);
     const items = await getItems(storeName);
-    const existingItem = items.filter(itm => itm.id !== item.id);
+    const existingItem = items.filter(itm => itm.id === item.id);
     console.log('existingItem ========== ', existingItem);
     
     if (existingItem && existingItem[0] && existingItem[0].length > 0) {
@@ -36,9 +36,14 @@ export const setItem = async (storeName, item) => {
 export const updateQty = async (storeName, id, quantity) => {
     const db = await initDB();
     const items = await getItems(storeName);
-
+    console.log('quantity ============= ', quantity);
+    // items.forEach((item, index) =>{
+    //     if(item && item.id && item.id == id){
+    //         console.log('item ========= ', item, index, id);
+    //     }
+    // })
     const updatedCart = items.filter(item => item.id === id);
-    console.log('updatedCart ======== ', updatedCart, items, id, quantity);
+    console.log('updatedCart ======== ', updatedCart, id);
     if (updatedCart && updatedCart[0]) {
         updatedCart[0].quantity = quantity; // Set new quantity
         await db.put(storeName, updatedCart[0]);

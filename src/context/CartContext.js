@@ -79,7 +79,10 @@ export const CartProvider = ({ children }) => {
     }
     const getCartDetail = async(id) => {
         const result = await getItemDetail('cart', id);
+        console.log('====================== ', result);
         setCartDetail(result);
+
+        return result;
         
     }
 

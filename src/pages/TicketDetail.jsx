@@ -56,7 +56,13 @@ const TicketDetail = () => {
   useEffect(()=>{
     getTicketDetailApi(tid)
 
-    console.log('getCartDetail ========== ',cartDetail);
+    const loadCart = async () => {
+      const cartData = await getCartDetail(42);
+      console.log('getCartDetail ========== ',cartData);  
+    };
+    loadCart();
+
+    
   },[])
  
   const settings = {
@@ -96,10 +102,8 @@ const TicketDetail = () => {
   };
 
   const updateQuantity = async (id, quantity) => {
-    console.log('quantity ======== 22222222222', quantity);
     await updateCartQty(id, quantity);
     const updatedCart = cart;
-    console.log('updatedCart ======= ', updatedCart);
     // addToCart(updatedCart);
   };
 
@@ -276,8 +280,7 @@ const TicketDetail = () => {
               </div>)}
 
               {/* <p>Price: ${ticketDetail.prices[0].discounted_price || ticketDetail.prices[0].price}</p> */}
-              { console.log('ticketDetail.quantity ======== ', ticketDetail, ticketDetail.quantity) }
-              <p>Quantity: {getCartDetail(ticketDetail.id).quantity}</p>
+              <p>Quantity: {getCartDetail(ticketDetail.id).quantity} === {ticketDetail.id} ===</p>
               <button className="btn btn-danger" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity - 1) : 0))}>-</button>
               <button className="btn btn-success" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity + 1) : 1))}>+</button>
               {/* <button onClick={() => removeFromCart(ticketDetail.id)}>Remove</button> */}
