@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { TicketsApi } from '../services/Tickets';
 import { FaFireAlt } from "react-icons/fa";
@@ -21,7 +21,7 @@ import { useParams } from 'react-router-dom';
 const TicketDetail = () => {
 
   const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist, updateCartQty, wishlist, cart, cartDetail, getCartDetail } = useCart();
-
+  const navigate = useNavigate()
     const { tid } = useParams();
   const[loading,setLoading]=useState(false)
   const [ticketDetail,setTicketDetail]=useState({})
@@ -142,6 +142,12 @@ const TicketDetail = () => {
       }
     ]
   };
+
+  const redirectToCheckout = () => {
+    navigate('/checkout');
+    
+  }
+
   return (
     <div className="ticket-detail-page">
             <ToastContainer />
@@ -203,94 +209,13 @@ const TicketDetail = () => {
               </div>)}
               
          
-              <button className="button">
+              <button className="button" onClick={ () => redirectToCheckout()}>
                 BUY NOW
               </button>
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-12 col-md-7">
-          
-            <div className="title-med">
-              Ticket Description
-            </div>
-            <div className="ticket-description">
-            <div dangerouslySetInnerHTML={{ __html: ticketDetail?.description}} />
-            </div>
-            <div className="list-items">
-           
-              <hr className="hr my-4" />
-              <p className="title-med">
-                What You Need To Know
-              </p>
-              <div className="ticket-description">
-            <div dangerouslySetInnerHTML={{ __html: ticketDetail?.special_instructions}} />
-            </div>
-              <hr className="hr my-4" />
-              <p className="title-med">
-              {ticketDetail?.location}
-              </p>
-              <div className="location-box">
-                <p className="title mb-1">
-                Assembly Park
-                </p>
-                <p className="text mb-1">
-                80 Interchange Way
-              
-                </p>
-                <p className="text mb-1">
-              
-                Vaughan, Ontario, L4K 5C3, Canada
-                </p>
-                <a className="flex-item">
-              <GrMapLocation />   See Location
-                </a>
-
-              </div>
-              <hr className="hr" />
-            
-            </div>
-          </div>
-          <div className="col-12 col-md-5">
-            <div className="cart-wrapper">
-              <p className="title">
-                {ticketDetail?.title}
-              </p>
-              <p className="location">
-                {ticketDetail?.location}
-
-              </p>
-              <p className="location">
-                <span> 186</span> Bought
-              </p>
-              {ticketDetail?.prices?.map((price,index)=> <div className="custom-radio" key={index}>
-                <input type="radio" name="ticket" value="31"  />
-                <div className="inner">
-                  <div className="title">
-                 {price?.title}
-                  </div>
-                  <div className="flex">
-                    <span className="original">${price?.price}</span>
-                    <span className="price">${price?.discounted_price}</span>
-                    <span className="off">{((1 - (price?.discounted_price / price?.price)) * 100).toFixed(2)}% Off</span>
-                  </div>
-                </div>
-              </div>)}
-
-              {/* <p>Price: ${ticketDetail.prices[0].discounted_price || ticketDetail.prices[0].price}</p> */}
-              <p>Quantity: {getCartDetail(ticketDetail.id).quantity} === {ticketDetail.id} ===</p>
-              <button className="btn btn-danger" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity - 1) : 0))}>-</button>
-              <button className="btn btn-success" onClick={() => updateQuantity(ticketDetail.id, ((ticketDetail && ticketDetail.quantity) ? (ticketDetail.quantity + 1) : 1))}>+</button>
-              {/* <button onClick={() => removeFromCart(ticketDetail.id)}>Remove</button> */}
-              
-         
-              <button type="button" className="button" onClick={async() => (await itemExistsInCart(ticketDetail.id)) ? removeFromCart(ticketDetail.id) : addToCart(ticketDetail)}>
-                BUY NOW
-              </button>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </div>
   )
