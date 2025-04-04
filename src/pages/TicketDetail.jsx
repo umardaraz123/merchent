@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 const TicketDetail = () => {
 
-  const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist, updateCartQty, wishlist, cart, cartDetail, getCartDetail } = useCart();
+  const { getCartDetail } = useCart();
   const navigate = useNavigate()
     const { tid } = useParams();
   const[loading,setLoading]=useState(false)
@@ -100,11 +100,6 @@ const TicketDetail = () => {
     ]
   };
 
-  const updateQuantity = async (id, quantity) => {
-    await updateCartQty(id, quantity);
-    const updatedCart = cart;
-    // addToCart(updatedCart);
-  };
 
 
   const settings1 = {

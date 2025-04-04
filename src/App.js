@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // public imports 
 import PublicLayout from "./components/PublicLayout";
@@ -33,8 +33,121 @@ import UpdateTicket from "./admin/UpdateTicket";
 import CreateBlog from "./admin/CreateBlog";
 import Support from "./admin/Support";
 function App() {
+
+
+  const [location, setLocation] = useState(null);
+  const [error, setError] = useState("");
+  const [permissionState, setPermissionState] = useState("checking");
+
+  const saveToLocalStorage = (lat, lng) => {
+    localStorage.setItem("latitude", lat);
+    localStorage.setItem("longitude", lng);
+  };
+
+  const sendCoordinatesInHeader = (lat, lng) => {
+    // axios.get("/api/your-endpoint", {
+    //   headers: {
+    //     "X-Latitude": lat,
+    //     "X-Longitude": lng,
+    //   },
+    // }).then((res) => {
+    //   console.log("API response:", res.data);
+    // }).catch((err) => {
+    //   console.error("API call failed", err);
+    // });
+  };
+
+  const getGeolocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setLocation({ latitude, longitude });
+        saveToLocalStorage(latitude, longitude);
+        sendCoordinatesInHeader(latitude, longitude);
+        setError("");
+      },
+      (err) => {
+        switch (err.code) {
+          case err.PERMISSION_DENIED:
+            setError("Permission denied. Please allow location access.");
+            break;
+          case err.POSITION_UNAVAILABLE:
+            setError("Location unavailable.");
+            break;
+          case err.TIMEOUT:
+            setError("Location request timed out.");
+            break;
+          default:
+            setError("An unknown error occurred.");
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (!("geolocation" in navigator)) {
+      setPermissionState("unsupported");
+      setError("Geolocation not supported by this browser.");
+      return;
+    }
+
+    const storedLat = localStorage.getItem("latitude");
+    const storedLng = localStorage.getItem("longitude");
+
+    if (storedLat && storedLng) {
+      // Already has permission and location
+      setLocation({ latitude: storedLat, longitude: storedLng });
+      sendCoordinatesInHeader(storedLat, storedLng);
+      return;
+    }
+
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: "geolocation" }).then((status) => {
+        setPermissionState(status.state);
+
+        if (status.state === "granted") {
+          getGeolocation(); // No prompt
+        } else if (status.state === "prompt") {
+          getGeolocation(); // Will prompt user
+        } else if (status.state === "denied") {
+          setError("Location access denied. Change settings to allow.");
+        }
+
+        // React to permission changes
+        status.onchange = () => {
+          setPermissionState(status.state);
+          if (status.state === "granted") {
+            getGeolocation();
+          }
+        };
+      }).catch(() => {
+        getGeolocation(); // Fallback if Permissions API fails
+      });
+    } else {
+      getGeolocation(); // Fallback for older browsers
+    }
+  }, []);
+
   return (
     <div className="App">
+          <div>
+      <h3>Geolocation Manager</h3>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {location ? (
+        <p>
+          Latitude: {location.latitude}, Longitude: {location.longitude}
+        </p>
+      ) : (
+        !error && <p>Fetching location...</p>
+      )}
+    </div>
+
+
      <Router>
       <Routes>
         {/* Public Routes */}
