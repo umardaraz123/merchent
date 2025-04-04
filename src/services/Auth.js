@@ -1,10 +1,9 @@
 // src/api/AuthService.js
 import axios from 'axios';
-const api_url = process.env.NEXT_PUBLIC_API_URL;
+const api_url = process.env.REACT_APP_API_URL;
 
 
-// axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.baseURL = `https://mdeals.himalayatool.com/api`;
+axios.defaults.baseURL = api_url+'/api';
 // axios.defaults.headers.common['Authorization'] = 'Bearer'+AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

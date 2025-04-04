@@ -58,9 +58,8 @@ const TicketDetail = () => {
 
     const loadCart = async () => {
       const cartData = await getCartDetail(42);
-      console.log('getCartDetail ========== ',cartData);  
     };
-    loadCart();
+    // loadCart();
 
     
   },[])

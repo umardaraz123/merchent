@@ -1,10 +1,9 @@
 // src/api/AuthService.js
 import axios from 'axios';
-const api_url = process.env.NEXT_PUBLIC_API_URL;
+const api_url = process.env.REACT_APP_API_URL;
 
 
-// axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.baseURL = `https://mdeals.himalayatool.com/api`;
+axios.defaults.baseURL = api_url+'/api';
 // axios.defaults.headers.common['Authorization'] = 'Bearer'+AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 //Create ticket
@@ -239,6 +238,60 @@ async function createTicketApi(data) {
     }
   }
 
+
+  async function checkout(data) {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+         var config = {
+             method: 'post',
+             url: `/v1/create-checkout-session`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer '+AUTH_TOKEN
+            },
+             data : data
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function verifyPayment(session_id) {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+         var config = {
+             method: 'get',
+             url: `/v1/verify-payment?session_id=${session_id}`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer '+AUTH_TOKEN
+            }
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
+
   
 
-export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory}
+  
+
+export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment}

@@ -20,6 +20,8 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import './App.css';
 //admind imports
 import AdminLayout from "./components/AdminLayout";
@@ -54,6 +56,9 @@ function App() {
            <Route path="/checkout" element={<Checkout />} />
            <Route path="/blog" element={<Blog />} />
            <Route path="/blog-detail/:blogid" element={<BlogDetail />} />
+
+           <Route path="/payment-success" element={<PaymentSuccess />} />
+           <Route path="/payment-cancel" element={<PaymentCancel />} />
           {/* <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />  */}
         </Route>
