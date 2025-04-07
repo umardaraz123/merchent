@@ -9,6 +9,8 @@ import { MdDeleteOutline } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
+import noImage from '../images/no-image.jpg';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 const Tickets = () => {
   const[loading,setLoading]=useState(false)
@@ -102,7 +104,12 @@ const Tickets = () => {
       <td>
         <div className="info">
           <div className="image-wrapper">
-          <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+            <ImageWithFallback
+              src={ticket?.images[0]?.file_url}
+              fallbackSrc={noImage}
+              alt="image"
+              />
+          {/* <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill /> */}
           </div>
           <div className="data">
             <span className="title">

@@ -9,14 +9,16 @@ import { FaEye, FaHeart, FaLongArrowAltRight } from "react-icons/fa";
 import { CiHeart,CiLocationOn } from "react-icons/ci";
 import {TicketsApi} from '../services/Tickets'
 import { TbCategory } from "react-icons/tb";
-import { useCart } from '../context/CartContext';
+import { useCart } from '../contexts/CartContext';
 import { IoCartOutline } from 'react-icons/io5';
+import noImage from '../images/no-image.jpg';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 
 
 const EndingSoon = () => {
 
-  const { addToCart, addToWishlist, itemExistsInCart, itemExistsInWishlish, removeFromCart, removeFromWishlist } = useCart();
+  const { addToCart, addToWishlist, itemExistsInCart, removeFromCart, removeFromWishlist } = useCart();
 
   const [endingSoonTickets,setEndingSoonTickets]=useState([])
   const[loading,setLoading]=useState(false)
@@ -67,14 +69,19 @@ const EndingSoon = () => {
                 <div className="listing-item">
                         <div className="image-wrapper">
                           <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
-                            <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill />
+                            <ImageWithFallback
+                              src={ticket?.images[0]?.file_url}
+                              fallbackSrc={noImage}
+                              alt="image"
+                              />
+                            {/* <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill /> */}
                           </Link>
                            <div className="icons">
                           
                             <div className="icon">
                             <FaEye />
                             </div>
-                            <div className="icon" onClick={async () => (await itemExistsInWishlish(ticket.id)) ? removeFromWishlist(ticket.id) : addToWishlist(ticket)}>
+                            <div className="icon" onClick={() => addToWishlist(ticket.id)}>
                             <CiHeart />
                             </div>
                            </div>
@@ -88,7 +95,7 @@ const EndingSoon = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon" onClick={async() => (await itemExistsInCart(ticket.id)) ? removeFromCart(ticket.id) : addToCart(ticket)}>
+                                <div className="cart-icon" onClick={() => addToCart(ticket.id, 1)}>
                                 <IoCartOutline />
                             </div>
                             </div>

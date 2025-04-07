@@ -5,12 +5,15 @@ import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
-import { useCart } from "../context/CartContext";
+import { useCart } from "../contexts/CartContext";
 
 import Image1 from "../../src/images/screem1.jpg";
 import Image2 from "../../src/images/screem.jpg";
 import Image3 from "../../src/images/screem3.jpg";
 import { TicketsApi } from "../services/Tickets";
+import { ImageWithFallback } from "../utils/imageUtils";
+import noImage from '../images/no-image.jpg';
+
 
 const Checkout = () => {
   const { cart } = useCart();
@@ -107,7 +110,12 @@ const Checkout = () => {
                           <div className="item-detail">
                             <div className="image-wrapper">
                               <span className="count">1</span>
-                              <img src={item.image} alt="Product" />
+                              <ImageWithFallback
+                                src={item.image}
+                                fallbackSrc={noImage}
+                                alt="image"
+                                />
+                              {/* <img src={item.image} alt="Product" /> */}
                             </div>
                             <p className="title">{item.title}</p>
                           </div>

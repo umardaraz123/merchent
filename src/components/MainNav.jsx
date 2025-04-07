@@ -5,7 +5,7 @@ import Logo from '../../src/images/logo.png';
 import { IoCartOutline } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../contexts/CartContext";
 import { FaHeart,FaEye } from "react-icons/fa";
 
 
@@ -49,7 +49,7 @@ const MainNav = () => {
             </div>
             <div className="cart-icon">
                 <div className="count">
-                  { (cart && cart.length) ? cart.length : 0 }
+                  {cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0}
                 </div>
             <IoCartOutline />
             </div>

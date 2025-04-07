@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { TicketsApi } from '../services/Tickets';
 import { FaFireAlt } from "react-icons/fa";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../contexts/CartContext";
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -20,13 +20,29 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 const TicketDetail = () => {
 
-  const { getCartDetail } = useCart();
+  const { getCartDetail, addToCart, carts } = useCart();
   const navigate = useNavigate()
     const { tid } = useParams();
   const[loading,setLoading]=useState(false)
   const [ticketDetail,setTicketDetail]=useState({})
 
- 
+   const [quantity, setQuantity] = useState(1);
+   const [isProcessing, setIsProcessing] = useState(false);
+   const [actionMessage, setActionMessage] = useState('');
+
+
+
+
+   const handleAddToCart = async () => {
+    setIsProcessing(true);
+    const result = await addToCart(ticketDetail?.id, quantity);
+    if (result.success) {
+      setActionMessage('Added to cart!');
+      setTimeout(() => setActionMessage(''), 3000);
+    }
+    setIsProcessing(false);
+  };
+  
   async function getTicketDetailApi() {
     setLoading(true);
   
@@ -53,16 +69,19 @@ const TicketDetail = () => {
      
   } 
 
-  useEffect(()=>{
-    getTicketDetailApi(tid)
-
-    const loadCart = async () => {
-      const cartData = await getCartDetail(42);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getTicketDetailApi(tid);
+  
+      if (carts && ticketDetail) {
+        const product = (carts || []).find(p => p.product_id === ticketDetail.id);
+        const qty = carts?.find(item => item.product_id === ticketDetail.id)?.quantity || 0;
+        setQuantity(qty);
+      }
     };
-    // loadCart();
-
-    
-  },[])
+  
+    fetchData();
+  }, []);
  
   const settings = {
     dots: false,
@@ -203,7 +222,25 @@ const TicketDetail = () => {
                 </div>
               </div>)}
               
-         
+                <div className="">
+                  <div className="quantity-selector">
+                    <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
+                    <span>{quantity}</span>
+                    <button onClick={() => setQuantity(q => q + 1)}>+</button>
+                  </div>
+                  
+                  <div className="product-actions">
+                    <button 
+                      onClick={handleAddToCart}
+                      disabled={isProcessing}
+                      className="add-to-cart"
+                    >
+                      {isProcessing ? 'Adding...' : 'Add to Cart'}
+                    </button>
+                    
+
+                  </div>
+                </div>
               <button className="button" onClick={ () => redirectToCheckout()}>
                 BUY NOW
               </button>

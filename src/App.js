@@ -32,6 +32,9 @@ import CreateTicket from "./admin/CreateTicket";
 import UpdateTicket from "./admin/UpdateTicket";
 import CreateBlog from "./admin/CreateBlog";
 import Support from "./admin/Support";
+import LocationSearch from "./pages/LocationSearch";
+import ProductCard from "./pages/ProductCard";
+import CartPage from "./pages/CartPage";
 function App() {
 
 
@@ -172,6 +175,12 @@ function App() {
 
            <Route path="/payment-success" element={<PaymentSuccess />} />
            <Route path="/payment-cancel" element={<PaymentCancel />} />
+           <Route path="/location-search" element={<LocationSearch />} />
+
+           <Route path="/product-card" element={<ProductCard />} />
+           <Route path="/cart-page" element={<CartPage />} />
+            
+           
           {/* <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />  */}
         </Route>
