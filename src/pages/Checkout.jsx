@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
 import { useCart } from "../contexts/CartContext";
 
 import Image1 from "../../src/images/screem1.jpg";
@@ -16,7 +15,7 @@ import noImage from '../images/no-image.jpg';
 
 
 const Checkout = () => {
-  const { cart } = useCart();
+  const { carts } = useCart();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,7 +28,6 @@ const Checkout = () => {
     try {
       let datas = {'amount': 100};
       const data = await TicketsApi.checkout(datas);
-      console.log('data ============= ', data.data.data.url);
       window.location.href = data.data.data.url; 
       console.log("Client Secret:", data.clientSecret);
     } catch (error) {
@@ -45,9 +43,17 @@ const Checkout = () => {
     { image: Image3, title: "FLASH SALE! $149.60 for One Halloween Admission", price: 100 }
   ];
 
+
+  const totalPrice = carts.reduce((total, cart) => {
+    const price = cart.tickets.prices[0]?.price || 0; // fallback to 0 if no price
+    return total + (price * cart.quantity);
+  }, 0);
+
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const serviceFee = 15;
   const finalTotal = totalAmount + serviceFee;
+
+
 
   return (
     <div className="cart-wrapper-container">
@@ -58,6 +64,7 @@ const Checkout = () => {
             Continue shopping <MdOutlineShoppingCartCheckout />
           </Link>
         </div>
+        { console.log('11111111111111111carts ======= ', carts) }
 
         <div className="row">
           <div className="col-12 col-md-7">
@@ -104,24 +111,25 @@ const Checkout = () => {
               <div className="custom-table small table-responsive">
                 <table className="table">
                   <tbody>
-                    {cartItems.map((item, index) => (
+                    {carts.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <div className="item-detail">
                             <div className="image-wrapper">
-                              <span className="count">1</span>
+                              <span className="count">
+                                { item.quantity }
+                              </span>
                               <ImageWithFallback
-                                src={item.image}
+                                src={item.tickets.images}
                                 fallbackSrc={noImage}
                                 alt="image"
                                 />
-                              {/* <img src={item.image} alt="Product" /> */}
                             </div>
                             <p className="title">{item.title}</p>
                           </div>
                         </td>
                         <td>
-                          <span className="text">${item.price}</span>
+                          <span className="text">${(item?.tickets?.prices[0]?.price * item.quantity)}</span>
                         </td>
                       </tr>
                     ))}
@@ -129,7 +137,7 @@ const Checkout = () => {
                 </table>
               </div>
 
-              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalAmount}</span></div>
+              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
               <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
               <hr className="hr my-4" />

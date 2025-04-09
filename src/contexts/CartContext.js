@@ -5,7 +5,7 @@ import { cartService, wishlistService, handleApiError } from '../services/apiSer
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [carts, setCarts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await cartService.getCart();
-      setCart(response.data.cart);
+      setCarts(response.data.cart);
       setCartTotal(response.data.total);
       setError(null);
     } catch (err) {
@@ -153,7 +153,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
-        cart,
+        carts,
         wishlist,
         cartTotal,
         loading,

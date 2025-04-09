@@ -73,15 +73,14 @@ const TicketDetail = () => {
     const fetchData = async () => {
       await getTicketDetailApi(tid);
   
-      if (carts && ticketDetail) {
-        const product = (carts || []).find(p => p.product_id === ticketDetail.id);
+      if (carts && carts.length > 0 && ticketDetail) {
         const qty = carts?.find(item => item.product_id === ticketDetail.id)?.quantity || 0;
         setQuantity(qty);
       }
     };
   
     fetchData();
-  }, []);
+  }, [tid]);
  
   const settings = {
     dots: false,
@@ -168,6 +167,7 @@ const TicketDetail = () => {
         {loading && <div className='main-loader'>
             <div className="spinner"></div>
             </div>}
+            { console.log('19999999999carts ========= ', carts) }
       <div className="container">
         <div className="row">
           <div className="col-12 col-md-7">
