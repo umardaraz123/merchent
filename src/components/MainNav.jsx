@@ -12,7 +12,7 @@ import { FaHeart,FaEye } from "react-icons/fa";
 
 const MainNav = () => {
 
-  const { wishlist, cart } = useCart();
+  const { wishlist, carts } = useCart();
 
 
   return (
@@ -49,7 +49,7 @@ const MainNav = () => {
             </div>
             <div className="cart-icon">
                 <div className="count">
-                  {cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0}
+                  {carts ? carts.reduce((total, item) => total + item.quantity, 0) : 0}
                 </div>
             <IoCartOutline />
             </div>
