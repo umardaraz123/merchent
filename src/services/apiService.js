@@ -1,9 +1,14 @@
 // src/services/apiService.js
 import axios from 'axios';
+import { getFromCookies } from '../utils/cookieUtils';
 
 const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
 
          
+
+
+const random_string_detail = getFromCookies();
+
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
@@ -26,16 +31,16 @@ API.interceptors.request.use((config) => {
 
 // Cart API methods
 export const cartService = {
-  addToCart: (productId, quantity) => API.post('api/v1/cart/add', { product_id: productId, quantity }),
-  getCart: () => API.get('api/v1/cart'),
+  addToCart: (productId, quantity) => API.post('api/v1/cart/add', { product_id: productId, quantity, random_string_detail: random_string_detail }),
+  getCart: () => API.get(`api/v1/cart?random_string_detail=${random_string_detail}`),
   updateCart: (cartId, quantity) => API.post('api/v1/cart/update', { cart_id: cartId, quantity }),
   removeFromCart: (cartId) => API.post('api/v1/cart/remove', { cart_id: cartId })
 };
 
 // Wishlist API methods
 export const wishlistService = {
-  addToWishlist: (productId) => API.post('api/v1/wishlist/add', { product_id: productId }),
-  getWishlist: () => API.get('api/v1/wishlist'),
+  addToWishlist: (productId) => API.post('api/v1/wishlist/add', { product_id: productId, random_string_detail: random_string_detail }),
+  getWishlist: () => API.get(`api/v1/wishlist?random_string_detail=${random_string_detail}`),
   removeFromWishlist: (wishlistId) => API.post('api/v1/wishlist/remove', { wishlist_id: wishlistId })
 };
 

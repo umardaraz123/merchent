@@ -35,6 +35,7 @@ import Support from "./admin/Support";
 import LocationSearch from "./pages/LocationSearch";
 import ProductCard from "./pages/ProductCard";
 import CartPage from "./pages/CartPage";
+import { checkAndSave, getFromCookies } from "./utils/cookieUtils";
 function App() {
 
 
@@ -99,6 +100,10 @@ function App() {
       return;
     }
 
+    checkAndSave();
+   
+
+
     const storedLat = localStorage.getItem("latitude");
     const storedLng = localStorage.getItem("longitude");
 
@@ -134,6 +139,8 @@ function App() {
     } else {
       getGeolocation(); // Fallback for older browsers
     }
+
+    
   }, []);
 
   return (
