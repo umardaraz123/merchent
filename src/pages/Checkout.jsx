@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
-import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from "../contexts/CartContext";
 
 import Image1 from "../../src/images/screem1.jpg";
@@ -20,8 +19,6 @@ const Checkout = () => {
   const navigate = useNavigate();
 
 
-  // Memoizing the stripePromise to prevent re-creation on every render
-  const stripePromise = useMemo(() => loadStripe("pk_test_eURXcU5xwHkizTNo53OqYHcR003igbbJak"), []);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -64,8 +61,6 @@ const Checkout = () => {
             Continue shopping <MdOutlineShoppingCartCheckout />
           </Link>
         </div>
-        { console.log('11111111111111111carts ======= ', carts) }
-
         <div className="row">
           <div className="col-12 col-md-7">
             <div className="cart-box">
@@ -125,7 +120,7 @@ const Checkout = () => {
                                 alt="image"
                                 />
                             </div>
-                            <p className="title">{item.title}</p>
+                            <p className="title">{item?.tickets?.title}</p>
                           </div>
                         </td>
                         <td>
