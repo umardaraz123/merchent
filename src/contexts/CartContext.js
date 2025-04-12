@@ -44,10 +44,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (productId, quantity = 1) => {
+  const addToCart = async (productId, priceId, quantity = 1) => {
     try {
       setLoading(true);
-      await cartService.addToCart(productId, quantity);
+      await cartService.addToCart(productId, priceId, quantity);
       await fetchCart();
       setError(null);
       return { success: true };

@@ -35,7 +35,7 @@ const TicketDetail = () => {
 
    const handleAddToCart = async () => {
     setIsProcessing(true);
-    const result = await addToCart(ticketDetail?.id, quantity);
+    const result = await addToCart(ticketDetail?.id, ticketDetail?.prices[0]?.id, quantity);
     if (result.success) {
       setActionMessage('Added to cart!');
       setTimeout(() => setActionMessage(''), 3000);
@@ -69,17 +69,21 @@ const TicketDetail = () => {
      
   } 
 
-  useEffect(() => {
+  useEffect(async() => {
     const fetchData = async () => {
       await getTicketDetailApi(tid);
-  
-      if (carts && carts.length > 0 && ticketDetail) {
-        const qty = carts?.find(item => item.product_id === ticketDetail.id)?.quantity || 0;
-        setQuantity(qty);
-      }
     };
   
-    fetchData();
+    await fetchData();
+
+
+    console.log('carts ========= ', carts, ticketDetail);
+      if (carts && carts.length > 0 && ticketDetail) {
+        const qty = carts?.find(item => item.product_id === ticketDetail.id)?.quantity || 0;
+        console.log('qty ========== ', qty);
+        setQuantity(qty);
+      }
+
   }, [tid]);
  
   const settings = {
@@ -167,7 +171,6 @@ const TicketDetail = () => {
         {loading && <div className='main-loader'>
             <div className="spinner"></div>
             </div>}
-            { console.log('19999999999carts ========= ', carts) }
       <div className="container">
         <div className="row">
           <div className="col-12 col-md-7">

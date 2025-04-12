@@ -2,7 +2,7 @@
 export const generateUniqueString = () => {
     const randomString = Math.random().toString(36).substr(2, 9); // Random string
     const timestamp = new Date().toISOString(); // Current datetime
-    return `${randomString}_${timestamp}`;
+    return (`${randomString}_${timestamp}`).replace(/[-.:]/g, '_');
   };
   
   // Function to get device name or type

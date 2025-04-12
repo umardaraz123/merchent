@@ -31,16 +31,16 @@ API.interceptors.request.use((config) => {
 
 // Cart API methods
 export const cartService = {
-  addToCart: (productId, quantity) => API.post('api/v1/cart/add', { product_id: productId, quantity, random_string_detail: random_string_detail }),
-  getCart: () => API.get(`api/v1/cart?random_string_detail=${random_string_detail}`),
+  addToCart: (productId, priceId, quantity) => API.post('api/v1/cart/add', { product_id: productId, price_id: priceId, quantity, random_string_detail: random_string_detail }),
+  getCart: () => API.get(`api/v1/cart?random_string=${random_string_detail.uniqueString}`),
   updateCart: (cartId, quantity) => API.post('api/v1/cart/update', { cart_id: cartId, quantity }),
   removeFromCart: (cartId) => API.post('api/v1/cart/remove', { cart_id: cartId })
 };
 
 // Wishlist API methods
 export const wishlistService = {
-  addToWishlist: (productId) => API.post('api/v1/wishlist/add', { product_id: productId, random_string_detail: random_string_detail }),
-  getWishlist: () => API.get(`api/v1/wishlist?random_string_detail=${random_string_detail}`),
+  addToWishlist: (productId, priceId) => API.post('api/v1/wishlist/add', { product_id: productId, price_id: priceId, random_string_detail: random_string_detail }),
+  getWishlist: () => API.get(`api/v1/wishlist?random_string=${random_string_detail.uniqueString}`),
   removeFromWishlist: (wishlistId) => API.post('api/v1/wishlist/remove', { wishlist_id: wishlistId })
 };
 

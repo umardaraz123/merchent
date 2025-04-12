@@ -88,7 +88,7 @@ const { addToCart, addToWishlist, itemExistsInCart, removeFromCart, removeFromWi
                             </Link>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon" onClick={() => addToCart(ticket.id, 1)}>
+                                <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
                                 <IoCartOutline />
                             </div>
                             </div>
