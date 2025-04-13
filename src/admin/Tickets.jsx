@@ -108,6 +108,7 @@ const Tickets = () => {
               src={ticket?.images[0]?.file_url}
               fallbackSrc={noImage}
               alt="image"
+              className="image"
               />
           {/* <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill /> */}
           </div>

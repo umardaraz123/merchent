@@ -145,7 +145,7 @@ function App() {
 
   return (
     <div className="App">
-          <div>
+          {/* <div>
       <h3>Geolocation Manager</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {location ? (
@@ -155,7 +155,7 @@ function App() {
       ) : (
         !error && <p>Fetching location...</p>
       )}
-    </div>
+    </div> */}
 
 
      <Router>

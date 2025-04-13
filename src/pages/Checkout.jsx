@@ -51,7 +51,7 @@ const Checkout = () => {
 
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const serviceFee = 15;
-  const finalTotal = totalAmount + serviceFee;
+  const finalTotal = totalPrice+ serviceFee;
 
 
 
@@ -111,6 +111,7 @@ const Checkout = () => {
               <div className="custom-table small table-responsive">
                 <table className="table">
                   <tbody>
+                   
                     {carts.map((item, index) => (
                       <tr key={index}>
                         <td>
@@ -119,13 +120,14 @@ const Checkout = () => {
                               <span className="count">
                                 { item.quantity }
                               </span>
+                              
                               <ImageWithFallback
-                                src={item.tickets.images}
+                                src={item.tickets.images[0]?.file_url}
                                 fallbackSrc={noImage}
                                 alt="image"
                                 />
                             </div>
-                            <p className="title">{item.title}</p>
+                            <p className="title">{item?.tickets?.title}</p>
                           </div>
                         </td>
                         <td>

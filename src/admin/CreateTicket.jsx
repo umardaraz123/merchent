@@ -1,20 +1,27 @@
 
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import ReactQuill from 'react-quill-new';
+
 import 'react-quill-new/dist/quill.snow.css';
 import { MdOutlinePriceCheck } from "react-icons/md";
 import { TbUpload } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { TicketsApi } from '../services/Tickets'
+import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 // import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const Map_API = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const CreateTicket = () => {
   const navigate = useNavigate()
   const[loading,setLoading]=useState(false)
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
+  const[latitude,setLatitude]=useState('')
+  const[longitude,setLongitude]=useState('')
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const autoCompleteRef = useRef(null);
   const [category,setCategory] = useState('')
   const [isTrending, setIsTrending] = useState("");
   const [isNewlyAdded, setIsNewlyAdded] = useState("");
@@ -27,6 +34,27 @@ const CreateTicket = () => {
     { title: "", price: "", discounted_price: "" },
   ]);
    const [images, setImages] = useState([]);
+ // handle place change latitude aur longitude
+   const handlePlaceChanged = () => {
+    const place = autoCompleteRef.current.getPlace();
+    if (place && place.geometry) {
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      const address = place.formatted_address;
+      setLocation(place.formatted_address)
+      setLatitude(place.geometry.location.lat())
+      setLongitude(place.geometry.location.lng())
+      console.log("Latitude:", lat);
+      console.log("Longitude:", lng);
+      console.log("Address:", address);
+
+      setSelectedPlace({
+        lat,
+        lng,
+        address,
+      });
+    }
+  };
    
      // Function to handle image upload
   const handleImageUpload = (e) => {
@@ -84,6 +112,14 @@ const CreateTicket = () => {
     if(location){
         formData.append('location', location);
     }
+    
+    if(latitude){
+      formData.append('latitude', latitude);
+  }
+  
+  if(longitude){
+    formData.append('longitude', longitude);
+}
     if(category){
       formData.append('category', category);
   }
@@ -171,13 +207,28 @@ setLoading(true);
         <div className="col-12 col-md-6 mb-4">
           <div className="input-wrapper">
             <label htmlFor="">Ticket Location</label>
-            <input
-              type="text"
-              className="input"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
+                
+          <LoadScript googleMapsApiKey={Map_API} libraries={["places"]}>
+      <div className="input-wrapper">
+        <Autocomplete
+          onLoad={(ref) => (autoCompleteRef.current = ref)}
+          onPlaceChanged={handlePlaceChanged}
+        >
+          <input
+            type="text"
+            className="input"
+            placeholder="Enter location"
+           
+          />
+        </Autocomplete>
+      </div>
+
+    
+
+     
+    </LoadScript>
           </div>
+      
         </div>
         <div className="col-12 col-md-6 mb-4">
           <div className="input-wrapper">

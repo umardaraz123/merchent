@@ -225,18 +225,19 @@ const TicketDetail = () => {
                 </div>
               </div>)}
               
-                <div className="">
-                  <div className="quantity-selector">
-                    <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-                    <span>{quantity}</span>
-                    <button onClick={() => setQuantity(q => q + 1)}>+</button>
+              
+               <div className="quantity_wrapper">
+                  <div className="buttons">
+                    <button className='btn left' onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
+                    <span className='count'>{quantity}</span>
+                    <button  className='btn right' onClick={() => setQuantity(q => q + 1)}>+</button>
                   </div>
                   
                   <div className="product-actions">
                     <button 
                       onClick={handleAddToCart}
                       disabled={isProcessing}
-                      className="add-to-cart"
+                      className="button"
                     >
                       {isProcessing ? 'Adding...' : 'Add to Cart'}
                     </button>
@@ -244,6 +245,7 @@ const TicketDetail = () => {
 
                   </div>
                 </div>
+               
               <button className="button" onClick={ () => redirectToCheckout()}>
                 BUY NOW
               </button>

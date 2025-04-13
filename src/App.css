@@ -1733,6 +1733,48 @@ a {
   font-weight: 500;
   line-height: 1.5;
 }
+.quantity_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.quantity_wrapper .buttons {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  height: 50px;
+} 
+.quantity_wrapper .buttons .btn {
+  width: 40px;
+
+  border: none;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 20px;
+  background-color: var(--btn-bg);
+  
+}
+.quantity_wrapper .buttons .btn.left {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+} 
+.quantity_wrapper .buttons .btn.right {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+
+} 
+.quantity_wrapper .buttons .count {
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
 @media(max-width:768px){
   .add-container .add-wrapper {
     height: 300px;
