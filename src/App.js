@@ -36,6 +36,7 @@ import LocationSearch from "./pages/LocationSearch";
 import ProductCard from "./pages/ProductCard";
 import CartPage from "./pages/CartPage";
 import { checkAndSave, getFromCookies } from "./utils/cookieUtils";
+import AuthMiddleware from "./middleware/AuthMiddleware";
 function App() {
 
 
@@ -193,14 +194,16 @@ function App() {
         </Route>
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="/admin/tickets" element={<Tickets />} />
-          <Route path="/admin/ticket-detail/:tidd" element={<AdminTicketDetail />} />
-          <Route path="/admin/create-ticket" element={<CreateTicket />} />
-          <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
-          <Route path="/admin/create-blog" element={<CreateBlog />} />
-          <Route path="/admin/support" element={<Support />} />
+        <Route element={<AuthMiddleware allowedRoles={['admin']} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/admin/tickets" element={<Tickets />} />
+            <Route path="/admin/ticket-detail/:tidd" element={<AdminTicketDetail />} />
+            <Route path="/admin/create-ticket" element={<CreateTicket />} />
+            <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
+            <Route path="/admin/create-blog" element={<CreateBlog />} />
+            <Route path="/admin/support" element={<Support />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

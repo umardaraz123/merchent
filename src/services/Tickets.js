@@ -1,7 +1,10 @@
 // src/api/AuthService.js
 import axios from 'axios';
+import { getFromCookies } from '../utils/cookieUtils';
 const api_url = process.env.REACT_APP_API_URL;
 
+
+const random_string_detail = getFromCookies();
 
 axios.defaults.baseURL = api_url+'/api';
 // axios.defaults.headers.common['Authorization'] = 'Bearer'+AUTH_TOKEN;
@@ -187,11 +190,15 @@ async function createTicketApi(data) {
   }
   //public ticket detail
   async function getTicketsPublic() {
+
+    const latitude = localStorage.getItem("latitude");
+    const longitude = localStorage.getItem("longitude");
+
     try {
       const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
          var config = {
              method: 'get',
-             url: `/v1/home/page`,
+             url: `/v1/home/page?latitude=${latitude}&longitude=${longitude}`,
              headers:{
               'Accept': 'application/json', 
               'Content-Type': 'multipart/form-data',
@@ -244,7 +251,7 @@ async function createTicketApi(data) {
       const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
          var config = {
              method: 'post',
-             url: `/v1/create-checkout-session`,
+             url: `/v1/create-checkout-session?random_string=${random_string_detail.uniqueString}`,
              headers:{
               'Accept': 'application/json', 
               'Content-Type': 'multipart/form-data',

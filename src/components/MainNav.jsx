@@ -47,12 +47,14 @@ const MainNav = () => {
                 </div>
             <CiHeart />
             </div>
-            <div className="cart-icon">
+            <Link to='/checkout' className="name">
+              <div className="cart-icon">
                 <div className="count">
                   {carts ? carts.reduce((total, item) => total + item.quantity, 0) : 0}
                 </div>
-            <IoCartOutline />
-            </div>
+                <IoCartOutline />
+              </div>
+            </Link>
             <button className="user-auth">
       <AiOutlineUser  />
       <Link to='/login' className="name">Login/Signup</Link>

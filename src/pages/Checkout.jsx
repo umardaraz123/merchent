@@ -21,6 +21,13 @@ const Checkout = () => {
 
 
   const handleSubmit = async () => {
+
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+        navigate('/login');
+    }
+
     setLoading(true);
     try {
       let datas = {'amount': 100};

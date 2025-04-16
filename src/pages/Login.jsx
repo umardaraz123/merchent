@@ -33,6 +33,7 @@ const Login = () => {
                 localStorage.setItem('isAdmin', result?.data?.data?.is_admin);
                 localStorage.setItem('role', result?.data?.data?.role);
                 localStorage.setItem('token', result?.data?.data?.token);
+                localStorage.setItem('user', JSON.stringify(result?.data?.data));
                 // router.push('/login')
                 if(result?.data?.data?.role == 'admin') {
                     navigate('/admin')
