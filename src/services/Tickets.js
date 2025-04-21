@@ -299,6 +299,30 @@ async function createTicketApi(data) {
 
   
 
-  
+  async function enquiryApi(data) {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+         var config = {
+             method: 'post',
+             url: `/v1/enquiry_form`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'application/json',
+              // 'Authorization': 'Bearer '+AUTH_TOKEN
+            },
+             data : data
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
 
-export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment}
+export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment,enquiryApi}
