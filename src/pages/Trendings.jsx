@@ -6,6 +6,7 @@ import { MdShoppingCartCheckout } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CiHeart } from "react-icons/ci";
+import { CiLocationOn } from "react-icons/ci";
 import { FaHeart,FaEye } from "react-icons/fa";
 import { useCart } from '../contexts/CartContext';
 import { IoCartOutline } from 'react-icons/io5';
@@ -92,6 +93,9 @@ const { addToCart, addToWishlist, itemExistsInCart, removeFromCart, removeFromWi
                                 <IoCartOutline />
                             </div>
                             </div>
+                            <div className="label">
+                                                                                 <CiLocationOn />  {ticket?.location}
+                                                                                </div>
                           
                         </div>
                     </div>

@@ -159,6 +159,9 @@ const Listing = () => {
                                 <IoCartOutline />
                             </div>
                             </div>
+                               <div className="label">
+                                                                                                             <CiLocationOn />  {ticket?.location}
+                                                                                                            </div>
                           
                         </div>
                     </div>
@@ -203,6 +206,9 @@ const Listing = () => {
                                 <IoCartOutline />
                             </div>
                             </div>
+                               <div className="label">
+                                                                                                             <CiLocationOn />  {ticket?.location}
+                                                                                                            </div>
                           
                         </div>
                     </div>
