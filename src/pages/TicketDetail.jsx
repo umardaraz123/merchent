@@ -1,261 +1,235 @@
-
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
-
-import { MdShoppingCartCheckout } from "react-icons/md";
-import { CiHeart } from "react-icons/ci";
-import { Link, useNavigate } from 'react-router-dom';
-import { GrMapLocation } from "react-icons/gr";
+import { ToastContainer, toast } from 'react-toastify';
+import { CiLocationOn } from 'react-icons/ci';
+import { TbCategory } from 'react-icons/tb';
+import { FaFireAlt } from 'react-icons/fa';
+import { useCart } from '../contexts/CartContext';
 import { TicketsApi } from '../services/Tickets';
-import { FaFireAlt } from "react-icons/fa";
-import { useCart } from "../contexts/CartContext";
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-import { TbCategory } from "react-icons/tb";
-import { CiLocationOn } from "react-icons/ci";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useParams } from 'react-router-dom';
+
 const TicketDetail = () => {
+  const { tid } = useParams();
+  const navigate = useNavigate();
+  const { addToCart, carts, updateCartItem } = useCart();
 
-  const { getCartDetail, addToCart, carts } = useCart();
-  const navigate = useNavigate()
-    const { tid } = useParams();
-  const[loading,setLoading]=useState(false)
-  const [ticketDetail,setTicketDetail]=useState({})
+  const [ticketDetail, setTicketDetail] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [cartId, setCartId] = useState(0);
+  const [priceId, setPriceId] = useState(0);
+  const [selectedPriceId, setSelectedPriceId] = useState(null);
+  
+  const [isProcessing, setIsProcessing] = useState(false);
 
-   const [quantity, setQuantity] = useState(1);
-   const [isProcessing, setIsProcessing] = useState(false);
-   const [actionMessage, setActionMessage] = useState('');
+  useEffect(() => {
+    const fetchTicketDetail = async () => {
+      setLoading(true);
+      try {
+        const res = await TicketsApi.getTicketDetailPublic(tid);
+        if (res.status === 200) {
+          const detail = res.data?.data;
+          setTicketDetail(detail);
+
+          const existingCartItem = carts.find(item => item.product_id === detail.id);
+          setCartId(existingCartItem?.id || 0);
+          setPriceId(existingCartItem?.price_id || 0);
+          setQuantity(existingCartItem?.quantity || 1);
+          setSelectedPriceId(existingCartItem?.price_id);
+
+          toast.success('Record fetched successfully!', {
+            autoClose: 1000,
+            pauseOnHover: true,
+            draggable: true
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch ticket detail', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTicketDetail();
+  }, [tid, carts]);
 
 
+    // Handle the radio button change
+    const handleRadioChange = (event) => {
+      setSelectedPriceId(event.target.value);  // Set the selected priceId
+    };
 
 
-   const handleAddToCart = async () => {
-    setIsProcessing(true);
-    const result = await addToCart(ticketDetail?.id, ticketDetail?.prices[0]?.id, quantity);
-    if (result.success) {
-      setActionMessage('Added to cart!');
-      setTimeout(() => setActionMessage(''), 3000);
+   // Function to handle quantity change and API call
+   const handleQuantityChange = async (newQuantity) => {
+    if (newQuantity <= 0) {
+      toast.error("Quantity must be at least 1");
+      return; // Prevents making API call if quantity is invalid
     }
+
+    setLoading(true);
+    try {
+      // Call the API to update the cart
+      const response = await updateCartItem(cartId, newQuantity, priceId);
+      
+      // Check if the update was successful
+      if (response.status === 200) {
+        setQuantity(newQuantity);
+        toast.success("Quantity updated successfully!");
+      } else {
+        toast.error("Failed to update quantity");
+      }
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!ticketDetail?.prices?.[0]) return;
+
+    setIsProcessing(true);
+    const result = await addToCart(ticketDetail.id, ticketDetail.prices[0].id, quantity);
+
+    if (result.success) {
+      toast.success('Added to cart!', {
+        autoClose: 1500,
+        pauseOnHover: true
+      });
+    }
+
     setIsProcessing(false);
   };
-  
-  async function getTicketDetailApi() {
-    setLoading(true);
-  
-    try {
-        const result = await TicketsApi.getTicketDetailPublic(tid)
-        if(result.status == 200) {
-          setLoading(false); 
-          setTicketDetail(result?.data?.data)
-          toast.success("Record fetched successfuly",{
-            autoClose:1000,
-            pauseOnHover:true,
-            draggable:true,
-           
-          });
-           
-          
-         }
-        
-        
-        
-    } catch (error) {
-        console.log(error)
-    }
-     
-  } 
 
-  useEffect(async() => {
-    const fetchData = async () => {
-      await getTicketDetailApi(tid);
-    };
-  
-    await fetchData();
+  const redirectToCheckout = () => navigate('/checkout');
 
-
-    console.log('carts ========= ', carts, ticketDetail);
-      if (carts && carts.length > 0 && ticketDetail) {
-        const qty = carts?.find(item => item.product_id === ticketDetail.id)?.quantity || 0;
-        console.log('qty ========== ', qty);
-        setQuantity(qty);
-      }
-
-  }, [tid]);
- 
-  const settings = {
+  const sliderSettingsMain = {
     dots: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,  // Auto-scroll
-    autoplaySpeed: 2000,  // Time in milliseconds for auto-scroll
-    arrows: true,  // Hides arrows
+    autoplay: false,
+    arrows: true,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
+      { breakpoint: 1024, settings: { dots: true } },
+      { breakpoint: 600, settings: { initialSlide: 1 } },
+      { breakpoint: 480 }
     ]
   };
 
-
-
-  const settings1 = {
+  const sliderSettingsSecondary = {
     dots: false,
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
-    autoplay: true,  // Auto-scroll
-    autoplaySpeed: 2000,  // Time in milliseconds for auto-scroll
-    arrows: false,  // Hides arrows
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
     responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
+      { breakpoint: 1024, settings: { dots: true } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } },
+      { breakpoint: 480 }
     ]
   };
 
-  const redirectToCheckout = () => {
-    navigate('/checkout');
-    
+  if (loading || !ticketDetail) {
+    return <div className="loader">Loading...</div>;
   }
 
   return (
     <div className="ticket-detail-page">
-            <ToastContainer />
-        {loading && <div className='main-loader'>
-            <div className="spinner"></div>
-            </div>}
+      <ToastContainer />
+
       <div className="container">
         <div className="row">
           <div className="col-12 col-md-7">
-             <h2 className="title">
-            
-                {ticketDetail?.title}
-              
-             </h2>
-             <div className="location">
-              <CiLocationOn />  {ticketDetail?.location}
-
+            <h2 className="title">{ticketDetail.title}</h2>
+            <div className="location">
+              <CiLocationOn /> {ticketDetail.location}
+            </div>
+            <div className="categories">
+              <div className="cat">
+                <TbCategory /> {ticketDetail.category}
               </div>
-              <div className="categories">
-                <div className="cat">
-                <TbCategory />  {ticketDetail?.category}
-                </div>
-                <div className="cat">
-                <FaFireAlt />  300+ Bought
-                </div>
+              <div className="cat">
+                <FaFireAlt /> 300+ Bought
               </div>
-           
+            </div>
 
             <div className="image-slider">
-              <Slider {...settings}>
-                {ticketDetail?.images?.map((img, id) =>
+              <Slider {...sliderSettingsMain}>
+                {ticketDetail.images?.map((img, id) => (
                   <div className="image" key={id}>
-                    <img alt="image" src={img?.file_url} fill />
+                    <img alt="ticket" src={img?.file_url} />
                   </div>
-
-
-                )}
+                ))}
               </Slider>
-
             </div>
-           
           </div>
+
           <div className="col-12 col-md-5">
             <div className="cart-wrapper">
-             
-             
-              {ticketDetail?.prices?.map((price,index)=> <div className="custom-radio" key={index}>
-                <input type="radio" name="ticket" value="31"  />
-                <div className="inner">
-                  <div className="title">
-                 {price?.title}
-                  </div>
-                  <div className="flex">
-                    <span className="original">${price?.price}</span>
-                    <span className="price">${price?.discounted_price}</span>
-                    <span className="off">- {((1 - (price?.discounted_price / price?.price)) * 100).toFixed(2)}% </span>
+              {ticketDetail.prices?.map((price, index) => (
+                <div className={`custom-radio ${price.id === priceId ? 'active' : ''}`}  key={index}>
+                  <input type="radio" name="ticket" value={price.id} />
+                  <div className="inner">
+                    <div className="title">{price.title}</div>
+                    <div className="flex">
+                      <span className="original">${price.price}</span>
+                      <span className="price">${price.discounted_price}</span>
+                      <span className="off">
+                        -{((1 - price.discounted_price / price.price) * 100).toFixed(2)}%
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>)}
-              
-              
-               <div className="quantity_wrapper">
-                  <div className="buttons">
-                    <button className='btn left' onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
-                    <span className='count'>{quantity}</span>
-                    <button  className='btn right' onClick={() => setQuantity(q => q + 1)}>+</button>
-                  </div>
-                  
-                  <div className="product-actions">
-                    <button 
-                      onClick={handleAddToCart}
-                      disabled={isProcessing}
-                      className="button"
-                    >
-                      {isProcessing ? 'Adding...' : 'Add to Cart'}
-                    </button>
-                    
+              ))}
 
-                  </div>
+              <div className="quantity_wrapper">
+                <div className="buttons">
+                   <button
+                      className="btn left"
+                      onClick={() => handleQuantityChange(Math.max(1, quantity - 1))} // Prevent going below 1
+                      disabled={loading}
+                    >
+                      -
+                    </button>
+                    <span className="count">{quantity}</span>
+                    <button
+                      className="btn right"
+                      onClick={() => handleQuantityChange(quantity + 1)}
+                      disabled={loading}
+                    >
+                      +
+                    </button>
                 </div>
-               
-              <button className="button" onClick={ () => redirectToCheckout()}>
+
+                <div className="product-actions">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={isProcessing}
+                    className="button"
+                  >
+                    {isProcessing ? 'Adding...' : 'Add to Cart'}
+                  </button>
+                </div>
+              </div>
+
+              <button className="button" onClick={redirectToCheckout}>
                 BUY NOW
               </button>
             </div>
           </div>
         </div>
-       
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TicketDetail
+export default TicketDetail;

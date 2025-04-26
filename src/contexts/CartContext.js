@@ -60,10 +60,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const updateCartItem = async (cartId, quantity) => {
+  const updateCartItem = async (cartId, quantity, priceId) => {
     try {
       setLoading(true);
-      await cartService.updateCart(cartId, quantity);
+      await cartService.updateCart(cartId, quantity, priceId);
       await fetchCart();
       setError(null);
       return { success: true };

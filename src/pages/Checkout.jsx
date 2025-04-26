@@ -17,8 +17,23 @@ const Checkout = () => {
   const { carts } = useCart();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    address_line1: '',
+    address_line2: '',
+    phone_number: '',
+    city: '',
+    postal_code: '',
+    country: 'Canada',
+    province: 'Toronto (GTA)'
+  });
 
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async () => {
 
@@ -30,7 +45,23 @@ const Checkout = () => {
 
     setLoading(true);
     try {
-      let datas = {'amount': 100};
+
+           
+      const datas = {
+        amount: finalTotal,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        address_line1: formData.address_line1,
+        address_line2: formData.address_line2,
+        phone_number: formData.phone_number,
+        city: formData.city,
+        postal_code: formData.postal_code,
+        country: formData.country,
+        province: formData.province
+      };
+
+      console.log('datas ========= ', datas);
+      
       const data = await TicketsApi.checkout(datas);
       window.location.href = data.data.data.url; 
       console.log("Client Secret:", data.clientSecret);
@@ -55,7 +86,7 @@ const Checkout = () => {
 
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const serviceFee = 15;
-  const finalTotal = totalPrice+ serviceFee;
+  const finalTotal = totalPrice + serviceFee;
 
 
 
@@ -73,26 +104,120 @@ const Checkout = () => {
             <div className="cart-box">
               <div className="title-med">Payment</div>
               <div className="row">
-                {["First Name", "Last Name", "Address Line 1", "Address Line 2", "Phone Number", "City", "Postal Code"].map((label, index) => (
-                  <div className="col-12 col-md-6 mb-4" key={index}>
-                    <div className="form-group">
-                      <label>{label}</label>
-                      <input type="text" className="input" />
-                    </div>
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>First Name</label>
+                    <input
+                      type="text"
+                      name="first_name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      className="input"
+                    />
                   </div>
-                ))}
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>Last Name</label>
+                    <input
+                      type="text"
+                      name="last_name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>Address Line 1</label>
+                    <input
+                      type="text"
+                      name="address_line1"
+                      value={formData.address_line1}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>Address Line 2</label>
+                    <input
+                      type="text"
+                      name="address_line2"
+                      value={formData.address_line2}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>Phone Number</label>
+                    <input
+                      type="text"
+                      name="phone_number"
+                      value={formData.phone_number}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>City</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6 mb-4">
+                  <div className="form-group">
+                    <label>Postal Code</label>
+                    <input
+                      type="text"
+                      name="postal_code"
+                      value={formData.postal_code}
+                      onChange={handleChange}
+                      className="input"
+                    />
+                  </div>
+                </div>
+
                 <div className="col-12 col-md-6 mb-4">
                   <div className="form-group">
                     <label>Country</label>
-                    <select className="input">
-                      <option value="">Canada</option>
+                    <select
+                      name="country"
+                      value={formData.country}
+                      onChange={handleChange}
+                      className="input"
+                    >
+                      <option value="Canada">Canada</option>
                     </select>
                   </div>
                 </div>
+
                 <div className="col-12 col-md-6 mb-4">
                   <div className="form-group">
                     <label>Province</label>
-                    <select className="input">
+                    <select
+                      name="province"
+                      value={formData.province}
+                      onChange={handleChange}
+                      className="input"
+                    >
                       {["Toronto (GTA)", "Niagara", "Hamilton", "Kitchener/Cambridge", "Durham"].map((province, index) => (
                         <option key={index} value={province}>{province}</option>
                       ))}

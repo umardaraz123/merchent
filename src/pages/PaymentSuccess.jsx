@@ -10,16 +10,25 @@ const Success = () => {
     const [paymentData, setPaymentData] = useState(null);
     const [error, setError] = useState(null);
 
-    useEffect(async() => {
-        if (!sessionId) {
+    useEffect(() => {
+        const verifyPayment = async () => {
+          if (!sessionId) {
             setStatus("Invalid session ID.");
             return;
-        }
-
-        const response = await TicketsApi.verifyPayment(sessionId);
-        setPaymentData(response.data.data);
-        setStatus(response.data.data.status);
-        console.log('response ========== ', response);
+          }
+      
+          try {
+            const response = await TicketsApi.verifyPayment(sessionId);
+            setPaymentData(response.data.data);
+            setStatus(response.data.data.status);
+            console.log('response ========== ', response);
+          } catch (error) {
+            console.error('Payment verification failed:', error);
+            setStatus("Failed to verify payment.");
+          }
+        };
+      
+        verifyPayment();
     }, [sessionId]);
 
     return (
