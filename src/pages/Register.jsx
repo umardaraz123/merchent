@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import aimImage from '../../src/images/dark1.jpg';
 import Logo from '../../src/images/logo.png';
 import { Auth } from '../services/Auth'; 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
@@ -93,6 +93,8 @@ const Register = () => {
             <button className="button" onClick={registerFunction}>
                 Register
             </button>
+            Or
+            <Link to={`/login`} className="listing-item">Login</Link>
            </div>
         </div>
     </div>

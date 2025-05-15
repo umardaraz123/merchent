@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import aimImage from '../../src/images/dark1.jpg';
 import Logo from '../../src/images/logo.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Auth } from '../services/Auth'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -83,6 +83,8 @@ const Login = () => {
             <button className="button" onClick={loginFunction}>
                 Login
             </button>
+            Or
+            <Link to={`/register`} className="listing-item">Signup</Link>
            </div>
         </div>
     </div>

@@ -11,6 +11,11 @@ export const CartProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const token = localStorage.getItem('token');
+    
+
+  
+
   // Fetch cart and wishlist on component mount
   useEffect(() => {
     fetchCart();
@@ -45,6 +50,11 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (productId, priceId, quantity = 1) => {
+
+    if (!token) {
+        window.location.href = '/login';
+    }
+
     try {
       setLoading(true);
       await cartService.addToCart(productId, priceId, quantity);
@@ -61,6 +71,11 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateCartItem = async (cartId, quantity, priceId) => {
+
+    if (!token) {
+        window.location.href = '/login';
+    }
+
     try {
       setLoading(true);
       await cartService.updateCart(cartId, quantity, priceId);
@@ -77,6 +92,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = async (cartId) => {
+    if (!token) {
+      window.location.href = '/login';
+    }
     try {
       setLoading(true);
       await cartService.removeFromCart(cartId);
@@ -93,6 +111,11 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToWishlist = async (productId, priceId) => {
+
+    if (!token) {
+      window.location.href = '/login';
+    }
+
     try {
       setLoading(true);
       await wishlistService.addToWishlist(productId, priceId);
@@ -109,6 +132,11 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromWishlist = async (wishlistId) => {
+
+    if (!token) {
+      window.location.href = '/login';
+    }
+
     try {
       setLoading(true);
       await wishlistService.removeFromWishlist(wishlistId);
@@ -125,6 +153,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const moveToCart = async (wishlistId, productId) => {
+    if (!token) {
+      window.location.href = '/login';
+    }
     try {
       setLoading(true);
       // Add to cart
