@@ -1801,6 +1801,7 @@ a {
   overflow: hidden;
   left: 0px;
   top: 0px;
+  display: none;
 }
 
 .main-loader .spinner {
@@ -1897,7 +1898,54 @@ a {
   align-items: center;
   font-size: 12px;
 }
+.mobile-menu {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  order: 2;
+}
+.mobile-menu-wrapper {
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  width: 90%;
+  z-index: 9999;
+  background-color: white;
+  padding: 32px;
+box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.mobile-menu-wrapper .close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+.mobile-menu-wrapper .title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.mobile-menu-wrapper a {
+  font-size: 16px;
+  display: flex;
+  margin-bottom: 16px;
+  color: var(--text-color);
+
+}
 @media(max-width:768px){
+  .mobile-menu {
+    display: flex;
+  }
   .about-us-wrapper .main-header .data .title {
     font-size: 24px;
   }
