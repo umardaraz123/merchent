@@ -92,10 +92,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToWishlist = async (productId) => {
+  const addToWishlist = async (productId, priceId) => {
     try {
       setLoading(true);
-      await wishlistService.addToWishlist(productId);
+      await wishlistService.addToWishlist(productId, priceId);
       await fetchWishlist();
       setError(null);
       return { success: true };

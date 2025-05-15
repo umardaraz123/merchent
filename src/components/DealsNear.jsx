@@ -77,7 +77,7 @@ const DealsNear = () => {
                             <div className="icon">
                             <FaEye />
                             </div>
-                            <div className="icon" onClick={() => addToWishlist(ticket.id)}>
+                            <div className="icon" onClick={() => addToWishlist(ticket.id, ticket?.prices[0]?.id)}>
                             <CiHeart />
                             </div>
                            </div>

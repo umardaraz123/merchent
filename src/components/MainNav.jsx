@@ -9,6 +9,7 @@ import { useCart } from "../contexts/CartContext";
 import { FaHeart,FaEye } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import ShoppingCart from './ShoppingCart';
 
 
 const MainNav = () => {
@@ -72,9 +73,8 @@ const [showMenu,setShowMenu] = useState(false)
             </div>
             <Link to='/checkout' className="name">
               <div className="cart-icon">
-                <div className="count">
-                  {carts ? carts.reduce((total, item) => total + item.quantity, 0) : 0}
-                </div>
+                <ShoppingCart  carts={carts} />
+               
                 <IoCartOutline />
               </div>
             </Link>
