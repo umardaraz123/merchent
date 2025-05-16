@@ -17,7 +17,9 @@ const AuthMiddleware = ({ allowedRoles }) => {
       // If user doesn't have required role, redirect based on their actual role
       if (user?.role === 'admin') {
         navigate('/admin');
-      } else {
+      } else if (user?.role === 'customer')
+      navigate('/user');
+      else {
         navigate('/');
       }
     }

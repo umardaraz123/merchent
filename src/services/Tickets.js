@@ -324,5 +324,56 @@ async function createTicketApi(data) {
       return err
     }
   }
-
-export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment,enquiryApi}
+  //Get admind orders
+    async function getAdminOrders() {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+         var config = {
+             method: 'get',
+             url: `/v1/get_orders`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer '+AUTH_TOKEN
+            },
+             data : ''
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
+  //get user orders
+  async function getUserOrders() {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+         var config = {
+             method: 'get',
+             url: `/v1/get/users/orders`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer '+AUTH_TOKEN
+            },
+             data : ''
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
+export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment,enquiryApi,getAdminOrders,getUserOrders}

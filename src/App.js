@@ -24,8 +24,12 @@ import Checkout from "./pages/Checkout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
 import './App.css';
+//User orders
+import Orders1 from "./user/Orders";
+import Dashboard1 from "./user/Dashboard";
 //admind imports
 import AdminLayout from "./components/AdminLayout";
+import Orders from "./admin/Orders";
 import Dashboard from "./admin/Dashboard";
 import Tickets from "./admin/Tickets";
 import AdminTicketDetail from "./admin/AdminTicketDetail";
@@ -38,6 +42,7 @@ import ProductCard from "./pages/ProductCard";
 import CartPage from "./pages/CartPage";
 import { checkAndSave, getFromCookies } from "./utils/cookieUtils";
 import AuthMiddleware from "./middleware/AuthMiddleware";
+import UserLayout from "./components/UserLayout";
 function App() {
 
 
@@ -205,8 +210,17 @@ function App() {
             <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
             <Route path="/admin/create-blog" element={<CreateBlog />} />
             <Route path="/admin/support" element={<Support />} />
+            <Route path="/admin/orders" element={<Orders />} />
           </Route>
+            
         </Route>
+          <Route element={<AuthMiddleware allowedRoles={['customer']} />}>
+         <Route path="/user" element={<UserLayout />}>
+            <Route index element={<Dashboard1 />} />
+           
+            <Route path="/user/orders" element={<Orders1 />} />
+          </Route>
+          </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

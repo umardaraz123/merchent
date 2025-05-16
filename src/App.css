@@ -1801,7 +1801,7 @@ a {
   overflow: hidden;
   left: 0px;
   top: 0px;
-  
+  /* display: none; */
 }
 
 .main-loader .spinner {

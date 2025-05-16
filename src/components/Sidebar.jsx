@@ -9,14 +9,16 @@ import { ImBlog } from "react-icons/im";
 import { FiLogOut } from "react-icons/fi";
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { LuTickets } from "react-icons/lu";
 const Sidebar = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+   const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     const token = localStorage.getItem('token');
+   
+
     setUserLoggedIn(token);
 
     if (!token) {
@@ -32,7 +34,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <ul>
+      {user?.role === 'admin' ? <ul>
         <li>
           <Link to="/admin/dashboard" className={pathname === '/admin' ? 'active' : ''}>
             <RxDashboard /> Dashboard
@@ -41,6 +43,11 @@ const Sidebar = () => {
         <li>
           <Link to="/admin/support" className={pathname === '/admin/support' ? 'active' : ''}>
             <SiHelpscout /> Support
+          </Link>
+        </li>
+         <li>
+          <Link to="/admin/orders" className={pathname === '/admin/orders' ? 'active' : ''}>
+            <LuTickets /> Orders
           </Link>
         </li>
         <li>
@@ -63,7 +70,26 @@ const Sidebar = () => {
             <FiLogOut /> Logout
           </button>
         </li>
-      </ul>
+      </ul> : <ul>
+        <li>
+          <Link to="/user/dashboard" className={pathname === '/user' ? 'active' : ''}>
+            <RxDashboard /> Dashboard
+          </Link>
+        </li>
+        
+         <li>
+          <Link to="/user/orders" className={pathname === '/user/orders' ? 'active' : ''}>
+            <LuTickets /> Orders
+          </Link>
+        </li>
+        
+        <li>
+          <button className='logout' onClick={logout}>
+            <FiLogOut /> Logout
+          </button>
+        </li>
+      </ul>}
+      
     </div>
   );
 };
