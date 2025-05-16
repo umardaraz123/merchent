@@ -12,7 +12,6 @@ import { TicketsApi } from "../services/Tickets";
 import { ImageWithFallback } from "../utils/imageUtils";
 import noImage from '../images/no-image.jpg';
 
-
 const Checkout = () => {
   const { carts } = useCart();
   const [loading, setLoading] = useState(false);
@@ -29,24 +28,37 @@ const Checkout = () => {
     province: 'Toronto (GTA)'
   });
 
+  const [formErrors, setFormErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    let errors = {};
+    // Simple validation checks for required fields
+    if (!formData.first_name) errors.first_name = "First name is required";
+    if (!formData.last_name) errors.last_name = "Last name is required";
+    if (!formData.address_line1) errors.address_line1 = "Address Line 1 is required";
+    if (!formData.phone_number) errors.phone_number = "Phone number is required";
+    if (!formData.city) errors.city = "City is required";
+    if (!formData.postal_code) errors.postal_code = "Postal code is required";
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0; // returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) return; // Only proceed if form is valid
 
     const token = localStorage.getItem('token');
-  
     if (!token) {
         navigate('/login');
     }
 
     setLoading(true);
     try {
-
-           
       const datas = {
         amount: finalTotal,
         first_name: formData.first_name,
@@ -61,10 +73,14 @@ const Checkout = () => {
       };
 
       console.log('datas ========= ', datas);
-      
+
       const data = await TicketsApi.checkout(datas);
-      window.location.href = data.data.data.url; 
-      console.log("Client Secret:", data.clientSecret);
+      if(data.status === 200) {
+        window.location.href = data.data.data.url; 
+        console.log("Client Secret:", data.clientSecret);
+      } else {
+        console.log('sfsdfsd ============ ', data.data);
+      }
     } catch (error) {
       console.error("Payment Error:", error);
     } finally {
@@ -78,17 +94,13 @@ const Checkout = () => {
     { image: Image3, title: "FLASH SALE! $149.60 for One Halloween Admission", price: 100 }
   ];
 
-
   const totalPrice = carts.reduce((total, cart) => {
     const price = cart.tickets.prices[0]?.price || 0; // fallback to 0 if no price
     return total + (price * cart.quantity);
   }, 0);
 
-  const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
   const serviceFee = 15;
   const finalTotal = totalPrice + serviceFee;
-
-
 
   return (
     <div className="cart-wrapper-container">
@@ -104,97 +116,30 @@ const Checkout = () => {
             <div className="cart-box">
               <div className="title-med">Payment</div>
               <div className="row">
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>First Name</label>
-                    <input
-                      type="text"
-                      name="first_name"
-                      value={formData.first_name}
-                      onChange={handleChange}
-                      className="input"
-                    />
+                {/* Render form fields dynamically with error handling */}
+                {[
+                  { label: 'First Name', name: 'first_name', type: 'text' },
+                  { label: 'Last Name', name: 'last_name', type: 'text' },
+                  { label: 'Address Line 1', name: 'address_line1', type: 'text' },
+                  { label: 'Address Line 2', name: 'address_line2', type: 'text' },
+                  { label: 'Phone Number', name: 'phone_number', type: 'text' },
+                  { label: 'City', name: 'city', type: 'text' },
+                  { label: 'Postal Code', name: 'postal_code', type: 'text' }
+                ].map(({ label, name, type }, index) => (
+                  <div key={index} className="col-12 col-md-6 mb-4">
+                    <div className="form-group">
+                      <label>{label}</label>
+                      <input
+                        type={type}
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleChange}
+                        className="input"
+                      />
+                      {formErrors[name] && <span className="error">{formErrors[name]}</span>}
+                    </div>
                   </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>Last Name</label>
-                    <input
-                      type="text"
-                      name="last_name"
-                      value={formData.last_name}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>Address Line 1</label>
-                    <input
-                      type="text"
-                      name="address_line1"
-                      value={formData.address_line1}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>Address Line 2</label>
-                    <input
-                      type="text"
-                      name="address_line2"
-                      value={formData.address_line2}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>Phone Number</label>
-                    <input
-                      type="text"
-                      name="phone_number"
-                      value={formData.phone_number}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>City</label>
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-6 mb-4">
-                  <div className="form-group">
-                    <label>Postal Code</label>
-                    <input
-                      type="text"
-                      name="postal_code"
-                      value={formData.postal_code}
-                      onChange={handleChange}
-                      className="input"
-                    />
-                  </div>
-                </div>
-
+                ))}
                 <div className="col-12 col-md-6 mb-4">
                   <div className="form-group">
                     <label>Country</label>
@@ -238,21 +183,17 @@ const Checkout = () => {
               <div className="custom-table small table-responsive">
                 <table className="table">
                   <tbody>
-                   
                     {carts.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <div className="item-detail">
                             <div className="image-wrapper">
-                              <span className="count">
-                                { item.quantity }
-                              </span>
-                              
+                              <span className="count">{ item.quantity }</span>
                               <ImageWithFallback
                                 src={item.tickets.images[0]?.file_url}
                                 fallbackSrc={noImage}
                                 alt="image"
-                                />
+                              />
                             </div>
                             <p className="title">{item?.tickets?.title}</p>
                           </div>
