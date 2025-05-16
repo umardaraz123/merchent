@@ -98,6 +98,9 @@ const TicketDetail = () => {
     const result = await addToCart(ticketDetail.id, ticketDetail.prices[0].id, quantity);
 
     if (result.success) {
+
+      setCartId(ticketDetail.id);
+
       toast.success('Added to cart!', {
         autoClose: 1500,
         pauseOnHover: true
@@ -192,6 +195,7 @@ const TicketDetail = () => {
               ))}
 
               <div className="quantity_wrapper">
+                { cartId ? 
                 <div className="buttons">
                    <button
                       className="btn left"
@@ -209,6 +213,7 @@ const TicketDetail = () => {
                       +
                     </button>
                 </div>
+                : '' }
 
                 <div className="product-actions">
                   <button
