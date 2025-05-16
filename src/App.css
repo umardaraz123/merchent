@@ -871,6 +871,9 @@ input:focus{
   margin-bottom: 30px;
   cursor: pointer;
 }
+.ticket-detail-page .cart-wrapper .custom-radio.active .inner {
+  border: 2px solid #8ac40e;
+}
 .ticket-detail-page .cart-wrapper .custom-radio .inner {
   background-color: #fff;
   border: 1px solid #ddd;

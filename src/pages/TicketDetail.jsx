@@ -177,6 +177,7 @@ const TicketDetail = () => {
           </div>
 
           <div className="col-12 col-md-5">
+   
             <div className="cart-wrapper">
               {ticketDetail.prices?.map((price, index) => (
                 <div className={`custom-radio ${price.id === priceId ? 'active' : ''}`}  key={index}>
