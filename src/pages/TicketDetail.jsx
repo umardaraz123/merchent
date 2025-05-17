@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const TicketDetail = () => {
   const { tid } = useParams();
   const navigate = useNavigate();
-  const { addToCart, carts, updateCartItem } = useCart();
+  const { addToCart, carts, updateCartItem, removeFromCart } = useCart();
 
   const [ticketDetail, setTicketDetail] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -95,7 +95,26 @@ const TicketDetail = () => {
     if (!ticketDetail?.prices?.[0]) return;
 
     setIsProcessing(true);
-    const result = await addToCart(ticketDetail.id, ticketDetail.prices[0].id, quantity);
+    const result = await addToCart(ticketDetail.id, ((priceId && priceId !== 0) ? priceId : ticketDetail.prices[0].id), quantity);
+
+    if (result.success) {
+
+      setCartId(ticketDetail.id);
+
+      toast.success('Remove from cart!', {
+        autoClose: 1500,
+        pauseOnHover: true
+      });
+    }
+
+    setIsProcessing(false);
+  };
+
+  const handleRemoveToCart = async () => {
+    if (!ticketDetail?.prices?.[0]) return;
+
+    setIsProcessing(true);
+    const result = await removeFromCart(cartId);
 
     if (result.success) {
 
@@ -177,10 +196,9 @@ const TicketDetail = () => {
           </div>
 
           <div className="col-12 col-md-5">
-   
             <div className="cart-wrapper">
               {ticketDetail.prices?.map((price, index) => (
-                <div className={`custom-radio ${price.id === priceId ? 'active' : ''}`}  key={index}>
+                <div className={`custom-radio ${price.id === priceId ? 'active' : ''}`}  key={index}  onClick={() => setPriceId(price.id)}>
                   <input type="radio" name="ticket" value={price.id} />
                   <div className="inner">
                     <div className="title">{price.title}</div>
@@ -216,7 +234,20 @@ const TicketDetail = () => {
                 </div>
                 : '' }
 
+                { cartId ? 
                 <div className="product-actions">
+                  <button
+                    onClick={handleRemoveToCart}
+                    disabled={isProcessing}
+                    className="button"
+                  >
+                    {isProcessing ? 'Removing...' : 'Remove from Cart'}
+                  </button>
+                </div>
+
+               
+                : 
+                 <div className="product-actions">
                   <button
                     onClick={handleAddToCart}
                     disabled={isProcessing}
@@ -225,6 +256,8 @@ const TicketDetail = () => {
                     {isProcessing ? 'Adding...' : 'Add to Cart'}
                   </button>
                 </div>
+                }
+
               </div>
 
               <button className="button" onClick={redirectToCheckout}>
