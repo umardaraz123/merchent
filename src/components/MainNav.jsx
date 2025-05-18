@@ -10,13 +10,21 @@ import { FaHeart,FaEye } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import ShoppingCart from './ShoppingCart';
-
-
+import { useUser } from '../contexts/UserContext';
+import { FaUserGear } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
+import { HiOutlineLogout } from "react-icons/hi";
+import { LuLayoutDashboard } from "react-icons/lu";
 const MainNav = () => {
+  const { user, login,logout } = useUser();
 
   const { wishlist, carts } = useCart();
 const [showMenu,setShowMenu] = useState(false)
-
+const navigate = useNavigate()
+const logoutFunction = ()=>{
+  logout()
+  navigate('/login')
+}
   return (
     <div className='main-search-wrapper'>
      {showMenu &&  <div className="mobile-menu-wrapper">
@@ -78,10 +86,30 @@ const [showMenu,setShowMenu] = useState(false)
                 <IoCartOutline />
               </div>
             </Link>
-            <button className="user-auth">
+            
+            {user ? <div className="user-authed" title={user?.name}> 
+          <FaUserGear />
+          <span className="text">
+            {user?.name}
+          </span>
+          <div className="setting">
+            {user?.role === "customer" ?  <Link className="link" to="user/" >
+<LuLayoutDashboard /> Dashboard
+            </Link> :  <Link className="link" to="/admin" >
+<LuLayoutDashboard /> Dashboard
+            </Link>}
+            
+            <div className="link" onClick={logoutFunction}>
+<HiOutlineLogout /> Logout
+            </div>
+            
+          </div>
+
+            </div> : <button className="user-auth">
       <AiOutlineUser  />
       <Link to='/login' className="name">Login/Signup</Link>
-        </button>
+        </button>} 
+            
         <div className="mobile-menu" onClick={()=>setShowMenu((prev)=> !prev)}>
           <CiMenuFries />
         </div>

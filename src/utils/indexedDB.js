@@ -29,6 +29,7 @@ export const setItem = async (storeName, item) => {
     } else {
         // If item does not exist, add it
         await db.put(storeName, { ...item, quantity: item.quantity || 1 });
+        
     }
 };
 

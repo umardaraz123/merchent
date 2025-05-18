@@ -32,13 +32,13 @@ const Success = () => {
     }, [sessionId]);
 
     return (
-        <div>
-            <h2>Payment Verification</h2>
+        <div className="payment-verification">
+            <h2>Payment Verifications</h2>
             <p>{status}</p>
             {paymentData && (
                 <div>
-                    <p>Amount: ${paymentData.amount} {paymentData.currency.toUpperCase()}</p>
-                    <p>Status: {paymentData.payment_status}</p>
+                    <p><strong>Amount:</strong> ${paymentData.amount} {paymentData.currency.toUpperCase()}</p>
+                    <p><strong>Status:</strong> {paymentData.payment_status}</p>
                 </div>
             )}
             {error && <p style={{ color: "red" }}>{error}</p>}

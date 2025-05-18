@@ -23,6 +23,7 @@ export const CartProvider = ({ children }) => {
     const addToCart = async (product) => {
         await setItem('cart', product);
         setCart(await getItems('cart'));
+        
 
     };
 

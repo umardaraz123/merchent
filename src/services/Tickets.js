@@ -12,7 +12,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 //Create ticket
 async function createTicketApi(data) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'post',
              url: `/v1/tickets`,
@@ -37,7 +37,7 @@ async function createTicketApi(data) {
   }
   async function updateTicketApi(id,data) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'post',
              url: `/v1/tickets/update/${id}`,
@@ -62,7 +62,7 @@ async function createTicketApi(data) {
   }
   async function deleteTicketApi(id) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'post',
              url: `/v1/tickets/delete/${id}`,
@@ -88,7 +88,7 @@ async function createTicketApi(data) {
 
   async function getTickets() {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/tickets`,
@@ -113,7 +113,7 @@ async function createTicketApi(data) {
   }
   async function getAllTickets() {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/get/tickets/deals`,
@@ -139,7 +139,7 @@ async function createTicketApi(data) {
   
   async function getTicketDetail(id) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/tickets/${id}`,
@@ -165,7 +165,7 @@ async function createTicketApi(data) {
 //public ticket detail
   async function getTicketDetailPublic(id) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/ticket/detail/${id}`,
@@ -195,7 +195,7 @@ async function createTicketApi(data) {
     const longitude = localStorage.getItem("longitude");
 
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/home/page?latitude=${latitude}&longitude=${longitude}`,
@@ -221,7 +221,7 @@ async function createTicketApi(data) {
   //public ticket detail
   async function getTicketsPublicByCategory(category) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `v1/getrecords/bycategories?category=${category}`,
@@ -248,7 +248,7 @@ async function createTicketApi(data) {
 
   async function checkout(data) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'post',
              url: `/v1/create-checkout-session?random_string=${random_string_detail.uniqueString}`,
@@ -274,7 +274,7 @@ async function createTicketApi(data) {
 
   async function verifyPayment(session_id) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/verify-payment?session_id=${session_id}`,
@@ -301,7 +301,7 @@ async function createTicketApi(data) {
 
   async function enquiryApi(data) {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'post',
              url: `/v1/enquiry_form`,
@@ -327,7 +327,7 @@ async function createTicketApi(data) {
   //Get admind orders
     async function getAdminOrders() {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/get_orders`,
@@ -353,7 +353,7 @@ async function createTicketApi(data) {
   //get user orders
   async function getUserOrders() {
     try {
-      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
              url: `/v1/get/users/orders`,
@@ -376,4 +376,31 @@ async function createTicketApi(data) {
       return err
     }
   }
-export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment,enquiryApi,getAdminOrders,getUserOrders}
+  //Get order details
+    async function getOrderDetail(id) {
+    try {
+      const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
+         var config = {
+             method: 'get',
+             url: `/v1/order_detail/${id}`,
+             headers:{
+              'Accept': 'application/json', 
+              'Content-Type': 'multipart/form-data',
+              'Authorization': 'Bearer '+AUTH_TOKEN
+            },
+             data : ''
+         };
+         
+       return await axios(config)
+         .then(function (response) {
+           return response;
+         })
+         .catch(function (error) {
+           return error.response
+       });
+    } catch (err) {
+      return err
+    }
+  }
+ 
+export const TicketsApi= { createTicketApi,getTickets,getAllTickets,getTicketDetail,getTicketDetailPublic,getTicketsPublic,updateTicketApi,deleteTicketApi,getTicketsPublicByCategory, checkout, verifyPayment,enquiryApi,getAdminOrders,getUserOrders,getOrderDetail}

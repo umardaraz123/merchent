@@ -1,17 +1,31 @@
 
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 
 import aimImage from '../../src/images/dark1.jpg';
 import Logo from '../../src/images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { Auth } from '../services/Auth'; 
 import { ToastContainer, toast } from 'react-toastify';
+
+import { useUser } from '../contexts/UserContext';
 import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
+    const { user, login } = useUser();
+    const navigate =useNavigate()
+
+    useEffect(()=>{
+    if(user && user?.role ==='customer') {
+      navigate('/user')
+    }
+    else if(user && user?.role ==='admin') {
+      navigate('/admin')
+    }
+    },[user])
+    console.log('umar',user)
     const [loading,setLoading]=useState(false)
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
-    const navigate = useNavigate()
+   
     async function loginFunction() {
         setLoading(true);
         const formData = new FormData();
@@ -32,8 +46,9 @@ const Login = () => {
                 localStorage.setItem('name', result?.data?.data?.name);
                 localStorage.setItem('isAdmin', result?.data?.data?.is_admin);
                 localStorage.setItem('role', result?.data?.data?.role);
-                localStorage.setItem('token', result?.data?.data?.token);
-                localStorage.setItem('user', JSON.stringify(result?.data?.data));
+                localStorage.setItem('mmdeals-token', result?.data?.data?.token);
+                localStorage.setItem('mmdeals-user', JSON.stringify(result?.data?.data));
+                login(result?.data?.data)
                 // router.push('/login')
                 if(result?.data?.data?.role == 'admin') {
                     navigate('/admin')
@@ -86,8 +101,12 @@ const Login = () => {
             <button className="button" onClick={loginFunction}>
                 Login
             </button>
-            Or
-            <Link to={`/register`} className="listing-item">Signup</Link>
+            <div className="or">
+                <span>
+                    Or
+                </span>
+            </div>
+            <Link className="button-link" to={`/register`} >Signup</Link>
            </div>
         </div>
     </div>

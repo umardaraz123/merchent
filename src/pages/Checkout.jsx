@@ -52,7 +52,7 @@ const Checkout = () => {
   const handleSubmit = async () => {
     if (!validateForm()) return; // Only proceed if form is valid
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('mmdeals-token');
     if (!token) {
         navigate('/login');
     }

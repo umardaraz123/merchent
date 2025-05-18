@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthMiddleware = ({ allowedRoles }) => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
-  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('mmdeals-user'));
+  const token = localStorage.getItem('mmdeals-token');
 
   useEffect(() => {
     if (!token) {

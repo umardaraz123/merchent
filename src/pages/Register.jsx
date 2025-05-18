@@ -5,6 +5,7 @@ import aimImage from '../../src/images/dark1.jpg';
 import Logo from '../../src/images/logo.png';
 import { Auth } from '../services/Auth'; 
 import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
 
 const Register = () => {
@@ -15,7 +16,7 @@ const Register = () => {
     const [password,setPassword]=useState('')
     const [confirmPassword,setConfirmPassword]=useState('')
     const navigate = useNavigate()
-    
+     const { user, login } = useUser();
     //Register function
 
     async function registerFunction() {
@@ -39,6 +40,9 @@ const Register = () => {
         try {
             const result = await Auth.register(formData)
             if(result.status == 200) {
+                   localStorage.setItem('mmdeals-token', result?.data?.data?.token);
+                localStorage.setItem('mmdeals-user', JSON.stringify(result?.data?.data));
+                login(result?.data?.data)
                 navigate('/login')
                      
             }
@@ -93,8 +97,12 @@ const Register = () => {
             <button className="button" onClick={registerFunction}>
                 Register
             </button>
-            Or
-            <Link to={`/login`} className="listing-item">Login</Link>
+           <div className="or">
+                <span>
+                    Or
+                </span>
+            </div>
+            <Link to={`/login`} className="button-link">Login</Link>
            </div>
         </div>
     </div>

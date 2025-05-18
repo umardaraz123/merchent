@@ -22,9 +22,9 @@ const Orders = () => {
     try {
         const result = await TicketsApi.getUserOrders()
         if(result.status == 200) {
-          console.log(result?.data?.data)
+          console.log(result?.data?.data?.data)
           setLoading(false); 
-          setList(result?.data?.data)
+          setList(result?.data?.data?.data)
           toast.success("Record fetched successfuly",{
             autoClose:1000,
             pauseOnHover:true,

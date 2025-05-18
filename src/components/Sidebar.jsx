@@ -10,26 +10,28 @@ import { FiLogOut } from "react-icons/fi";
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LuTickets } from "react-icons/lu";
+import { useUser } from '../contexts/UserContext';
 const Sidebar = () => {
+    const { user, login,logout } = useUser();
   const [userLoggedIn, setUserLoggedIn] = useState(null);
+  
   const navigate = useNavigate();
   const { pathname } = useLocation();
-   const user = JSON.parse(localStorage.getItem('user'));
+   
   useEffect(() => {
-    const token = localStorage.getItem('token');
+   
    
 
-    setUserLoggedIn(token);
 
-    if (!token) {
+
+    if (!user) {
         navigate('/login');
     }
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUserLoggedIn(null); // Ensure user is logged out in the UI
-    navigate('/login');
+  const logoutFunction = () => {
+   logout()
+   navigate('/login')
   };
 
   return (
@@ -66,7 +68,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <button className='logout' onClick={logout}>
+          <button className='logout' onClick={logoutFunction}>
             <FiLogOut /> Logout
           </button>
         </li>
@@ -84,7 +86,7 @@ const Sidebar = () => {
         </li>
         
         <li>
-          <button className='logout' onClick={logout}>
+          <button className='logout' onClick={logoutFunction}>
             <FiLogOut /> Logout
           </button>
         </li>

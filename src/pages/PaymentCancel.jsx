@@ -6,10 +6,10 @@ const Cancel = () => {
     const sessionId = new URLSearchParams(location.search).get("session_id");
 
     return (
-        <div>
+        <div className="payment-verification">
             <h2>Payment Canceled</h2>
-            <p>Oops! You canceled the payment. {sessionId && `Session ID: ${sessionId}`}</p>
-            <a href="/">Go back</a>
+            <p>Oops! You canceled the payment. <strong>{sessionId && `Session ID: ${sessionId}`}</strong></p>
+            <a href="/" className="button">Go back</a>
         </div>
     );
 };

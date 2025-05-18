@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('mmdeals-token');
     
 
   

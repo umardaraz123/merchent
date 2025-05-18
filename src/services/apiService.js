@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { getFromCookies } from '../utils/cookieUtils';
 
-const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
+const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
 
          
 
