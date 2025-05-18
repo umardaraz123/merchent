@@ -22,7 +22,7 @@ const Orders = () => {
     try {
         const result = await TicketsApi.getAdminOrders()
         if(result.status == 200) {
-          console.log(result?.data?.data)
+          
           setLoading(false); 
           setList(result?.data?.data)
           toast.success("Record fetched successfuly",{
@@ -65,6 +65,8 @@ const Orders = () => {
         <th scope="col">Phone</th>
       <th scope="col">Number of items</th>
       <th scope="col">Totla price</th>
+      <th scope="col">View Details</th>
+      
      
     </tr>
   </thead>
@@ -82,7 +84,15 @@ const Orders = () => {
         {order?.order_items?.length}
       </td>
         <td>
-        {order?.total}
+      $  {order?.total}
+      </td>
+      <td>
+        <div className="actions">
+                  <Link to={`/admin/order-details/${order?.guid}`} className="icon">
+                  
+                  <TiEyeOutline />
+                  </Link>
+        </div>
       </td>
       
      

@@ -65,7 +65,7 @@ const Orders = () => {
         <th scope="col">Phone</th>
       <th scope="col">Number of items</th>
       <th scope="col">Totla price</th>
-     
+       <th scope="col">View Detail</th>
     </tr>
   </thead>
   <tbody>
@@ -84,7 +84,14 @@ const Orders = () => {
         <td>
         {order?.total}
       </td>
-      
+      <td>
+              <div className="actions">
+                        <Link to={`/user/order-details/${order?.guid}`} className="icon">
+                        
+                        <TiEyeOutline />
+                        </Link>
+              </div>
+            </td>
      
     </tr> )}
    

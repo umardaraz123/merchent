@@ -23,6 +23,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
+import OrderDetails from "./components/OrderDetails";
 import './App.css';
 //User orders
 import Orders1 from "./user/Orders";
@@ -173,6 +174,7 @@ function App() {
            <Route path="/login" element={<Login />} />
            <Route path="/register" element={<Register />} />
            <Route path="/tickets/:tid" element={<TicketDetail />} />
+           
            <Route path="/categories/:catid" element={<Categories />} />
            <Route path="/trendings" element={<Trendings />} />
            <Route path="/new-deals" element={<NewDeals />} />
@@ -203,11 +205,13 @@ function App() {
         {/* Admin Routes */}
         <Route element={<AuthMiddleware allowedRoles={['admin']} />}>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route index element={<Dashboard1 />} />
+             <Route path="/admin/dashboard" element={<Dashboard1 />} />
             <Route path="/admin/tickets" element={<Tickets />} />
             <Route path="/admin/ticket-detail/:tidd" element={<AdminTicketDetail />} />
             <Route path="/admin/create-ticket" element={<CreateTicket />} />
             <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
+            <Route path="/admin/order-details/:oid" element={<OrderDetails />} />
             <Route path="/admin/create-blog" element={<CreateBlog />} />
             <Route path="/admin/support" element={<Support />} />
             <Route path="/admin/orders" element={<Orders />} />
@@ -217,8 +221,10 @@ function App() {
           <Route element={<AuthMiddleware allowedRoles={['customer']} />}>
          <Route path="/user" element={<UserLayout />}>
             <Route index element={<Dashboard1 />} />
-           
+             <Route path="/user/order-details/:oid" element={<OrderDetails />} />
+           <Route path="/user/dashboard" element={<Dashboard1 />} />
             <Route path="/user/orders" element={<Orders1 />} />
+             <Route path="/user/order-details/:oid" element={<OrderDetails />} />
           </Route>
           </Route>
         <Route path="*" element={<NotFound />} />
