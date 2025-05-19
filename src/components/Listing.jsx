@@ -123,10 +123,6 @@ const Listing = () => {
                                     <IoCartOutline /> // Show add icon if not in cart
                                     )}
                                 </div>
-
-                                {/* <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
-                                    <IoCartOutline  />
-                                </div> */}
                             </div>
                             <div className="label">
                              <CiLocationOn />  {ticket?.location}
@@ -174,9 +170,13 @@ const Listing = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
-                                <IoCartOutline />
-                            </div>
+                                <div className="cart-icon" onClick={() => handleCartClick(ticket.id, ticket?.prices[0]?.id, itemExistsInCart(ticket.id, ticket?.prices[0]?.id))}>
+                                    {itemExistsInCart(ticket.id, ticket?.prices[0]?.id) ? (
+                                    <IoCartSharp /> // Show remove icon if in cart
+                                    ) : (
+                                    <IoCartOutline /> // Show add icon if not in cart
+                                    )}
+                                </div>
                             </div>
                                <div className="label">
                                                                                                              <CiLocationOn />  {ticket?.location}
@@ -221,9 +221,13 @@ const Listing = () => {
                             </div>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
-                                <IoCartOutline />
-                            </div>
+                                <div className="cart-icon" onClick={() => handleCartClick(ticket.id, ticket?.prices[0]?.id, itemExistsInCart(ticket.id, ticket?.prices[0]?.id))}>
+                                    {itemExistsInCart(ticket.id, ticket?.prices[0]?.id) ? (
+                                    <IoCartSharp /> // Show remove icon if in cart
+                                    ) : (
+                                    <IoCartOutline /> // Show add icon if not in cart
+                                    )}
+                                </div>
                             </div>
                                <div className="label">
                                                                                                              <CiLocationOn />  {ticket?.location}
