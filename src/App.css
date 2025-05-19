@@ -154,7 +154,7 @@ a {
     background-color: white;
     padding: 16px 24px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    display: none;
+    
   }
     .user-authed .setting .link {
       display: flex;
@@ -166,9 +166,7 @@ a {
       gap: 8px !important;
       font-weight: 500;
     }
-    .user-authed:hover .setting {
-      display: block;
-    }
+   
 .user-auth img {
   width: 18px;
   height: 18px;
@@ -2120,6 +2118,24 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 
   font-weight: 500;
 }
 @media(max-width:768px){
+  .login-wrapper .inner .right input,.login-wrapper .inner .right .input {
+    width: 100%;
+  }
+  .login-wrapper {
+    padding: 24px;
+  }
+  .ticket-detail-page .location-box .title {
+    font-size: 16px;
+  }
+  .ticket-detail-page .location-box .text {
+    font-size: 14px;
+  }
+  .admin-content .ticket-detail-page, .admin-content .container {
+    padding: 0px !important;
+  }
+  .main-search-wrapper {
+    margin-bottom: 0px;
+  }
   .mobile-menu {
     display: flex;
   }
@@ -2193,6 +2209,15 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 
     height: 40px;
     width: 40px;
     padding: 8px;
+  }
+  .user-authed {
+    order: 2;
+    height: 40px;
+    width: auto;
+    padding: 8px;
+  }
+  .user-authed svg {
+    width: 16px;
   }
   .user-auth svg {
     font-size: 28px;

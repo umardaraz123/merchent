@@ -15,7 +15,7 @@ const Login = () => {
 
     useEffect(()=>{
     if(user && user?.role ==='customer') {
-      navigate('/user')
+      navigate('/')
     }
     else if(user && user?.role ==='admin') {
       navigate('/admin')
@@ -54,7 +54,7 @@ const Login = () => {
                     navigate('/admin')
                 }
                 else if(result?.data?.data?.role == 'customer') {
-                    navigate('/user')
+                    navigate('/')
                 }
                 else {
                     navigate('/')

@@ -8,6 +8,7 @@ import { CgFileAdd } from "react-icons/cg";
 import { ImBlog } from "react-icons/im";
 import { FiLogOut } from "react-icons/fi";
 import { Link, useLocation } from 'react-router-dom';
+import { MdPublic } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { LuTickets } from "react-icons/lu";
 import { useUser } from '../contexts/UserContext';
@@ -37,6 +38,11 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       {user?.role === 'admin' ? <ul>
+         <li>
+          <Link to="/" className={pathname === '/' ? 'active' : ''}>
+            <MdPublic /> Visist Website
+          </Link>
+        </li>
         <li>
           <Link to="/admin/dashboard" className={pathname === '/admin' ? 'active' : ''}>
             <RxDashboard /> Dashboard
@@ -73,6 +79,11 @@ const Sidebar = () => {
           </button>
         </li>
       </ul> : <ul>
+        <li>
+          <Link to="/" className={pathname === '/' ? 'active' : ''}>
+            <MdPublic /> Visist Website
+          </Link>
+        </li>
         <li>
           <Link to="/user/dashboard" className={pathname === '/user' ? 'active' : ''}>
             <RxDashboard /> Dashboard

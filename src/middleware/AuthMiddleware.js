@@ -18,7 +18,7 @@ const AuthMiddleware = ({ allowedRoles }) => {
       if (user?.role === 'admin') {
         navigate('/admin');
       } else if (user?.role === 'customer')
-      navigate('/user');
+      navigate('/');
       else {
         navigate('/');
       }

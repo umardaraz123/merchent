@@ -73,7 +73,7 @@ a {
   padding: 16px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #333;
+  color: #333 !important;
   margin-bottom: 16px;
   border-radius: 50px;
   transition: all 0.3s ease-in-out;
@@ -417,4 +417,91 @@ padding: 80px;
   cursor: pointer;
   border: none;
   font-weight: bold;
+ }
+ @media (max-width:800px){
+  .admin-container .siderbar-wrapper {
+    width: 100%;
+  }
+  .admin-container .siderbar-wrapper .sidebar {
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+    padding: 8px;
+  }
+  .admin-container .siderbar-wrapper .sidebar ul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0px;
+  }
+  .admin-container .siderbar-wrapper .sidebar ul li {
+    flex-shrink: 0;
+
+  }
+  .admin-container .siderbar-wrapper .sidebar ul li a,.logout {
+    font-size: 10px;
+    padding: 6px 12px;
+    margin-bottom: 0px;
+  }
+  .admin-content {
+    width: calc(100% - 0px);
+    padding: 20px;
+  }
+  .dashboard-content .item .name,.dashboard-content .item .value {
+    font-size: 14px;
+  }
+  .admin-container {
+    flex-wrap: wrap;
+    min-height: 10vh;
+  }
+  .ticket-wrapper .table th,.ticket-wrapper .table td {
+    font-size: 12px;
+    padding: 6px;
+    white-space: nowrap;
+  }
+  .ticket-wrapper .info .image-wrapper .image,.ticket-wrapper .info .image-wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+  }
+  .ticket-wrapper .info .data .title {
+    font-size: 12px;
+    white-space: initial;
+  }
+  .ticket-wrapper .table .actions .icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    color: white !important;
+  }
+  .ticket-wrapper .table .actions .icon svg {
+    font-size: 14px;
+    width: 14px;
+  }
+   .admin-content .ticket-detail-page, .admin-content .container {
+    padding: 0px !important;
+  }
+  .create-ticket-wrapper .title {
+    font-size: 18px;
+  }
+  .create-ticket-wrapper {
+    padding: 16px;
+    border-radius: 8px;
+  }
+  .input-wrapper .input {
+    height: 40px;
+    line-height: 1;
+    font-size: 13px;
+    padding: 8px;
+  }
+  .input-wrapper label {
+    font-size: 14px;
+  }
+  .create-ticket-wrapper .subtitle {
+    font-size: 16px;
+  }
+  .create-ticket-wrapper .create,.add-price .button {
+    padding: 12px;
+    font-size: 16px;
+  }
  }

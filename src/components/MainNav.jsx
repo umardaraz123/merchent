@@ -20,6 +20,7 @@ const MainNav = () => {
 
   const { wishlist, carts } = useCart();
 const [showMenu,setShowMenu] = useState(false)
+const [showSetting,setShowSetting] = useState(false)
 const navigate = useNavigate()
 const logoutFunction = ()=>{
   logout()
@@ -87,12 +88,12 @@ const logoutFunction = ()=>{
               </div>
             </Link>
             
-            {user ? <div className="user-authed" title={user?.name}> 
+            {user ? <div className="user-authed" title={user?.name}  onClick={()=>setShowSetting((prev)=> !prev)}> 
           <FaUserGear />
           <span className="text">
             {user?.name}
           </span>
-          <div className="setting">
+          {showSetting && <div className="setting">
             {user?.role === "customer" ?  <Link className="link" to="user/" >
 <LuLayoutDashboard /> Dashboard
             </Link> :  <Link className="link" to="/admin" >
@@ -103,12 +104,13 @@ const logoutFunction = ()=>{
 <HiOutlineLogout /> Logout
             </div>
             
-          </div>
+          </div>}
+          
 
-            </div> : <button className="user-auth">
+            </div> : <Link  to='/login' className="user-auth">
       <AiOutlineUser  />
-      <Link to='/login' className="name">Login/Signup</Link>
-        </button>} 
+      <span  className="name">Login/Signup</span>
+        </Link>} 
             
         <div className="mobile-menu" onClick={()=>setShowMenu((prev)=> !prev)}>
           <CiMenuFries />
