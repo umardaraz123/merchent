@@ -114,7 +114,7 @@ const TicketDetail = () => {
     if (!ticketDetail?.prices?.[0]) return;
 
     setIsProcessing(true);
-    const result = await removeFromCart(cartId);
+    const result = await removeFromCart(ticketDetail.id);
 
     if (result.success) {
 

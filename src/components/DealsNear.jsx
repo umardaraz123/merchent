@@ -51,10 +51,10 @@ const DealsNear = () => {
     const handleCartClick = (ticketId, priceId, isInCart) => {
       if (isInCart) {
         removeFromCart(ticketId);
-        toast.info('Removed from cart');
+        // toast.info('Removed from cart');
       } else {
         addToCart(ticketId, priceId, 1);
-        toast.success('Added to cart');
+        // toast.success('Added to cart');
       }
     };
   
