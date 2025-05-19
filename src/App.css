@@ -163,7 +163,7 @@ a {
       cursor: pointer;
       color: #333 !important;
       margin-bottom: 14px;
-      gap: 8px;
+      gap: 8px !important;
       font-weight: 500;
     }
     .user-authed:hover .setting {
@@ -2045,6 +2045,79 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 
 }
 .payment-verification p strong {
   font-weight: bold;
+}
+.dashboard-content .item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.dashboard-content .item .name {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+.dashboard-content .item .value {
+  font-size: 16px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.order-detail .item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.order-detail .item .name {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+.order-detail .item .value {
+  font-size: 15px;
+  color: #444;
+   display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  
+  font-weight: 500;
+}
+.order-detail .title {
+  font-size: 24px;
+  color: #222;
+  margin-bottom: 16px;
+}
+.order-detail ul {
+  padding-left: 6px;
+  list-style: none;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #fff;
+}
+.order-detail ul li {
+  
+  margin-bottom: 16px;
+  font-size: 15px;
+  background-color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px
+}
+.order-detail ul li .name {
+   font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+.order-detail ul li .price {
+   font-size: 14px;
+  color: #444;
+  font-weight: 500;
 }
 @media(max-width:768px){
   .mobile-menu {

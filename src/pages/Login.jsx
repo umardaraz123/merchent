@@ -21,7 +21,7 @@ const Login = () => {
       navigate('/admin')
     }
     },[user])
-    console.log('umar',user)
+   
     const [loading,setLoading]=useState(false)
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
