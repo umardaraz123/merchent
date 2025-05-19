@@ -23,16 +23,18 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const fetchCart = async () => {
-    try {
-      setLoading(true);
-      const response = await cartService.getCart();
-      setCarts(response.data.cart);
-      setCartTotal(response.data.total);
-      setError(null);
-    } catch (err) {
-      setError(handleApiError(err));
-    } finally {
-      setLoading(false);
+    if (token) {
+      try {
+        setLoading(true);
+        const response = await cartService.getCart();
+        setCarts(response.data.cart);
+        setCartTotal(response.data.total);
+        setError(null);
+      } catch (err) {
+        setError(handleApiError(err));
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -181,6 +183,11 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+
+  const itemExistsInCart = (ticketId, priceId) => {
+    return carts.some(item => item.product_id === ticketId && item.price_id === priceId);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -196,7 +203,8 @@ export const CartProvider = ({ children }) => {
         removeFromWishlist,
         moveToCart,
         fetchCart,
-        fetchWishlist
+        fetchWishlist,
+        itemExistsInCart
       }}
     >
       {children}
