@@ -21,7 +21,7 @@ body {
 }
 
 body {
-  font-family: "Roboto", serif;
+  font-family: "Poppins", sans-serif;
   color: var(--text-color) !important;
   min-height: 100vh;
   height: 100%;
@@ -505,10 +505,11 @@ input:focus{
   width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border: 1px solid #ddd;
   overflow: hidden;
   position: relative;
   transition: all 0.3s ease-in-out;
-  height: 200px;
+  height: 270px;
   
 }
 .ticket-listing-wrapper .listing-item .image-wrapper .icons {
@@ -581,8 +582,10 @@ input:focus{
   font-size: 14px;
   font-weight: 600;
   min-height: 44px;
+  display: block;
   margin-bottom: 4px;
-  color: var(--text-color);
+  color: var(--text-color) !important;
+  opacity: 1 !important;
 }
 .ticket-listing-wrapper .listing-item .content .price-section {
   display: flex;
@@ -2118,8 +2121,20 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 
   font-weight: 500;
 }
 @media(max-width:768px){
+  .ticket-listing-wrapper .listing-item .image-wrapper {
+    height: 200px;
+  }
   .login-wrapper .inner .right input,.login-wrapper .inner .right .input {
     width: 100%;
+  }
+  .title-main {
+    font-size: 18px;
+  }
+  .mobile-menu-wrapper a {
+    font-size: 14px;
+  }
+  .user-authed .text {
+    font-size: 10px;
   }
   .login-wrapper {
     padding: 24px;

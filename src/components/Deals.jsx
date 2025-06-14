@@ -57,7 +57,7 @@ const Deals = () => {
             <div className="container">
               <h2 className="title-main mb-4">Deals</h2>
             <div className="row">
-            {deals?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
+            {deals?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
                 <div className="listing-item">
                         <div className="image-wrapper">
                           <Link to={`/tickets/${ticket?.guid}`} className="listing-item">

@@ -17,7 +17,8 @@ body {
 }
 
 body {
-  font-family: "Roboto", serif;
+ font-family: "Poppins", sans-serif;
+ font-weight: normal;
   color: var(--text-color) !important;
   min-height: 100vh;
   height: 100%;

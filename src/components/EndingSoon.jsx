@@ -65,7 +65,7 @@ const EndingSoon = () => {
               <span className="title-main"> Ending Soon</span> <Link className='see-all' to="/ending-soon">See all offers <FaLongArrowAltRight /> </Link>
             </div>
             <div className="row">
-            {endingSoonTickets?.slice(0, 4)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-3 mb-4" key={index}>
+            {endingSoonTickets?.slice(0, 3)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
                 <div className="listing-item">
                         <div className="image-wrapper">
                           <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
@@ -90,9 +90,9 @@ const EndingSoon = () => {
                             <div className="label">
                             <TbCategory />    {ticket?.category}
                             </div>
-                            <div className="title">
+                            <Link to={`/tickets/${ticket?.guid}`} className="title">
                             {ticket?.title}
-                            </div>
+                            </Link>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
                                 <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
