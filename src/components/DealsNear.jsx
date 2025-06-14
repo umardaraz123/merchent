@@ -10,7 +10,7 @@ import { CiHeart,CiLocationOn } from "react-icons/ci";
 import {TicketsApi} from '../services/Tickets'
 import { TbCategory } from "react-icons/tb";
 import { useCart } from '../contexts/CartContext';
-import { IoCartOutline } from 'react-icons/io5';
+import { IoCartOutline, IoCartSharp } from 'react-icons/io5';
 import { ImageWithFallback } from '../utils/imageUtils';
 import noImage from '../images/no-image.jpg';
 
@@ -47,6 +47,16 @@ const DealsNear = () => {
       }
        
     } 
+
+    const handleCartClick = (ticketId, priceId, isInCart) => {
+      if (isInCart) {
+        removeFromCart(ticketId);
+        // toast.info('Removed from cart');
+      } else {
+        addToCart(ticketId, priceId, 1);
+        // toast.success('Added to cart');
+      }
+    };
   
     useEffect(()=>{
       getTicketsList()
@@ -66,11 +76,13 @@ const DealsNear = () => {
             {deals?.slice(0, 3)?.map((ticket,index)=>  <div className="col-12 col-md-6 col-lg-4 mb-4" key={index}>
                 <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
                         <div className="image-wrapper">
+                          <Link to={`/tickets/${ticket?.guid}`} className="listing-item">
                             <ImageWithFallback
                               src={ticket?.images[0]?.file_url}
                               fallbackSrc={noImage}
                               alt="image"
                               />
+                              </Link>
                         {/* <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill /> */}
                            <div className="icons">
                             
@@ -91,15 +103,19 @@ const DealsNear = () => {
                             </Link>
                             <div className="price-section">
                                 <div className="price">${ticket?.prices[0]?.discounted_price}<span> ${ticket?.prices[0]?.price} </span></div>
-                                <div className="cart-icon" onClick={() => addToCart(ticket.id, ticket?.prices[0]?.id, 1)}>
-                                <IoCartOutline />
-                            </div>
+                                <div className="cart-icon" onClick={() => handleCartClick(ticket.id, ticket?.prices[0]?.id, itemExistsInCart(ticket.id, ticket?.prices[0]?.id))}>
+                                    {itemExistsInCart(ticket.id, ticket?.prices[0]?.id) ? (
+                                    <IoCartSharp /> // Show remove icon if in cart
+                                    ) : (
+                                    <IoCartOutline /> // Show add icon if not in cart
+                                    )}
+                                </div>
                             </div>
                           <div className="label">
                                                                                  <CiLocationOn />  {ticket?.location}
                                                                                 </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>)}
            
         </div>

@@ -195,7 +195,9 @@ const Checkout = () => {
                                 alt="image"
                               />
                             </div>
-                            <p className="title">{item?.tickets?.title}</p>
+                            <Link to={`/tickets/${item?.tickets?.guid}`} className="listing-item">
+                              <p className="title">{item?.tickets?.title}</p>
+                            </Link>
                           </div>
                         </td>
                         <td>
