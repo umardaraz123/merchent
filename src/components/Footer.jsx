@@ -70,15 +70,13 @@ const Footer = () => {
                 Find us on:
                 </p>
                 <div className="social-links">
-                <a to="" className="link-item">
+                <a to="https://www.facebook.com/profile.php?id=61575980222810" className="link-item">
                 <FaFacebookF /> <span>Facebook</span>
                 </a>
-                <a to="" className="link-item">
+                <a to="https://www.instagram.com/megamerchantdeals/" className="link-item">
                 <IoLogoInstagram /> <span>Instagram</span>
                 </a>
-                <a to="" className="link-item">
-                <IoLogoYoutube /> <span>You tube</span>
-                </a>
+               
             </div>
               
                 </div>
