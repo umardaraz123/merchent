@@ -97,7 +97,7 @@ const settings = {
         <div className="container">
         
           <div className="mb-4 d-flex align-items-center justify-content-between" >
-              <span className="title-main"> Most Discounted Deals </span> <Link className='see-all' to="/deals">See all deals <FaLongArrowAltRight /> </Link>
+              <span className="title-main"> Trending Deals </span> <Link className='see-all' to="/deals">See all deals <FaLongArrowAltRight /> </Link>
             </div>
             <div className="deals">
             <Slider {...settings}>

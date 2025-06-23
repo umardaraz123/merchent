@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import NotFound from "./components/NotFound";
 import AboutUs from "./pages/AboutUs";
+import Merchant from "./pages/Merchant";
 import Advertise from "./pages/Advertise";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
@@ -217,6 +218,7 @@ function App() {
            <Route path="/deals" element={<Deals />} />
            <Route path="/ending-soon" element={<EndingSoonTickets />} />
            <Route path="/about" element={<AboutUs />} />
+           <Route path="/merchant" element={<Merchant />} />
            <Route path="/advertise" element={<Advertise />} />
            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
            <Route path="/termsandconditions" element={<TermsAndConditions />} />

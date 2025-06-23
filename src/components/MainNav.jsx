@@ -37,6 +37,7 @@ const logoutFunction = ()=>{
        </h2>
        <Link to='/about'  onClick={()=>setShowMenu(false)}>About us</Link>
                        <Link to='/advertise'  onClick={()=>setShowMenu(false)}>Advertise with us</Link>
+                        <Link to='/merchant'  onClick={()=>setShowMenu(false)}>Merchant</Link>
                        <Link to='/'  onClick={()=>setShowMenu(false)}>Delivery Information</Link>
                        <Link to='/privacypolicy'  onClick={()=>setShowMenu(false)}>Privacy Policy</Link>
                        <Link to='/termsandconditions'  onClick={()=>setShowMenu(false)}>Terms & Conditions</Link>
@@ -53,9 +54,14 @@ const logoutFunction = ()=>{
       
     <div className="container">
         <div className="inner">
+           <div className='mobile-menu-con'>
+            <div className="mobile-menu" onClick={()=>setShowMenu((prev)=> !prev)}>
+          <CiMenuFries />
+        </div>
             <Link to='/'  className="logo">
                 <img alt="Image"  src={Logo} />
             </Link >
+           </div>
             <div className="search-fields">
               <div className="search-btn">
               <IoIosSearch />
@@ -74,12 +80,12 @@ const logoutFunction = ()=>{
             </select>
             </div>
             <div className='right_side'>
-            <div className="cart-icon">
+            {/* <div className="cart-icon">
                 <div className="count">
                   { (wishlist && wishlist.length) ? wishlist.length : 0 }
                 </div>
             <CiHeart />
-            </div>
+            </div> */}
             <Link to='/checkout' className="name">
               <div className="cart-icon">
                 <ShoppingCart  carts={carts} />
@@ -112,9 +118,7 @@ const logoutFunction = ()=>{
       <span  className="name">Login/Signup</span>
         </Link>} 
             
-        <div className="mobile-menu" onClick={()=>setShowMenu((prev)=> !prev)}>
-          <CiMenuFries />
-        </div>
+       
             </div>
            
         </div>
