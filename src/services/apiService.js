@@ -34,7 +34,8 @@ export const cartService = {
   addToCart: (productId, priceId, quantity) => API.post('api/v1/carts/add', { product_id: productId, price_id: priceId, quantity, random_string_detail: random_string_detail }),
   getCart: () => API.get(`api/v1/carts?random_string=${random_string_detail.uniqueString}`),
   updateCart: (cartId, quantity, priceId) => API.post('api/v1/carts/update', { cart_id: cartId, quantity, price_id: priceId }),
-  removeFromCart: (cartId) => API.post('api/v1/carts/remove', { cart_id: cartId })
+  removeFromCart: (cartId) => API.post('api/v1/carts/remove', { cart_id: cartId }),
+  getProvinces: () => API.get('api/v1/provinces', { })
 };
 
 // Wishlist API methods

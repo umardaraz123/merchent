@@ -80,9 +80,10 @@ const TicketDetail = () => {
       if (response.status === 200) {
         setQuantity(newQuantity);
         toast.success("Quantity updated successfully!");
-      } else {
-        toast.error("Failed to update quantity");
       }
+      //  else {
+        // toast.error("Failed to update quantity");
+      // }
     } catch (error) {
       console.error("Error updating cart:", error);
       toast.error("Something went wrong. Please try again.");

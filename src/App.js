@@ -56,6 +56,9 @@ function App() {
     localStorage.setItem("longitude", lng);
   };
 
+  const Map_API = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
+
   const sendCoordinatesInHeader = (lat, lng) => {
     // axios.get("/api/your-endpoint", {
     //   headers: {
@@ -71,26 +74,39 @@ function App() {
 
   const getGeolocation = () => {
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
+
         const { latitude, longitude } = pos.coords;
         setLocation({ latitude, longitude });
         saveToLocalStorage(latitude, longitude);
         sendCoordinatesInHeader(latitude, longitude);
         setError("");
+
+        try {
+          const province = await getProvinceFromCoords(latitude, longitude);
+          localStorage.setItem("province_name", province);
+        } catch (err) {
+          console.error("Failed to get province:", err.message);
+        }
+
       },
       (err) => {
         switch (err.code) {
           case err.PERMISSION_DENIED:
             setError("Permission denied. Please allow location access.");
+            console.log('Permission denied. Please allow location access ');
             break;
           case err.POSITION_UNAVAILABLE:
             setError("Location unavailable.");
+            console.log('Location unavailable. ');
             break;
           case err.TIMEOUT:
             setError("Location request timed out.");
+            console.log('Location request timed out. ');
             break;
           default:
             setError("An unknown error occurred.");
+            console.log('An unknown error occurred. ');
         }
       },
       {
@@ -114,6 +130,7 @@ function App() {
 
     const storedLat = localStorage.getItem("latitude");
     const storedLng = localStorage.getItem("longitude");
+
 
     if (storedLat && storedLng) {
       // Already has permission and location
@@ -151,6 +168,25 @@ function App() {
     
   }, []);
 
+
+  async function getProvinceFromCoords(lat, lon) {
+    const apiKey = Map_API;
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${apiKey}`
+    );
+    const data = await response.json();
+    if (data.status === "OK") {
+      const addressComponents = data.results[0].address_components;
+      const province = addressComponents.find(comp =>
+        comp.types.includes("administrative_area_level_1")
+      );
+      return province ? province.long_name : null;
+    } else {
+      throw new Error("Geocoding failed: " + data.status);
+    }
+  }
+
+  
   return (
     <div className="App">
           {/* <div>

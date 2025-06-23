@@ -6,6 +6,7 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [carts, setCarts] = useState([]);
+  const [provinces, setProvinces] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,9 @@ export const CartProvider = ({ children }) => {
         setCarts(response.data.cart);
         setCartTotal(response.data.total);
         setError(null);
+
+        const res = await cartService.getProvinces();
+        setProvinces(res.data.data);
       } catch (err) {
         setError(handleApiError(err));
       } finally {
@@ -191,6 +195,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        provinces,
         carts,
         wishlist,
         cartTotal,

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
@@ -13,8 +13,9 @@ import { ImageWithFallback } from "../utils/imageUtils";
 import noImage from '../images/no-image.jpg';
 
 const Checkout = () => {
-  const { carts } = useCart();
+  const { carts, provinces } = useCart();
   const [loading, setLoading] = useState(false);
+  const [selectedProvince, setSelectedProvince] = useState({});  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
@@ -25,10 +26,11 @@ const Checkout = () => {
     city: '',
     postal_code: '',
     country: 'Canada',
-    province: 'Toronto (GTA)'
+    province: localStorage.getItem('province_name')
   });
 
   const [formErrors, setFormErrors] = useState({});
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,14 +74,13 @@ const Checkout = () => {
         province: formData.province
       };
 
-      console.log('datas ========= ', datas);
 
       const data = await TicketsApi.checkout(datas);
       if(data.status === 200) {
         window.location.href = data.data.data.url; 
         console.log("Client Secret:", data.clientSecret);
       } else {
-        console.log('sfsdfsd ============ ', data.data);
+        // console.log('sfsdfsd ============ ', data.data);
       }
     } catch (error) {
       console.error("Payment Error:", error);
@@ -87,6 +88,8 @@ const Checkout = () => {
       setLoading(false);
     }
   };
+
+  const provinces_list = ['Alberta','British Columbia','Manitoba','Saskatchewan','Quebec','Ontario','New Brunswick','Newfoundland and Labrador','Nova Scotia','Prince Edward Island','Yukon','Northwest Territories','Nunavut','Alberta','British Columbia','Manitoba','Saskatchewan','Quebec','Ontario','New Brunswick','Newfoundland and Labrador','Nova Scotia','Prince Edward Island','Yukon','Northwest Territories','Nunavut'];
 
   const cartItems = [
     { image: Image1, title: "$145 for a Seven-Course Dinner for Four", price: 145 },
@@ -99,8 +102,43 @@ const Checkout = () => {
     return total + (price * cart.quantity);
   }, 0);
 
+
+  // Function to find "Ontario" in a case-insensitive way
+  const findSelectedProvince = (arr) => {
+    if (!Array.isArray(arr) || !formData?.province) {
+      console.warn("Missing province list or selected province");
+      // return null;
+    
+      const selected = arr.find((province) => {
+        const name = typeof province === 'string' ? province : province?.name;
+        if(name && formData.province && (name?.toLowerCase() === formData.province.toLowerCase())){
+          return province;
+        }else{
+          return null;
+        }
+      });
+
+      if (!selected) {
+        console.warn(`Province "${formData.province}" not found`);
+      }
+      return selected;
+    }
+
+    return null;
+  };
+
+
+    // Fetch cart and wishlist on component mount
+  useEffect(() => {
+    const selected_province = findSelectedProvince(provinces_list);
+    setSelectedProvince(selected_province);
+
+  }, [provinces, formData.province]);
+
+
+
   const serviceFee = 15;
-  const finalTotal = totalPrice + serviceFee;
+  const finalTotal = totalPrice + serviceFee + ((selectedProvince && selectedProvince.total_rate) ? parseFloat(selectedProvince.total_rate) : 0);
 
   return (
     <div className="cart-wrapper-container">
@@ -163,7 +201,7 @@ const Checkout = () => {
                       onChange={handleChange}
                       className="input"
                     >
-                      {["Toronto (GTA)", "Niagara", "Hamilton", "Kitchener/Cambridge", "Durham"].map((province, index) => (
+                      {provinces_list.map((province, index) => (
                         <option key={index} value={province}>{province}</option>
                       ))}
                     </select>
@@ -212,6 +250,12 @@ const Checkout = () => {
               <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
               <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
+              
+              {
+                (selectedProvince && selectedProvince.total_rate) ? 
+                <div className="item"><span className="label">{selectedProvince.name}:</span> <span className="value">${parseFloat(selectedProvince.total_rate)}</span></div>
+                : ''
+              }
               <hr className="hr my-4" />
               <p className="title mb-4">Your Total: ${finalTotal}</p>
 

@@ -28,47 +28,61 @@ const Login = () => {
    
     async function loginFunction() {
         setLoading(true);
+
+        if (!email || !password) {
+            toast.error("Please enter both email and password.");
+            setLoading(false);
+            return;
+        }
+
         const formData = new FormData();
-       
-        if(email){
-            formData.append('email', email);
-        }
-       
-        if(password){
-            formData.append('password', password);
-        }
-       
+        formData.append('email', email);
+        formData.append('password', password);
+
         try {
-            const result = await Auth.login(formData)
-            if(result.status == 200) {
-                localStorage.setItem('email', result?.data?.data?.email);
-                localStorage.setItem('phone', result?.data?.data?.hone);
-                localStorage.setItem('name', result?.data?.data?.name);
-                localStorage.setItem('isAdmin', result?.data?.data?.is_admin);
-                localStorage.setItem('role', result?.data?.data?.role);
-                localStorage.setItem('mmdeals-token', result?.data?.data?.token);
-                localStorage.setItem('mmdeals-user', JSON.stringify(result?.data?.data));
-                login(result?.data?.data)
-                // router.push('/login')
-                if(result?.data?.data?.role == 'admin') {
-                    navigate('/admin')
-                }
-                else if(result?.data?.data?.role == 'customer') {
-                    navigate('/')
-                }
-                else {
-                    navigate('/')
-                }
-                console.log(result?.data?.data?.name)
-                     
+            const result = await Auth.login(formData);
+
+            // ✅ Check HTTP status
+            if (result.status === 200 && result?.data?.success) {
+            const data = result.data.data;
+
+            localStorage.setItem('email', data?.email || '');
+            localStorage.setItem('phone', data?.phone || '');
+            localStorage.setItem('name', data?.name || '');
+            localStorage.setItem('isAdmin', data?.is_admin || '');
+            localStorage.setItem('role', data?.role || '');
+            localStorage.setItem('mmdeals-token', data?.token || '');
+            localStorage.setItem('mmdeals-user', JSON.stringify(data));
+            login(data);
+
+            if (data?.role === 'admin') {
+                navigate('/admin');
+            } else {
+                navigate('/');
             }
-            setLoading(false);  
-            
+            } else {
+            // Backend response error (e.g. not authorized or validation failed)
+            const errorMessage =
+                result?.data?.message || "Login failed. Please try again.";
+            toast.error(errorMessage);
+            }
+
         } catch (error) {
-            console.log(error)
+            // ❗ Network or server error
+            console.error("Login error: ", error);
+
+            if (error?.response?.data?.message) {
+            toast.error(error.response.data.message); // From backend
+            } else if (error?.message?.includes('Network')) {
+            toast.error("Network error. Please check your connection.");
+            } else {
+            toast.error("An unexpected error occurred.");
+            }
+        } finally {
+            setLoading(false);
         }
-         
-      } 
+    }
+
   return (
     <div className='login-wrapper'>
         <ToastContainer />
