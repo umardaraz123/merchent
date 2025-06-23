@@ -21,9 +21,7 @@ const Footer = () => {
                 <p className="title">
                 Contact
                 </p>
-                <p className="item">
-               <span> Address:</span> 1389 Brock Road, Uxbridge, Ontario, L0C1A0
-                </p>
+              
                 <p className="item">
                 <span>Phone:</span> +01 2222 365 /(+91) 01 2345 6789
                 </p>
@@ -70,10 +68,10 @@ const Footer = () => {
                 Find us on:
                 </p>
                 <div className="social-links">
-                <a to="https://www.facebook.com/profile.php?id=61575980222810" className="link-item">
+                <a href="https://www.facebook.com/profile.php?id=61575980222810" className="link-item">
                 <FaFacebookF /> <span>Facebook</span>
                 </a>
-                <a to="https://www.instagram.com/megamerchantdeals/" className="link-item">
+                <a href="https://www.instagram.com/megamerchantdeals/" className="link-item">
                 <IoLogoInstagram /> <span>Instagram</span>
                 </a>
                

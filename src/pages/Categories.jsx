@@ -79,9 +79,7 @@ const Categories = () => {
                           </Link>
                            <div className="icons">
                             
-                            <div className="icon">
-                            <FaEye />
-                            </div>
+                        
                             <div className="icon" onClick={() => addToWishlist(ticket.id, ticket?.prices[0]?.id)}>
                             <CiHeart />
                             </div>

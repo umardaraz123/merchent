@@ -74,12 +74,12 @@ const logoutFunction = ()=>{
             </select>
             </div>
             <div className='right_side'>
-            <div className="cart-icon">
+            {/* <div className="cart-icon">
                 <div className="count">
                   { (wishlist && wishlist.length) ? wishlist.length : 0 }
                 </div>
             <CiHeart />
-            </div>
+            </div> */}
             <Link to='/checkout' className="name">
               <div className="cart-icon">
                 <ShoppingCart  carts={carts} />

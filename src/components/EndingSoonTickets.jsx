@@ -71,10 +71,7 @@ const EndingSoonTickets = () => {
                             {/* <img src={ticket?.images[0]?.file_url} className='image' alt='image' fill /> */}
                           </Link>
                            <div className="icons">
-                            
-                            <div className="icon">
-                            <FaEye />
-                            </div>
+                         
                             <div className="icon" onClick={() => addToWishlist(ticket.id, ticket?.prices[0]?.id)}>
                             <CiHeart />
                             </div>

@@ -373,8 +373,8 @@ input:focus{
   max-width: 100%;
  
   transition: all 0.3s ease-in-out;
-  background-color: var(--bg-light);
-  
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 
 }
 .discounted-deals .deals .item .image {
@@ -382,6 +382,7 @@ input:focus{
   height: 160px;
   border-radius: 10px;
   margin-bottom: 16px;
+  background-color: transparent;
 }
 .discounted-deals .deals .item .image img {
   width: 100%;
@@ -2120,7 +2121,19 @@ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 
   color: #444;
   font-weight: 500;
 }
+.mobile-show {
+  display: none;
+}
+.mobile-hide {
+  display: block;
+}
 @media(max-width:768px){
+  .mobile-show {
+  display: block;
+}
+.mobile-hide {
+  display: none;
+}
   .ticket-listing-wrapper .listing-item .image-wrapper {
     height: 200px;
   }

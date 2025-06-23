@@ -114,6 +114,48 @@ const Checkout = () => {
         <div className="row">
           <div className="col-12 col-md-7">
             <div className="cart-box">
+             
+             <div className="mobile-show">
+               <p className="title">Order Summary</p>
+              <hr className="hr my-2" />
+              <div className="custom-table small table-responsive">
+                <table className="table">
+                  <tbody>
+                    {carts.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className="item-detail">
+                            <div className="image-wrapper">
+                              <span className="count">{ item.quantity }</span>
+                              <ImageWithFallback
+                                src={item.tickets.images[0]?.file_url}
+                                fallbackSrc={noImage}
+                                alt="image"
+                              />
+                            </div>
+                            <Link to={`/tickets/${item?.tickets?.guid}`} className="listing-item">
+                              <p className="title">{item?.tickets?.title}</p>
+                            </Link>
+                          </div>
+                        </td>
+                        <td>
+                          <span className="text">${(item?.tickets?.prices[0]?.price * item.quantity)}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
+              <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
+              <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
+              <hr className="hr my-4" />
+              <p className="title mb-4">Your Total: ${finalTotal}</p>
+             </div>
+
+            
+          
               <div className="title-med">Payment</div>
               <div className="row">
                 {/* Render form fields dynamically with error handling */}
@@ -178,7 +220,8 @@ const Checkout = () => {
 
           <div className="col-12 col-md-5">
             <div className="cart-box">
-              <p className="title">Order Summary</p>
+             <div className="mobile-hide">
+               <p className="title">Order Summary</p>
               <hr className="hr my-2" />
               <div className="custom-table small table-responsive">
                 <table className="table">
@@ -214,6 +257,7 @@ const Checkout = () => {
               <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
               <hr className="hr my-4" />
               <p className="title mb-4">Your Total: ${finalTotal}</p>
+             </div>
 
               <button className="button" type="button" onClick={handleSubmit} disabled={loading}>
                 {loading ? "Processing..." : "Complete Order"}
