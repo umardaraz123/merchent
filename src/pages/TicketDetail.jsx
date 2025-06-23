@@ -7,7 +7,7 @@ import { TbCategory } from 'react-icons/tb';
 import { FaFireAlt } from 'react-icons/fa';
 import { useCart } from '../contexts/CartContext';
 import { TicketsApi } from '../services/Tickets';
-
+import { GrMapLocation } from "react-icons/gr";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -193,6 +193,55 @@ const TicketDetail = () => {
                 ))}
               </Slider>
             </div>
+            {ticketDetail.video_file_url && 
+            <div className="video-wrapper">
+              
+              {ticketDetail.video_file_url && (
+                // <iframe
+                //   title="Ticket Video"
+                //   src={ticketDetail?.video_file_url}
+                //   frameBorder="0"
+                //   allowFullScreen
+                // ></iframe>
+                <video src={ticketDetail?.video_file_url} controls ></video>
+              )}
+            </div>}
+            
+             <div className="included">
+                          <p className="title">What You Get</p>
+                          <p className="text">
+                            Receive admission for one to SCREEMERS, Canadas #1 haunted scream park.
+                          </p>
+                        </div>
+                        <div className="title-med">
+                          Ticket Description
+                        </div>
+                        <div className="ticket-description">
+                        <div dangerouslySetInnerHTML={{ __html: ticketDetail?.description}} />
+                        </div>
+                        <div className="list-items">
+                       
+                          <hr className="hr my-4" />
+                          <p className="title-med">
+                            What You Need To Know
+                          </p>
+                          <div className="ticket-description">
+                        <div dangerouslySetInnerHTML={{ __html: ticketDetail?.special_instructions}} />
+                        </div>
+                          <hr className="hr my-4" />
+                          
+                          <div className="location-box">
+                           
+                            <p className="text mb-1">
+                           {ticketDetail?.location}
+                          
+                            </p>
+                           
+            
+                          </div>
+                          <hr className="hr" />
+                        
+                        </div>
           </div>
 
           <div className="col-12 col-md-5">

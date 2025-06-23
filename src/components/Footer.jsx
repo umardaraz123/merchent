@@ -35,6 +35,7 @@ const Footer = () => {
                 </p>
                 <Link to='/about'>About us</Link>
                 <Link to='/advertise'>Advertise with us</Link>
+                <Link to='/merchant'>Merchant</Link>
                 <Link to='/'>Delivery Information</Link>
                 <Link to='/privacypolicy'>Privacy Policy</Link>
                 <Link to='/termsandconditions'>Terms & Conditions</Link>

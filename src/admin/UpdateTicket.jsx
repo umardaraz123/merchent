@@ -32,6 +32,7 @@ const UpdateTicket = () => {
   const [expiryDate, setExpiryDate] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
+ const [videoFile, setVideoFile] = useState(null);
   const [prices, setPrices] = useState([
     {id: '', title: "", price: "", discounted_price: "" },
   ]);
@@ -68,7 +69,12 @@ const UpdateTicket = () => {
     }));
     setImages([...images, ...newImages]);
   };
-
+ const handleVideoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setVideoFile(file);
+    }
+  };
   // Function to remove an image
   const removeImage = (id) => {
     const filteredImages = images.filter((image) => image.id !== id);
@@ -198,7 +204,9 @@ if(expiryDate){
 if(prices){
   formData.append('prices', JSON.stringify(prices))
 }
-   
+   if(videoFile){
+  formData.append('video_file', videoFile);  
+}
 if(images){
   images.forEach((image, index) => {
     formData.append(`images[${index}]`, image.file);
@@ -440,6 +448,17 @@ setLoading(true);
             </div>))}
 
 </div>
+<h2 className="subtitle">
+        Upload Video (Optional)(max 50 MB)
+      </h2>
+      <div className="file-uploader">
+        <TbUpload />
+        <input
+          type="file"
+          accept="video/*"
+          onChange={handleVideoUpload}
+        />
+      </div>
       <div className="row">
         <div className="col-12 mb-4">
           <div className="input-wrapper">
