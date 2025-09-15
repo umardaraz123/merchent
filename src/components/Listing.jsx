@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react'
 import { MdShoppingCartCheckout } from "react-icons/md";
 import {TicketsApi} from '../services/Tickets'
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { TbCategory } from "react-icons/tb";
 import { CiLocationOn } from "react-icons/ci";
@@ -17,22 +17,25 @@ import noImage from '../images/no-image.jpg';
 import { ImageWithFallback } from '../utils/imageUtils';
 
 
-const Listing = () => {
+const Listing = ({ search, location }) => {
     const [selected,setSelected]=useState('trending')
     const[loading,setLoading]=useState(false)
     const [trendings,setTrendings]=useState([])
     const [newlyAddedTickets,setNewlyAddedTickets]=useState([])
     const [deals,setDeals]=useState([])
+    const [searchParams] = useSearchParams();
+    const searchQuery = search || searchParams.get('search') || '';
+    const locationQuery = location || searchParams.get('location') || '';
 
     const { addToCart, addToWishlist, itemExistsInCart, removeFromCart, removeFromWishlist } = useCart();
 
     
   //getTickets
-  async function getTicketsList() {
+  async function getTicketsList(search = '', location = '') {
     setLoading(true);
   
     try {
-        const result = await TicketsApi.getTicketsPublic()
+        const result = await TicketsApi.getTicketsPublic(search, location)
         if(result.status == 200) {
           setLoading(false); 
           console.log(result)
@@ -63,8 +66,8 @@ const Listing = () => {
   };
 
   useEffect(()=>{
-    getTicketsList()
-  },[])
+    getTicketsList(searchQuery, locationQuery)
+  },[searchQuery, locationQuery, search, location])
   return (
     <div className='ticket-listing-wrapper'>
              <ToastContainer />

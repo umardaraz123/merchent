@@ -130,7 +130,7 @@ const OrderDetails = () => {
                             Service Fee:
                         </div>
                         <div className="value">
-                          $ {orderDetail?.service_fee} 
+                         {orderDetail?.service_fee} %
                         </div>
                     </div>
                 </div>

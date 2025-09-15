@@ -187,7 +187,7 @@ const Checkout = () => {
 
               <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
-              <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
+              <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
               <hr className="hr my-4" />
               <p className="title mb-4">Your Total: ${finalTotal}</p>
              </div>
@@ -292,7 +292,7 @@ const Checkout = () => {
 
               <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
-              <div className="item"><span className="label">Service Fee:</span> <span className="value">${serviceFee}</span></div>
+              <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
               
               {
                 (selectedProvince && selectedProvince.total_rate) ? 

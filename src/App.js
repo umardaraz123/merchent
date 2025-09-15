@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // public imports 
 import PublicLayout from "./components/PublicLayout";
+import AIChatAssistant from "./components/AIChatAssistant";
 import TicketDetail from "./pages/TicketDetail";
 import Categories from "./pages/Categories";
 import Trendings from "./pages/Trendings";
@@ -268,6 +269,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
+    <AIChatAssistant />
     </div>
   );
 }

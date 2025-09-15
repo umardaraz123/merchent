@@ -189,16 +189,22 @@ async function createTicketApi(data) {
     }
   }
   //public ticket detail
-  async function getTicketsPublic() {
+  async function getTicketsPublic(search = '', location = '') {
 
-    const latitude = localStorage.getItem("latitude");
-    const longitude = localStorage.getItem("longitude");
+    let latitude = localStorage.getItem("latitude");
+    let longitude = localStorage.getItem("longitude");
+
+    if (location) {
+      [latitude, longitude] = location.split(',');
+    }
+
+    const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
 
     try {
       const AUTH_TOKEN = typeof window !== 'undefined' ? window.localStorage.getItem('mmdeals-token') : null;
          var config = {
              method: 'get',
-             url: `/v1/home/page?latitude=${latitude}&longitude=${longitude}`,
+             url: `/v1/home/page?latitude=${latitude}&longitude=${longitude}${searchParam}`,
              headers:{
               'Accept': 'application/json', 
               'Content-Type': 'multipart/form-data',
