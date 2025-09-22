@@ -1,6 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { useCart } from "../contexts/CartContext";
@@ -12,11 +12,14 @@ import { TicketsApi } from "../services/Tickets";
 import { ImageWithFallback } from "../utils/imageUtils";
 import noImage from '../images/no-image.jpg';
 
-const Checkout = () => {
+const Checkout = ({ isAuthenticated, setRedirectTo }) => {
   const { carts, provinces } = useCart();
   const [loading, setLoading] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState({});  
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -130,10 +133,14 @@ const Checkout = () => {
 
     // Fetch cart and wishlist on component mount
   useEffect(() => {
+
+    if (!isAuthenticated) {
+      setRedirectTo(location.pathname);
+    }
     const selected_province = findSelectedProvince(provinces_list);
     setSelectedProvince(selected_province);
 
-  }, [provinces, formData.province]);
+  }, [provinces, formData.province, isAuthenticated, location, setRedirectTo]);
 
 
 
@@ -187,9 +194,13 @@ const Checkout = () => {
 
               <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
+              {carts && carts.length > 0 ? <>
               <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
               <hr className="hr my-4" />
               <p className="title mb-4">Your Total: ${finalTotal}</p>
+              </>
+              : ''
+              }
              </div>
 
             
@@ -292,7 +303,10 @@ const Checkout = () => {
 
               <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
               <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
+              {carts && carts.length > 0 ?
               <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
+              : '' 
+              }
               
               {
                 (selectedProvince && selectedProvince.total_rate) ? 
@@ -300,12 +314,20 @@ const Checkout = () => {
                 : ''
               }
               <hr className="hr my-4" />
+              {carts && carts.length > 0 ?
               <p className="title mb-4">Your Total: ${finalTotal}</p>
+              : '' 
+              }
              </div>
-
+              {carts && carts.length > 0 ?
               <button className="button" type="button" onClick={handleSubmit} disabled={loading}>
                 {loading ? "Processing..." : "Complete Order"}
               </button>
+              : 
+              <button className="button" type="button"  disabled={true}>
+                {loading ? "Processing..." : "Complete Order"}
+              </button>
+              }
             </div>
           </div>
         </div>

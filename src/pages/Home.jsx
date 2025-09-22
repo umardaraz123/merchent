@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Listing from '../components/Listing'
 import MainCategories from '../components/MainCategories'
 import DiscountedDeals from '../components/DiscountedDeals'
@@ -7,13 +7,21 @@ import Offers from '../components/Offers'
 import { IoIosSearch } from "react-icons/io";
 import DealsNear from '../components/DealsNear'
 import Adds from '../components/Adds'
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ isAuthenticated, setRedirectTo }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentSearch, setCurrentSearch] = useState('');
   const [currentLocation, setCurrentLocation] = useState('');
   const ticketInputRef = useRef();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setRedirectTo(location.pathname);
+    }
+  }, [isAuthenticated, location, setRedirectTo]);
 
   return (
     <div>

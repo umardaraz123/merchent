@@ -9,16 +9,19 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import { useUser } from '../contexts/UserContext';
 import 'react-toastify/dist/ReactToastify.css';
-const Login = () => {
+const Login = ({isAuthenticated, setIsAuthenticated, redirectTo}) => {
     const { user, login } = useUser();
     const navigate =useNavigate()
 
     useEffect(()=>{
+        console.log('redirectTo ======= ', redirectTo);
     if(user && user?.role ==='customer') {
-      navigate('/')
+        navigate(`${redirectTo ? redirectTo : `/`}`);
+    //   navigate('/')
     }
     else if(user && user?.role ==='admin') {
-      navigate('/admin')
+        navigate(`${redirectTo ? redirectTo : `/admin`}`);
+    //   navigate('/admin')
     }
     },[user])
    
@@ -54,11 +57,14 @@ const Login = () => {
             localStorage.setItem('mmdeals-token', data?.token || '');
             localStorage.setItem('mmdeals-user', JSON.stringify(data));
             login(data);
+            
+            setIsAuthenticated(true);
 
             if (data?.role === 'admin') {
-                navigate('/admin');
+                console.log(' -============== redirectTo ', redirectTo);
+                navigate(`${redirectTo ? redirectTo : `/admin`}`);
             } else {
-                navigate('/');
+                navigate(`${redirectTo ? redirectTo : `/`}`);
             }
             } else {
             // Backend response error (e.g. not authorized or validation failed)

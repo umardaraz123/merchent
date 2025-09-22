@@ -1,10 +1,10 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Slider from 'react-slick';
 
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { CiHeart } from "react-icons/ci";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { SiTildapublishing } from "react-icons/si";
 import { IoTimeOutline } from "react-icons/io5";
@@ -14,8 +14,15 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import image1 from '../../src/images/screem1.jpg';
 
-const BlogDetail = ({ params }) => {
+const BlogDetail = ({ params,isAuthenticated, setRedirectTo  }) => {
   const {blogid} =useParams()
+
+  const location = useLocation();
+  useEffect(()=>{
+        if (!isAuthenticated) {
+        setRedirectTo(location.pathname);
+        }
+  },[isAuthenticated, location, setRedirectTo])
 
 
   return (

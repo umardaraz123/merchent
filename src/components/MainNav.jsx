@@ -23,7 +23,8 @@ const [showMenu,setShowMenu] = useState(false)
 const [showSetting,setShowSetting] = useState(false)
 const navigate = useNavigate()
 const logoutFunction = ()=>{
-  logout()
+  logout();
+  localStorage.clear();
   navigate('/login')
 }
   return (

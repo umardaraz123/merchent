@@ -31,7 +31,8 @@ const Sidebar = () => {
   }, []);
 
   const logoutFunction = () => {
-   logout()
+   logout();
+   localStorage.clear();
    navigate('/login')
   };
 

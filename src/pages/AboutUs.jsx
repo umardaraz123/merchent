@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import image1 from '../../src/images/img1.jpg';
 import image2 from '../../src/images/img2.jpg';
@@ -14,8 +14,15 @@ import image10 from '../../src/images/img10.jpg';
 import image11 from '../../src/images/img11.jpg';
 import image12 from '../../src/images/img12.jpg';
 import aimImage from '../../src/images/aim.png';
-const AboutUs = () => {
+import { useLocation } from 'react-router-dom';
+const AboutUs = ({ isAuthenticated, setRedirectTo }) => {
  
+    const location = useLocation();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            setRedirectTo(location.pathname);
+        }
+    },[isAuthenticated, location, setRedirectTo])
 
         const categories = [
             {

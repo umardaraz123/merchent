@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { TicketsApi } from "../services/Tickets";
 
-const Success = () => {
+const Success = ({ isAuthenticated, setRedirectTo }) => {
     const location = useLocation();
     const sessionId = new URLSearchParams(location.search).get("session_id");
     const [status, setStatus] = useState("Verifying...");

@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 
 
-const Register = () => {
+const Register = ({isAuthenticated, setIsAuthenticated, redirectTo}) => {
     const [loading,setLoading]=useState(false)
     const [userName,setUserName]=useState('')
     const [email,setEmail]=useState('')

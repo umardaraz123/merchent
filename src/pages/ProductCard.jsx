@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { ImageWithFallback } from '../utils/imageUtils';
+import { useLocation } from 'react-router-dom';
 
-const ProductCard = ({ product={} }) => {
+const ProductCard = ({ product={},isAuthenticated, setRedirectTo  }) => {
   
   const { 
     addToCart, 
@@ -15,6 +16,12 @@ const ProductCard = ({ product={} }) => {
   const [quantity, setQuantity] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [actionMessage, setActionMessage] = useState('');
+  const location = useLocation();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            setRedirectTo(location.pathname);
+        }
+    },[isAuthenticated, location, setRedirectTo])
   
   const isInWishlist = wishlist.some(item => item.product_id === product.id);
   

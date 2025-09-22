@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -21,8 +21,17 @@ import image22 from '../../src/images/user2.jpg';
 import image33 from '../../src/images/user3.jpg';
 import image44 from '../../src/images/user4.jpg';
 import image55 from '../../src/images/user5.jpg';
+import { useLocation } from 'react-router-dom';
 
-const Merchant = () => {
+const Merchant = ({ isAuthenticated, setRedirectTo }) => {
+
+    const location = useLocation();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            setRedirectTo(location.pathname);
+        }
+    },[isAuthenticated, location, setRedirectTo])
+
     const reviews = [
             {
             name:'Michael Johnson',

@@ -1,7 +1,7 @@
 
 import React, { useState,useEffect } from 'react'
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { TicketsApi } from '../services/Tickets'
 import { MdShoppingCartCheckout } from "react-icons/md";
@@ -15,7 +15,7 @@ import { IoCartOutline } from 'react-icons/io5';
 import { ImageWithFallback } from '../utils/imageUtils';
 import noImage from '../images/no-image.jpg';
 
-const Categories = () => {
+const Categories = ({ isAuthenticated, setRedirectTo }) => {
 
   const { addToCart, addToWishlist, itemExistsInCart, removeFromCart, removeFromWishlist } = useCart();
 
@@ -25,6 +25,10 @@ const Categories = () => {
  
     const [tickets,setTickets]=useState([])
     const[loading,setLoading]=useState(false)
+
+
+    const location = useLocation();
+
       //getTickets
       async function getTicketsList() {
         setLoading(true);
@@ -53,10 +57,15 @@ const Categories = () => {
         }
          
       } 
+      
     
       useEffect(()=>{
+        if (!isAuthenticated) {
+          setRedirectTo(location.pathname);
+        }
         getTicketsList(catid)
-      },[catid])
+      },[catid, isAuthenticated, location, setRedirectTo])
+
   return (
     <div className='ticket-listing-wrapper'>
          <ToastContainer />

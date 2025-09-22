@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const CartPage = () => {
+const CartPage = ({ isAuthenticated, setRedirectTo }) => {
   const { 
     cart, 
     cartTotal, 
@@ -12,6 +12,13 @@ const CartPage = () => {
     removeFromCart,
     moveToCart
   } = useCart();
+
+  const location = useLocation();
+  useEffect(()=>{
+      if (!isAuthenticated) {
+          setRedirectTo(location.pathname);
+      }
+  },[isAuthenticated, location, setRedirectTo])
 
   const handleQuantityChange = async (cartId, newQuantity) => {
     if (newQuantity < 1) return;

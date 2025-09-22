@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 
-const TermsAndConditions = () => {
+const TermsAndConditions = ({ isAuthenticated, setRedirectTo }) => {
+
+      const location = useLocation();
+      useEffect(()=>{
+            if (!isAuthenticated) {
+            setRedirectTo(location.pathname);
+            }
+      },[isAuthenticated, location, setRedirectTo])
+      
       return (
             <div className="privacy-policy">
                   <div className="containr-inner">

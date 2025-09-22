@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ToastContainer, toast } from 'react-toastify';
 import { CiLocationOn } from 'react-icons/ci';
@@ -12,7 +12,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-const TicketDetail = () => {
+const TicketDetail = ({ isAuthenticated, setRedirectTo }) => {
   const { tid } = useParams();
   const navigate = useNavigate();
   const { addToCart, carts, updateCartItem, removeFromCart } = useCart();
@@ -25,6 +25,7 @@ const TicketDetail = () => {
   const [selectedPriceId, setSelectedPriceId] = useState(null);
   
   const [isProcessing, setIsProcessing] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchTicketDetail = async () => {
@@ -54,8 +55,14 @@ const TicketDetail = () => {
       }
     };
 
+    if (!isAuthenticated) {
+      setRedirectTo(location.pathname);
+    }
+
+    console.log('isAuthenticated ==== ', isAuthenticated, location.pathname);
+
     fetchTicketDetail();
-  }, [tid, carts]);
+  }, [tid, carts, isAuthenticated, location, setRedirectTo]);
 
 
     // Handle the radio button change
@@ -131,6 +138,8 @@ const TicketDetail = () => {
   };
 
   const redirectToCheckout = () => navigate('/checkout');
+
+  
 
   const sliderSettingsMain = {
     dots: false,

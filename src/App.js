@@ -46,12 +46,18 @@ import CartPage from "./pages/CartPage";
 import { checkAndSave, getFromCookies } from "./utils/cookieUtils";
 import AuthMiddleware from "./middleware/AuthMiddleware";
 import UserLayout from "./components/UserLayout";
+import { UserProvider } from "./contexts/UserContext";
+import { CartProvider } from "./contexts/CartContext";
 function App() {
 
 
   const [location, setLocation] = useState(null);
   const [error, setError] = useState("");
   const [permissionState, setPermissionState] = useState("checking");
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [redirectTo, setRedirectTo] = useState(null);
+
 
   const saveToLocalStorage = (lat, lng) => {
     localStorage.setItem("latitude", lat);
@@ -205,69 +211,73 @@ function App() {
 
 
      <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<PublicLayout />}>
-           <Route index element={<Home />} />
-           <Route path="/login" element={<Login />} />
-           <Route path="/register" element={<Register />} />
-           <Route path="/tickets/:tid" element={<TicketDetail />} />
-           
-           <Route path="/categories/:catid" element={<Categories />} />
-           <Route path="/trendings" element={<Trendings />} />
-           <Route path="/new-deals" element={<NewDeals />} />
-           <Route path="/deals" element={<Deals />} />
-           <Route path="/ending-soon" element={<EndingSoonTickets />} />
-           <Route path="/about" element={<AboutUs />} />
-           <Route path="/merchant" element={<Merchant />} />
-           <Route path="/advertise" element={<Advertise />} />
-           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-           <Route path="/termsandconditions" element={<TermsAndConditions />} />
-           <Route path="/contact-us" element={<ContactUs />} />
-           <Route path="/cart" element={<Cart />} />
-           <Route path="/checkout" element={<Checkout />} />
-           <Route path="/blog" element={<Blog />} />
-           <Route path="/blog-detail/:blogid" element={<BlogDetail />} />
+      <UserProvider>
+        <CartProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<PublicLayout />}>
+              <Route index element={<Home isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo} />} />
+              <Route path="/register" element={<Register isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo}/>} />
+              <Route path="/tickets/:tid" element={<TicketDetail isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              
+              <Route path="/categories/:catid" element={<Categories isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/trendings" element={<Trendings isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/new-deals" element={<NewDeals isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/deals" element={<Deals isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/ending-soon" element={<EndingSoonTickets isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/about" element={<AboutUs isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/merchant" element={<Merchant isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/advertise" element={<Advertise isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/privacypolicy" element={<PrivacyPolicy isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/termsandconditions" element={<TermsAndConditions isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/contact-us" element={<ContactUs isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/cart" element={<Cart isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/checkout" element={<Checkout isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/blog" element={<Blog isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/blog-detail/:blogid" element={<BlogDetail isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
 
-           <Route path="/payment-success" element={<PaymentSuccess />} />
-           <Route path="/payment-cancel" element={<PaymentCancel />} />
-           <Route path="/location-search" element={<LocationSearch />} />
+              <Route path="/payment-success" element={<PaymentSuccess isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/payment-cancel" element={<PaymentCancel isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/location-search" element={<LocationSearch isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
 
-           <Route path="/product-card" element={<ProductCard />} />
-           <Route path="/cart-page" element={<CartPage />} />
-            
-           
-          {/* <Route path="about" element={<About />} />
-          <Route path="login" element={<Login />} />  */}
-        </Route>
+              <Route path="/product-card" element={<ProductCard isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+              <Route path="/cart-page" element={<CartPage isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
+                
+              
+              {/* <Route path="about" element={<About />} />
+              <Route path="login" element={<Login />} />  */}
+            </Route>
 
-        {/* Admin Routes */}
-        <Route element={<AuthMiddleware allowedRoles={['admin']} />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard1 />} />
-             <Route path="/admin/dashboard" element={<Dashboard1 />} />
-            <Route path="/admin/tickets" element={<Tickets />} />
-            <Route path="/admin/ticket-detail/:tidd" element={<AdminTicketDetail />} />
-            <Route path="/admin/create-ticket" element={<CreateTicket />} />
-            <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
-            <Route path="/admin/order-details/:oid" element={<OrderDetails />} />
-            <Route path="/admin/create-blog" element={<CreateBlog />} />
-            <Route path="/admin/support" element={<Support />} />
-            <Route path="/admin/orders" element={<Orders />} />
-          </Route>
-            
-        </Route>
-          <Route element={<AuthMiddleware allowedRoles={['customer']} />}>
-         <Route path="/user" element={<UserLayout />}>
-            <Route index element={<Dashboard1 />} />
-             <Route path="/user/order-details/:oid" element={<OrderDetails />} />
-           <Route path="/user/dashboard" element={<Dashboard1 />} />
-            <Route path="/user/orders" element={<Orders1 />} />
-             <Route path="/user/order-details/:oid" element={<OrderDetails />} />
-          </Route>
-          </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+            {/* Admin Routes */}
+            <Route element={<AuthMiddleware allowedRoles={['admin']} />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard1 />} />
+                <Route path="/admin/dashboard" element={<Dashboard1 />} />
+                <Route path="/admin/tickets" element={<Tickets />} />
+                <Route path="/admin/ticket-detail/:tidd" element={<AdminTicketDetail />} />
+                <Route path="/admin/create-ticket" element={<CreateTicket />} />
+                <Route path="/admin/update-ticket/:tcid" element={<UpdateTicket />} />
+                <Route path="/admin/order-details/:oid" element={<OrderDetails />} />
+                <Route path="/admin/create-blog" element={<CreateBlog />} />
+                <Route path="/admin/support" element={<Support />} />
+                <Route path="/admin/orders" element={<Orders />} />
+              </Route>
+                
+            </Route>
+              <Route element={<AuthMiddleware allowedRoles={['customer']} />}>
+            <Route path="/user" element={<UserLayout />}>
+                <Route index element={<Dashboard1 />} />
+                <Route path="/user/order-details/:oid" element={<OrderDetails />} />
+              <Route path="/user/dashboard" element={<Dashboard1 />} />
+                <Route path="/user/orders" element={<Orders1 />} />
+                <Route path="/user/order-details/:oid" element={<OrderDetails />} />
+              </Route>
+              </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CartProvider>
+      </UserProvider>
     </Router>
     <AIChatAssistant />
     </div>

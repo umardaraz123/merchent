@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import img1 from '../../src/images/hall.jpg'
 import img2 from '../../src/images/img9.jpg'
 import img3 from '../../src/images/img2.jpg'
@@ -9,10 +9,20 @@ import img6 from '../../src/images/img5.jpg'
 import img7 from '../../src/images/img6.jpg'
 import img8 from '../../src/images/img7.jpg'
 import img9 from '../../src/images/img8.jpg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { SiTildapublishing } from "react-icons/si";
 import { IoTimeOutline } from "react-icons/io5";
-const Blog = () => {
+const Blog = ({ isAuthenticated, setRedirectTo }) => {
+
+
+  const location = useLocation();
+  useEffect(()=>{
+        if (!isAuthenticated) {
+        setRedirectTo(location.pathname);
+        }
+  },[isAuthenticated, location, setRedirectTo])
+
+
   return (
     <div className='blog-wrapper'>
         <div className="blog-header">

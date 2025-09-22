@@ -1,10 +1,11 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
 import { TicketsApi } from '../services/Tickets';
 
 import aimImage from '../../src/images/aim.png';
-const Advertise = () => {
+import { useLocation } from 'react-router-dom';
+const Advertise = ({ isAuthenticated, setRedirectTo }) => {
     const [loading,setLoading]=useState(false)
     const [businessName,setBusinessName] =useState('')
     const [businessAddress,setBusinessAddress] =useState('')
@@ -19,6 +20,14 @@ const Advertise = () => {
     const [duration,setDuration] =useState('')
     const [message,setMessage] =useState('')
     const [isAgreed,setIsAgreed] =useState(false)
+
+
+    const location = useLocation();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+            setRedirectTo(location.pathname);
+        }
+    },[isAuthenticated, location, setRedirectTo])
    
  
     const OfferOptions = [

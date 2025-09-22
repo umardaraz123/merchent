@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = ({ isAuthenticated, setRedirectTo }) => {
   return (
     <div className="privacy-policy">
      <div className="containr-inner">

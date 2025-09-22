@@ -1,15 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { LoadScript, Autocomplete } from "@react-google-maps/api";
+import { useLocation } from "react-router-dom";
 
 const libraries = ["places"];
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
-const LocationSearch = () => {
+const LocationSearch = ({ isAuthenticated, setRedirectTo }) => {
 
     console.log('GOOGLE_MAPS_API_KEY =========== ', GOOGLE_MAPS_API_KEY);
   const [location, setLocation] = useState("");
   const [coords, setCoords] = useState({ lat: null, lng: null });
   const autocompleteRef = useRef(null);
+
+
+  const locations = useLocation();
+  useEffect(()=>{
+        if (!isAuthenticated) {
+        setRedirectTo(locations.pathname);
+        }
+  },[isAuthenticated, locations, setRedirectTo])
+
 
   const handlePlaceChanged = () => {
     try {

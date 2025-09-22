@@ -1,13 +1,19 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { BiMapPin } from "react-icons/bi";
 import { MdWifiCalling1 } from "react-icons/md";
-const ContactUs = () => {
+import { useLocation } from 'react-router-dom';
+const ContactUs = ({ isAuthenticated, setRedirectTo }) => {
  
 
-   
+    const location = useLocation();
+    useEffect(()=>{
+        if (!isAuthenticated) {
+        setRedirectTo(location.pathname);
+        }
+    },[isAuthenticated, location, setRedirectTo])
    
     
     

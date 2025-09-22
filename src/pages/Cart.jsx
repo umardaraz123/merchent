@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Slider from 'react-slick';
 
 import Image1 from '../../src/images/screem1.jpg'
@@ -14,14 +14,22 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { FaHeart,FaEye } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { GrMapLocation } from "react-icons/gr";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { CiHeart } from 'react-icons/ci';
 import { IoCartOutline } from 'react-icons/io5';
-const Cart = () => {
+const Cart = ({ isAuthenticated, setRedirectTo }) => {
   const navigate = useNavigate()
+
+  const location = useLocation();
+  useEffect(()=>{
+        if (!isAuthenticated) {
+        setRedirectTo(location.pathname);
+        }
+  },[isAuthenticated, location, setRedirectTo])
+  
   const moveCheckout = ()=> {
  
     navigate('/checkout')

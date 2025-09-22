@@ -1,6 +1,7 @@
 // src/contexts/CartContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { cartService, wishlistService, handleApiError } from '../services/apiService';
+import { useNavigate } from 'react-router-dom';
 
 const CartContext = createContext();
 
@@ -11,12 +12,10 @@ export const CartProvider = ({ children }) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+   const navigate = useNavigate()
 
   const token = localStorage.getItem('mmdeals-token');
     
-
-  
-
   // Fetch cart and wishlist on component mount
   useEffect(() => {
     fetchCart();
@@ -58,7 +57,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (productId, priceId, quantity = 1) => {
 
     if (!token) {
-        window.location.href = '/login';
+      navigate('/login');
     }
 
     try {
@@ -79,7 +78,7 @@ export const CartProvider = ({ children }) => {
   const updateCartItem = async (cartId, quantity, priceId) => {
 
     if (!token) {
-        window.location.href = '/login';
+      navigate('/login');
     }
 
     try {
@@ -99,7 +98,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (cartId) => {
     if (!token) {
-      window.location.href = '/login';
+    navigate('/login');
     }
     try {
       setLoading(true);
@@ -119,7 +118,7 @@ export const CartProvider = ({ children }) => {
   const addToWishlist = async (productId, priceId) => {
 
     if (!token) {
-      window.location.href = '/login';
+    navigate('/login');
     }
 
     try {
@@ -140,7 +139,7 @@ export const CartProvider = ({ children }) => {
   const removeFromWishlist = async (wishlistId) => {
 
     if (!token) {
-      window.location.href = '/login';
+    navigate('/login');
     }
 
     try {
@@ -160,7 +159,7 @@ export const CartProvider = ({ children }) => {
 
   const moveToCart = async (wishlistId, productId) => {
     if (!token) {
-      window.location.href = '/login';
+    navigate('/login');
     }
     try {
       setLoading(true);
