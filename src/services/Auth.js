@@ -64,7 +64,7 @@ async function forgotPassword(data){
     try {
      var config = {
          method: 'post',
-         url: '/v1/forgot-password',
+         url: '/v1/forgot-password/send',
          headers:{
           'Accept': 'application/json', 
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ async function resetPassword(data){
     try {
      var config = {
          method: 'post',
-         url: '/v1/reset-password',
+         url: '/v1/forgot-password/reset',
          headers:{
           'Accept': 'application/json', 
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ async function verifyOTP(data){
     try {
      var config = {
          method: 'post',
-         url: '/v1/verify-otp',
+         url: '/v1/forgot-password/verify',
          headers:{
           'Accept': 'application/json', 
           'Content-Type': 'application/json',
@@ -134,4 +134,29 @@ async function verifyOTP(data){
     }
 }
 
-export const Auth= { login, register, forgotPassword, resetPassword, verifyOTP}
+//---- VERIFY OTP ---------------
+async function resendOTP(data){
+    try {
+     var config = {
+         method: 'post',
+         url: '/v1/forgot-password/resend',
+         headers:{
+          'Accept': 'application/json', 
+          'Content-Type': 'application/json',
+        },
+         data : data
+       };
+       
+     return await axios(config)
+       .then(function (response) {
+         return response;
+       })
+       .catch(function (error) {
+         return error.response
+     });
+    } catch (err) {
+         return err.response
+    }
+}
+
+export const Auth= { login, register, forgotPassword, resetPassword, verifyOTP, resendOTP}

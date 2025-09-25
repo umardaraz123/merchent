@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { MdEmail, MdArrowBack } from 'react-icons/md';
 import { FiMail } from 'react-icons/fi';
+import { Auth } from '../services/Auth'; 
 import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
@@ -12,15 +13,49 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     setLoading(true);
+  
+    if (!email) {
+        toast.error("Please enter email.");
+        setLoading(false);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('email', email);
+
+    try {
+        const result = await Auth.forgotPassword(formData);
+
+        // ✅ Check HTTP status
+        if (result.status === 200 && result?.data?.success) {
+          navigate('/auth-code', { state: { email } });
+        }
+
+    } catch (error) {
+        // ❗ Network or server error
+        console.error("Login error: ", error);
+
+        if (error?.response?.data?.message) {
+        toast.error(error.response.data.message); // From backend
+        } else if (error?.message?.includes('Network')) {
+        toast.error("Network error. Please check your connection.");
+        } else {
+        toast.error("An unexpected error occurred.");
+        }
+    } finally {
+        setLoading(false);
+    }
     
-    // Simulate API call delay
-    setTimeout(() => {
-      toast.success('OTP sent to your email!');
-      navigate('/auth-code', { state: { email } });
-      setLoading(false);
-    }, 1000);
+    // setLoading(true);
+    
+    // // Simulate API call delay
+    // setTimeout(() => {
+    //   toast.success('OTP sent to your email!');
+    //   navigate('/auth-code', { state: { email } });
+    //   setLoading(false);
+    // }, 1000);
   };
 
   return (
