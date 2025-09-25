@@ -32,7 +32,7 @@ const ContactUs = ({ isAuthenticated, setRedirectTo }) => {
                     <p className="title">Chat to us</p>
                     <p className="subtitle">Our friendly team is here to help.</p>
                     <p className="value">
-                        hi@mmdeals.com
+                        <a href="mailto:contact@merchantdeals.ca">contact@merchantdeals.ca</a>
                     </p>
                 </div>
             </div>
@@ -56,7 +56,7 @@ const ContactUs = ({ isAuthenticated, setRedirectTo }) => {
                     <p className="title">Call us</p>
                     <p className="subtitle">Mon-Friday From 8:00AM to 5:00PM</p>
                     <p className="value">
-                        +92304884848
+                         <a href="tel:++18883294953">+18883294953</a>
                     </p>
                 </div>
             </div>

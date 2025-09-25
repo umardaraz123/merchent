@@ -121,6 +121,11 @@ const Login = ({isAuthenticated, setIsAuthenticated, redirectTo}) => {
             <button className="button" onClick={loginFunction}>
                 Login
             </button>
+            <div className="forgot-password-wrapper">
+                <Link to="/forgot-password" className="forgot-password-link">
+                    Forgot your password?
+                </Link>
+            </div>
             <div className="or">
                 <span>
                     Or

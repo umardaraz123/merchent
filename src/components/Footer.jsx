@@ -23,7 +23,10 @@ const Footer = () => {
                 </p>
               
                 <p className="item">
-                <span>Phone:</span> +01 2222 365 /(+91) 01 2345 6789
+                 <a href="tel:++18883294953"><span>Phone:</span> +18883294953</a>
+                </p>
+                <p className="item">
+                 <a href="mailto:contact@merchantdeals.ca"> <span>Email:</span> contact@merchantdeals.ca</a>
                 </p>
                 <p className="item">
                 <span>Hours:</span> 10:00 - 18:00, Mon - Sat

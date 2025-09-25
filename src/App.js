@@ -11,6 +11,9 @@ import Deals from "./components/Deals";
 import EndingSoonTickets from "./components/EndingSoonTickets";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import CheckEmail from "./pages/CheckEmail";
+import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import NotFound from "./components/NotFound";
 import AboutUs from "./pages/AboutUs";
@@ -219,6 +222,9 @@ function App() {
               <Route index element={<Home isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
               <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo} />} />
               <Route path="/register" element={<Register isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo}/>} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/check-email" element={<CheckEmail />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/tickets/:tid" element={<TicketDetail isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
               
               <Route path="/categories/:catid" element={<Categories isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
