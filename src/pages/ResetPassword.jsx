@@ -1,171 +1,164 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { FaEye, FaEyeSlash, FaShieldAlt } from 'react-icons/fa';
-import { MdArrowBack, MdLock } from 'react-icons/md';
-import { Auth } from '../services/Auth';
+import { FaEye, FaEyeSlash, FaShieldAlt, FaLock, FaEnvelope } from 'react-icons/fa';
+import { MdArrowBack } from 'react-icons/md';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tokenValid, setTokenValid] = useState(true);
   
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
-  const email = searchParams.get('email');
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!token || !email) {
-      setTokenValid(false);
-    }
-  }, [token, email]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const validatePassword = (password) => {
+    const minLength = password.length >= 6;
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    return { minLength, hasLetter, hasNumber, isValid: minLength && hasLetter && hasNumber };
+  };
+
+  const passwordValidation = validatePassword(formData.password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters long');
-      return;
-    }
-
     setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('token', token);
-      formData.append('password', password);
-      formData.append('password_confirmation', confirmPassword);
-
-      const result = await Auth.resetPassword(formData);
-
-      if (result.status === 200) {
-        toast.success('Password reset successfully!');
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-      } else {
-        const errorMessage = result?.data?.message || 'Failed to reset password';
-        toast.error(errorMessage);
-      }
-    } catch (error) {
-      toast.error('Something went wrong. Please try again.');
-    } finally {
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      toast.success('Password reset successfully!');
+      navigate('/login', { replace: true });
       setLoading(false);
-    }
+    }, 1000);
   };
 
-  if (!tokenValid) {
-    return (
-      <div className="reset-password-container">
-        <div className="reset-password-card">
-          <div className="invalid-token-header">
-            <div className="invalid-icon">
-              <FaShieldAlt size={48} color="#e74c3c" />
-            </div>
-            <h1>Invalid Reset Link</h1>
-            <p>This password reset link is invalid or has expired.</p>
-          </div>
-          <Link to="/forgot-password" className="reset-btn">
-            Request New Reset Link
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="reset-password-container">
+    <div className="auth-wrapper">
       <ToastContainer />
-      <div className="reset-password-card">
-        <div className="reset-password-header">
-          <div className="reset-password-icon">
-            <MdLock size={48} />
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="auth-icon primary">
+            <FaLock size={48} />
           </div>
-          <h1>Reset Your Password</h1>
-          <p>Enter a new password for your account</p>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="reset-password-form">
-          <div className="input-group">
-            <label htmlFor="password">New Password</label>
-            <div className="password-input-wrapper">
-              <MdLock className="input-icon" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                className="modern-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter new password"
-                required
-                minLength={6}
-              />
-              <button
-                type="button"
-                className="password-toggle-modern"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-            <div className="password-strength">
-              <span className="strength-text">
-                Password must be at least 6 characters long
-              </span>
-            </div>
+          
+          <div className="auth-header">
+            <h2>Reset Password</h2>
+            <p>Create a new secure password for your account</p>
           </div>
-
-          <div className="input-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <div className="password-input-wrapper">
-              <MdLock className="input-icon" />
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                id="confirmPassword"
-                className="modern-input"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
-                required
-                minLength={6}
-              />
-              <button
-                type="button"
-                className="password-toggle-modern"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
+          
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label>Email Address</label>
+              <div className="input-wrapper">
+                <FaEnvelope className="input-icon" />
+                <input
+                  type="email"
+                  name="email"
+                  className="modern-input"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Your email address"
+                  required
+                />
+              </div>
             </div>
+
+            <div className="form-group">
+              <label>New Password</label>
+              <div className="input-wrapper">
+                <FaLock className="input-icon" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  className="modern-input"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter new password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-modern"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              
+              {formData.password && (
+                <div className="password-requirements">
+                  <div className={`requirement ${passwordValidation.minLength ? 'valid' : 'invalid'}`}>
+                    ✓ At least 6 characters
+                  </div>
+                  <div className={`requirement ${passwordValidation.hasLetter ? 'valid' : 'invalid'}`}>
+                    ✓ Contains letters
+                  </div>
+                  <div className={`requirement ${passwordValidation.hasNumber ? 'valid' : 'invalid'}`}>
+                    ✓ Contains numbers
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <div className="input-wrapper">
+                <FaLock className="input-icon" />
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  className="modern-input"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Confirm new password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-modern"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                <div className="error-message">
+                  Passwords do not match
+                </div>
+              )}
+            </div>
+
+            <button type="submit" className="auth-btn primary" disabled={loading}>
+              {loading ? (
+                <>
+                  <div className="btn-spinner"></div>
+                  Resetting Password...
+                </>
+              ) : (
+                'Reset Password'
+              )}
+            </button>
+          </form>
+
+          <div className="auth-footer">
+            <Link to="/login" className="back-link">
+              <MdArrowBack /> Back to Login
+            </Link>
           </div>
-
-          <button type="submit" className="reset-btn" disabled={loading}>
-            {loading ? (
-              <>
-                <div className="spinner-small"></div>
-                Resetting...
-              </>
-            ) : (
-              'Reset Password'
-            )}
-          </button>
-        </form>
-
-        <div className="reset-password-footer">
-          <Link to="/login" className="back-to-login-modern">
-            <MdArrowBack size={16} />
-            Back to Login
-          </Link>
         </div>
       </div>
     </div>

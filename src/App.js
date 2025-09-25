@@ -12,7 +12,7 @@ import EndingSoonTickets from "./components/EndingSoonTickets";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import CheckEmail from "./pages/CheckEmail";
+import AuthCode from "./pages/AuthCode";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import NotFound from "./components/NotFound";
@@ -223,7 +223,7 @@ function App() {
               <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo} />} />
               <Route path="/register" element={<Register isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} redirectTo={redirectTo}/>} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/check-email" element={<CheckEmail />} />
+              <Route path="/auth-code" element={<AuthCode />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/tickets/:tid" element={<TicketDetail isAuthenticated={isAuthenticated} setRedirectTo={setRedirectTo} />} />
               

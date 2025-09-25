@@ -109,4 +109,29 @@ async function resetPassword(data){
     }
 }
 
-export const Auth= { login, register, forgotPassword, resetPassword}
+//---- VERIFY OTP ---------------
+async function verifyOTP(data){
+    try {
+     var config = {
+         method: 'post',
+         url: '/v1/verify-otp',
+         headers:{
+          'Accept': 'application/json', 
+          'Content-Type': 'application/json',
+        },
+         data : data
+       };
+       
+     return await axios(config)
+       .then(function (response) {
+         return response;
+       })
+       .catch(function (error) {
+         return error.response
+     });
+    } catch (err) {
+         return err.response
+    }
+}
+
+export const Auth= { login, register, forgotPassword, resetPassword, verifyOTP}
