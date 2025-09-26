@@ -145,7 +145,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
 
 
   const serviceFee = 15;
-  const finalTotal = parseFloat(totalPrice + (serviceFee/100) + ((selectedProvince && selectedProvince.total_rate) ? parseFloat((selectedProvince.total_rate/100)) : 0)).toFixed(2);
+  const finalTotal = parseFloat(totalPrice + (totalPrice * (serviceFee/100)) + ((selectedProvince && selectedProvince.total_rate) ? parseFloat((totalPrice * (selectedProvince.total_rate/100))) : 0)).toFixed(2);
 
   return (
     <div className="cart-wrapper-container">
