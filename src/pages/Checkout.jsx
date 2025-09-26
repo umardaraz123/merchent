@@ -101,7 +101,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
   ];
 
   const totalPrice = carts.reduce((total, cart) => {
-    const price = cart.tickets.prices[0]?.price || 0; // fallback to 0 if no price
+    const price = cart.tickets.prices[0]?.discounted_price || 0; // fallback to 0 if no price
     return total + (price * cart.quantity);
   }, 0);
 
@@ -145,7 +145,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
 
 
   const serviceFee = 15;
-  const finalTotal = totalPrice + serviceFee + ((selectedProvince && selectedProvince.total_rate) ? parseFloat(selectedProvince.total_rate) : 0);
+  const finalTotal = parseFloat(totalPrice + (serviceFee/100) + ((selectedProvince && selectedProvince.total_rate) ? parseFloat((selectedProvince.total_rate/100)) : 0)).toFixed(2);
 
   return (
     <div className="cart-wrapper-container">
@@ -184,7 +184,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                           </div>
                         </td>
                         <td>
-                          <span className="text">${(item?.tickets?.prices[0]?.price * item.quantity)}</span>
+                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity)}</span>
                         </td>
                       </tr>
                     ))}
@@ -293,7 +293,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                           </div>
                         </td>
                         <td>
-                          <span className="text">${(item?.tickets?.prices[0]?.price * item.quantity)}</span>
+                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity)}</span>
                         </td>
                       </tr>
                     ))}
