@@ -15,7 +15,8 @@ import noImage from '../images/no-image.jpg';
 const Checkout = ({ isAuthenticated, setRedirectTo }) => {
   const { carts, provinces } = useCart();
   const [loading, setLoading] = useState(false);
-  const [selectedProvince, setSelectedProvince] = useState({});  
+  const [selectedProvince, setSelectedProvince] = useState(null);  
+  const [provincesLoading, setProvincesLoading] = useState(true);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -29,20 +30,36 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
     city: '',
     postal_code: '',
     country: 'Canada',
-    province: localStorage.getItem('province_name')
+    province: localStorage.getItem('province_name') || 'Ontario'
   });
 
   const [formErrors, setFormErrors] = useState({});
 
-
-  const handleChange = (e) => {
+  // Handle province change separately for immediate tax calculation
+  const handleProvinceChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Immediately find and update the selected province for tax calculation
+    if (provinces && provinces.length > 0) {
+      const selected_province = findSelectedProvince(value, provinces);
+      console.log('Province changed to:', value, 'Tax rate:', selected_province?.total_rate);
+      setSelectedProvince(selected_province);
+    }
+  };
+
+  // Handle other form field changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'province') {
+      handleProvinceChange(e); // Use special handler for province
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const validateForm = () => {
     let errors = {};
-    // Simple validation checks for required fields
     if (!formData.first_name) errors.first_name = "First name is required";
     if (!formData.last_name) errors.last_name = "Last name is required";
     if (!formData.address_line1) errors.address_line1 = "Address Line 1 is required";
@@ -51,11 +68,11 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
     if (!formData.postal_code) errors.postal_code = "Postal code is required";
 
     setFormErrors(errors);
-    return Object.keys(errors).length === 0; // returns true if no errors
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return; // Only proceed if form is valid
+    if (!validateForm()) return;
 
     const token = localStorage.getItem('mmdeals-token');
     if (!token) {
@@ -77,13 +94,10 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
         province: formData.province
       };
 
-
       const data = await TicketsApi.checkout(datas);
       if(data.status === 200) {
         window.location.href = data.data.data.url; 
         console.log("Client Secret:", data.clientSecret);
-      } else {
-        // console.log('sfsdfsd ============ ', data.data);
       }
     } catch (error) {
       console.error("Payment Error:", error);
@@ -92,60 +106,85 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
     }
   };
 
-  const provinces_list = ['Alberta','British Columbia','Manitoba','Saskatchewan','Quebec','Ontario','New Brunswick','Newfoundland and Labrador','Nova Scotia','Prince Edward Island','Yukon','Northwest Territories','Nunavut','Alberta','British Columbia','Manitoba','Saskatchewan','Quebec','Ontario','New Brunswick','Newfoundland and Labrador','Nova Scotia','Prince Edward Island','Yukon','Northwest Territories','Nunavut'];
-
-  const cartItems = [
-    { image: Image1, title: "$145 for a Seven-Course Dinner for Four", price: 145 },
-    { image: Image2, title: "FLASH SALE! $149.60 for One Halloween Admission", price: 120 },
-    { image: Image3, title: "FLASH SALE! $149.60 for One Halloween Admission", price: 100 }
-  ];
+  // Use provinces from context if available, otherwise use default list
+  const provinces_list = provinces && provinces.length > 0 
+    ? provinces.map(province => province.name) 
+    : ['Alberta','British Columbia','Manitoba','Saskatchewan','Quebec','Ontario','New Brunswick','Newfoundland and Labrador','Nova Scotia','Prince Edward Island','Yukon','Northwest Territories','Nunavut'];
 
   const totalPrice = carts.reduce((total, cart) => {
-    const price = cart.tickets.prices[0]?.discounted_price || 0; // fallback to 0 if no price
+    const price = cart.tickets.prices[0]?.discounted_price || 0;
     return total + (price * cart.quantity);
   }, 0);
 
-
-  // Function to find "Ontario" in a case-insensitive way
-  const findSelectedProvince = (arr) => {
-    if (!Array.isArray(arr) || !formData?.province) {
+  // Function to find the selected province
+  const findSelectedProvince = (provinceName, provincesArray) => {
+    if (!Array.isArray(provincesArray) || !provinceName) {
       console.warn("Missing province list or selected province");
-      // return null;
-    
-      const selected = arr.find((province) => {
-        const name = typeof province === 'string' ? province : province?.name;
-        if(name && formData.province && (name?.toLowerCase() === formData.province.toLowerCase())){
-          return province;
-        }else{
-          return null;
-        }
-      });
-
-      if (!selected) {
-        console.warn(`Province "${formData.province}" not found`);
-      }
-      return selected;
+      return null;
     }
 
-    return null;
+    const selected = provincesArray.find((province) => {
+      // Handle province object with name property
+      const name = province?.name || province;
+      return name && provinceName && (name.toLowerCase() === provinceName.toLowerCase());
+    });
+
+    return selected || null;
   };
 
+  // Calculate amounts based on current state
+  const calculateAmounts = () => {
+    const serviceFeeAmount = parseFloat(totalPrice * (15 / 100));
+    
+    // Get tax rate from selected province
+    let taxRate = 0;
+    if (selectedProvince) {
+      taxRate = selectedProvince.total_rate || 0;
+    }
+    
+    const taxAmount = parseFloat(totalPrice * (taxRate / 100));
+    const finalTotal = parseFloat(totalPrice + serviceFeeAmount + taxAmount).toFixed(2);
 
-    // Fetch cart and wishlist on component mount
+    console.log('Calculating amounts - Tax Rate:', taxRate, 'Tax Amount:', taxAmount, 'Total:', finalTotal);
+
+    return {
+      serviceFeeAmount,
+      taxAmount,
+      taxRate,
+      finalTotal
+    };
+  };
+
+  const { serviceFeeAmount, taxAmount, taxRate, finalTotal } = calculateAmounts();
+
+  // Initialize selected province on component mount
   useEffect(() => {
-
     if (!isAuthenticated) {
       setRedirectTo(location.pathname);
+      return;
     }
-    const selected_province = findSelectedProvince(provinces_list);
-    setSelectedProvince(selected_province);
 
-  }, [provinces, formData.province, isAuthenticated, location, setRedirectTo]);
+    if (provinces && provinces.length > 0) {
+      const selected_province = findSelectedProvince(formData.province, provinces);
+      console.log('Initializing province:', selected_province);
+      setSelectedProvince(selected_province);
+      setProvincesLoading(false);
+    }
+  }, [provinces, isAuthenticated, location, setRedirectTo]);
 
+  // Save province to localStorage when it changes
+  useEffect(() => {
+    if (formData.province) {
+      localStorage.setItem('province_name', formData.province);
+    }
+  }, [formData.province]);
 
-
-  const serviceFee = 15;
-  const finalTotal = parseFloat(totalPrice + (totalPrice * (serviceFee/100)) + ((selectedProvince && selectedProvince.total_rate) ? parseFloat((totalPrice * (selectedProvince.total_rate/100))) : 0)).toFixed(2);
+  // Debug logging
+  useEffect(() => {
+    console.log('Provinces from context:', provinces);
+    console.log('Selected province object:', selectedProvince);
+    console.log('Current form province:', formData.province);
+  }, [provinces, selectedProvince, formData.province]);
 
   return (
     <div className="cart-wrapper-container">
@@ -184,7 +223,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                           </div>
                         </td>
                         <td>
-                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity)}</span>
+                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity).toFixed(2)}</span>
                         </td>
                       </tr>
                     ))}
@@ -192,10 +231,16 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                 </table>
               </div>
 
-              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
-              <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
+              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice.toFixed(2)}</span></div>
+              <div className="item"><span className="label">Promo Code:</span> <span className="value">$0.00</span></div>
               {carts && carts.length > 0 ? <>
-              <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
+              <div className="item"><span className="label">Service Fee:</span> <span className="value">15% (${serviceFeeAmount.toFixed(2)})</span></div>
+              {selectedProvince && taxRate > 0 && (
+                <div className="item">
+                  <span className="label">Tax ({selectedProvince.name}):</span> 
+                  <span className="value">{taxRate}% (${taxAmount.toFixed(2)})</span>
+                </div>
+              )}
               <hr className="hr my-4" />
               <p className="title mb-4">Your Total: ${finalTotal}</p>
               </>
@@ -203,11 +248,8 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
               }
              </div>
 
-            
-          
               <div className="title-med">Payment</div>
               <div className="row">
-                {/* Render form fields dynamically with error handling */}
                 {[
                   { label: 'First Name', name: 'first_name', type: 'text' },
                   { label: 'Last Name', name: 'last_name', type: 'text' },
@@ -258,6 +300,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                         <option key={index} value={province}>{province}</option>
                       ))}
                     </select>
+                    {provincesLoading && <span className="loading-text">Loading tax rates...</span>}
                   </div>
                 </div>
               </div>
@@ -293,7 +336,7 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                           </div>
                         </td>
                         <td>
-                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity)}</span>
+                          <span className="text">${(item?.tickets?.prices[0]?.discounted_price * item.quantity).toFixed(2)}</span>
                         </td>
                       </tr>
                     ))}
@@ -301,18 +344,31 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                 </table>
               </div>
 
-              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice}</span></div>
-              <div className="item"><span className="label">Promo Code:</span> <span className="value">$0</span></div>
+              <div className="item"><span className="label">Sub total:</span> <span className="value">${totalPrice.toFixed(2)}</span></div>
+              <div className="item"><span className="label">Promo Code:</span> <span className="value">$0.00</span></div>
               {carts && carts.length > 0 ?
-              <div className="item"><span className="label">Service Fee:</span> <span className="value">{serviceFee} %</span></div>
+              <div className="item"><span className="label">Service Fee:</span> <span className="value">15% (${serviceFeeAmount.toFixed(2)})</span></div>
               : '' 
               }
               
-              {
-                (selectedProvince && selectedProvince.total_rate) ? 
-                <div className="item"><span className="label">{selectedProvince.name}:</span> <span className="value">${parseFloat(selectedProvince.total_rate)}</span></div>
-                : ''
-              }
+              {!provincesLoading ? (
+                taxRate > 0 ? (
+                  <div className="item">
+                    <span className="label">Tax ({selectedProvince?.name || formData.province}):</span> 
+                    <span className="value">{taxRate}% (${taxAmount.toFixed(2)})</span>
+                  </div>
+                ) : (
+                  <div className="item">
+                    <span className="label">Tax:</span> 
+                    <span className="value">0% ($0.00)</span>
+                  </div>
+                )
+              ) : (
+                <div className="item">
+                  <span className="label">Tax:</span> 
+                  <span className="value">Calculating...</span>
+                </div>
+              )}
               <hr className="hr my-4" />
               {carts && carts.length > 0 ?
               <p className="title mb-4">Your Total: ${finalTotal}</p>
@@ -324,8 +380,8 @@ const Checkout = ({ isAuthenticated, setRedirectTo }) => {
                 {loading ? "Processing..." : "Complete Order"}
               </button>
               : 
-              <button className="button" type="button"  disabled={true}>
-                {loading ? "Processing..." : "Complete Order"}
+              <button className="button" type="button" disabled={true}>
+                Complete Order
               </button>
               }
             </div>
